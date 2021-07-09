@@ -2,12 +2,40 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+
+POEM = _('شعر')
+STORY = _('داستان')
+SC = _('فیلمنامه')
+PI = _('نمایشنامه')
+PAINTING = _('نقاشی')
+WRITING = _('خوش‌نویسی')
+DESIGN = _('طراحی')
+MUSIC = _('موسیقی')
+SC = _('سورس کد')
+DA = _('هنر دیجیتال')
+DC = _('محتوای دیجیتال')
+OTHER = _('سایر')
+WORK_TYPE = [
+    (POEM, _('شعر')),
+    (STORY, _('داستان')),
+    (SC, _('فیلمنامه')),
+    (PI, _('نمایشنامه')),
+    (PAINTING, _('نقاشی')),
+    (WRITING, _('خوش‌نویسی')),
+    (DESIGN, _('طراحی')),
+    (MUSIC, _('موسیقی')),
+    (SC, _('سورس کد')),
+    (DA, _('هنر دیجیتال')),
+    (DC, _('محتوای دیجیتال')),
+    (OTHER, _('سایر')),
+]
+
 # Create your models here.
 class Work(models.Model):
 
     user = models.ForeignKey("users.User", verbose_name=_("کاربر"), on_delete=models.CASCADE)
     title = models.CharField(_("عنوان"), max_length=100)
-    work_type= models.CharField(_("نوع اثر"), max_length=100)
+    work_type= models.CharField(_("نوع اثر"), max_length=100, choices=WORK_TYPE)
     description = models.TextField(_("درباره اثر"), blank=True, null=True)
     work_image = models.ImageField(_("تصویر شاخص اثر"), upload_to='work_images/')
     
@@ -20,7 +48,7 @@ class Work(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("Work_detail", kwargs={"pk": self.pk})
+        return reverse("work-detail", kwargs={"pk": self.pk})
 
 class WorkImages(models.Model):
 
@@ -37,4 +65,4 @@ class WorkImages(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("Work_detail", kwargs={"pk": self.pk})
+        return reverse("work-image-detail", kwargs={"pk": self.pk})

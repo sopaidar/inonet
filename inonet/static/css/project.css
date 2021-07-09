@@ -1,5 +1,21 @@
 /* These styles are generated from project.scss. */
 
+@import url(font-face.css);
+
+body {
+  font-family: Samim !important;
+  /* Margin bottom by footer height */
+   padding-top: 0px;
+   background-color: rgb(240, 242, 245);
+   min-height: 100vh;
+ }
+
+ @media (max-width: 567px) {
+  .page-app {
+    padding-top: 1.5em !important;
+  }
+}
+
 .alert-debug {
   color: black;
   background-color: white;
@@ -12,16 +28,157 @@
   border-color: #eed3d7;
 }
 
-
-
-.original-background {
-  background-color: rgb(245, 245, 255);
+/* nav */
+@media (min-width: 567px) {
+  .main-nav {
+    padding-right:5em;
+    padding-left:5em;
+  }
 }
 
-.page-app {
-  min-height: 100vh;
+@media (min-width: 567px) {
+  .main-nav {
+    padding-right: 5em;
+    padding-left: 5em;
+  }
 }
 
+.menu-icon {
+  border: none !important;
+  background-color: white;
+  margin: 0em;
+  padding-left: 0em !important;
+  padding-right: 0em !important;
+}
+
+.menu-icon:hover{
+  border: white !important;
+}
+
+.menu-icon:focus {
+  text-decoration: none;
+  outline: 0;
+  box-shadow: none;
+}
+
+.nav-item-icons {
+  align-items: center;
+}
+
+.navbar-nav-icons {
+  /* display: -webkit-inline-box !important ; */
+  flex-direction: row;
+  padding-right: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.navbar-nav-icons .dropdown-menu {
+  position: absolute !important;
+}
+
+.nav-icon {
+  font-size: 36px !important;
+}
+
+/* nav */
 .post {
   border-radius: 25px;
+  background-color: rgb(255, 255, 255);
+}
+
+.form-group {
+  margin-bottom: 1em;
+}
+
+.word-wrap {
+  word-wrap: break-word;
+}
+
+#picture:hover {
+  filter: drop-shadow(8px 8px 10px gray);
+}
+
+#picture-upload-file {
+  display: none;
+}
+
+.picture-upload-div {
+  display: flex;
+  align-items:center;
+  justify-content:center;
+}
+
+#picture-upload-img {
+  margin: auto;
+  display: block;
+  width: 100%;
+}
+
+@media (min-width: 567px) {
+  .abs-center-x {
+    padding-top: 0.7em;
+      position: absolute;
+      top: 0px;
+      left: 50%;
+      transform: translateX(-50%);
+  }
+}
+
+.search-input {
+  border-radius: 25px;
+  background-color: rgb(240, 242, 245);
+  border: none;
+}
+
+.dropdown-icon {
+  margin-top: -.7em !important;
+  border-color: rgb(240, 240, 240);
+}
+ .font-36 {
+   font-size: 36px !important;
+ }
+
+ .font-40 {
+   font-size: 40px !important;
+ }
+
+ .font-50 {
+  font-size: 50px !important;
+}
+
+.new-work-icon {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgb(0, 47, 255)), to(rgb(211, 22, 195)));
+  -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.fingerprint-icon {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgb(0, 47, 255)), to(rgb(22, 211, 22)));
+  -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+.verified-icon {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgb(54, 184, 245)), to(rgb(16, 236, 16)));
+  -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent; 
+}
+.feed-icon {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgb(250, 10, 10)), to(rgb(200, 221, 11)));
+  -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.home-icon-link {
+  text-decoration: none;
+  color: black;
+}
+
+.work-picture {
+  border-radius: 12px;
+}
+
+.search-card {
+  text-decoration: none;
+  color: black;
 }

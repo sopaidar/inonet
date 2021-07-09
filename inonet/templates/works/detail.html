@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container-fluid pt-5 original-background page-app">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 bg-white post p-5 mx-auto mb-3">
+
+                {% if object.work_image %}
+                <img src="{{object.work_image.url}}" alt="" class="work-picture mb-4" width="100%" id="picture" data-bs-toggle="tooltip"  title="تغییر تصویر شاخص">                
+                {% else %}
+                    <img src="{% static 'images/picture.svg' %}" alt="" width="100%" id="picture" data-bs-toggle="tooltip"  title="تغییر تصویر شاخص">
+                {% endif %}
+                
+
+                <div class="text-center">
+                    <h5>{{object.title}}</h5>
+                </div>
+                <div class="pt-2">
+                    <p> صاحب اثر: <a href="/users/{{object.user.username}}">{{object.user.first_name}} {{object.user.last_name}}</a></p>
+                    <p> نوع اثر: <a href="/works?type={{object.work_type}}">{{object.work_type}}</a></p>
+                    <p>
+                        {% if object.description %}
+                        درباره اثر: {{object.description}}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-5 bg-white post p-5 mx-auto mb-3">
+                {{object.title}}
+            </div>
+            <div class="col-md-3 bg-white post p-5 mx-auto mb-3">
+                <h4 class="text-center">گواهی‌های زمانی:</h4>
+                <div class="d-grid gap-2 pt-3">
+                    <a href="/fingerprints/new?id={{object.pk}}" class="btn btn-primary">ایجاد گواهی زمانی</a>
+                </div>
+                <div class="pt-3">
+                    <p>تاریخچه گواهی‌های زمانی:</p>
+                </div>
+                <div class="col-md-12 word-wrap">
+                    {% for fingerprint in fingerprints %}
+                    <p>تاریخ و زمان:</p>
+                    <p>{{fingerprint.date_time}}</p>
+                    <p>اثرانگشت:</p>
+                    <p dir="ltr">{{fingerprint.fingerprint|safe}}</p>
+                    <hr>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block modal %}
+<div class="modal fade" id="update-picture-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">به روزرسانی تصویر شاخص</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="picture-upload-div">
+                <form id="upload-image-form">
+                    {% csrf_token %}
+                    <label class="text-center text-primary" for="picture-upload-file"><img id="picture-upload-img" src="{% if object.work_image %}{{object.work_image.url}}{% else %}{% static 'images/picture.svg' %}{% endif %}"/>
+                        انتخاب تصویر جدید
+                    </label>
+                    <input name="work_image" type="file" id="picture-upload-file" />
+                </form>
+                <p class="text-center text-danger" id="picture-upload-msg"></p>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">لغو</button>
+          <button type="button"  id="upload-image-button" class="btn btn-success">ارسال</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock modal %}
+
+{% block inline_javascript %}
+    <script>
+        var myModal = new bootstrap.Modal(document.getElementById('update-picture-modal'))
+        document.getElementById("picture").addEventListener('click', ()=>{
+            myModal.show()
+        })
+    </script>
+    <script>
+        const reader = new FileReader();
+        const fileInput = document.getElementById("picture-upload-file");
+        const img = document.getElementById("picture-upload-img");
+        let file;
+
+        reader.onload = e => {
+        img.src = e.target.result;
+        }
+
+        fileInput.addEventListener('change', e => {
+        const f = e.target.files[0];
+        file = f;
+        reader.readAsDataURL(f);
+})
+</script>
+<script>
+    document.getElementById("upload-image-button").addEventListener("click", ()=> {
+        console.log('click');
+        const data = document.getElementById("upload-image-form");
+        const url = "/works/{{object.pk}}/upload_image/";
+        async function sendData(url, data) {
+        const formData  = new FormData(data);
+
+        // for(const name in data) {
+        //     formData.append(name, data[name]);
+        // }
+        console.log(formData)
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+        });
+        const res = await response.json();
+        console.log(res);
+        if (res.msg === "success") {
+            myModal.hide();
+            document.getElementById("picture").setAttribute("src", res.new_pic_url);
+
+        } else if (res.msg === "failed") {
+            let text = "";
+            for (let x in res.errors) {
+            text += res.errors[x];
+}
+            document.getElementById("picture-upload-msg").innerHTML= text;
+        } else {
+            document.getElementById("picture-upload-msg").innerHTML= "خطا! لطفا بعدا تلاش کنید!";
+        }
+        }
+        sendData(url, data);
+
+
+})
+
+</script>
+<script>
+    var exampleEl = document.getElementById('picture')
+    var tooltip = new bootstrap.Tooltip(exampleEl, {delay: { "show": 10, "hide": 100 }, placement: "bottom"})
+</script>
+{% endblock inline_javascript %}

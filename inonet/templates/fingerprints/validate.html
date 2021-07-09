@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+
+
+{% block added_css %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock added_css %}
+
+{% block content %}
+<div class="container-fluid pt-5 original-background page-app">
+  <div class="col-md-6 mx-auto bg-white post p-5">
+    <div id="upload-form">
+      <script src="{% static 'js/jquery.js' %}"></script>
+      <script src="{% static 'js/main.js' %}"></script>
+  
+      <div class="input">
+          <div id="droppable-zone">
+              <div id="droppable-zone-wrapper">
+                  <div id="droppable-zone-text">فایل خود را این جا قرار دهید</div>
+              </div>
+              <input id="input" type="file" placeholder="Input2" class="droppable-file">
+          </div>
+      </div>
+      <div class="submit">
+          <input id="execute" type="button" value=" " class="btn btn-default d-none">
+          <label>
+              <input id="auto-update" class="d-none" type="checkbox" value="1" checked="checked"> </label>
+  
+          <div class="form-group">
+              <form id="form">
+                {% csrf_token %}
+                  <p>
+                      <tr>
+                          <th><label for="id_data_text">اثر انگشت:&nbsp;&nbsp;</label></th>
+                          <td><input class="form-control" type="text" name="fingerprint" id="id_data_text"></td>
+                      </tr>
+                  </p>
+              </form>
+              <p><button id="submit" class="btn btn-primary">جست و جو</button></p>
+          </div>
+          <script src="{% static 'js/SHA-256.js' %}"></script>
+          <script>method = sha256;</script>
+        </div>
+  </div>
+  <div id="spinner" class="p-5" style="display: none;">
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+  </div>
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+
+    <div id="result-success" style="display: none;">
+        <div class="text-center mx-auto">
+            <lottie-player src="{% static 'animations/success.json' %}" id="success-animation" background="transparent"  speed="1"  style="width: 300px; height: 300px; margin: 0 auto;"></lottie-player>
+        </div>
+        <div class="text-center">
+            {% if request.user.is_authenticated %}
+                <p>این اثرانگشت در تاریخ <span id="date"></span> ساعت <span id="time"></span> توسط <a href="" id="user-profile"><span id="user"></span></a> ثبت شده است.</p>
+                <p>نام اثر: </p>
+            {% else %}
+            این اثر پیش‌تر در «اینونت» ثبت شده است. برای کسب اطلاعات بیش‌تر وارد حساب کاربری خود شوید.
+            {% endif %}
+        </div>
+    </div>
+    <div id="result-failed" style="display: none;">
+        <div class="text-center mx-auto">
+            <lottie-player src="{% static 'animations/failed.json' %}" id="failed-animation" background="transparent"  speed="1"  style="width: 300px; height: 300px; margin: 0 auto;"></lottie-player>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block inline_javascript %}
+<script src="https://cdn.jsdelivr.net/npm/jalaali-js/dist/jalaali.min.js"></script>
+<script>
+    document.getElementById("submit").addEventListener("click", () => {
+        const form = document.getElementById("form")
+        const url = "/fingerprints/validate/"
+        async function sendData(url, data) {
+            const formData  = new FormData(form);
+            document.getElementById("upload-form").style.display = "none";
+            document.getElementById("spinner").style= "block";
+
+            const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData
+                });
+                const res = await response.json();
+                console.log(res);
+                if (res.status === "found") {
+                    document.getElementById("spinner").style.display= "none";
+                    document.getElementById("result-success").style.display = "block";
+                    const success_player = document.getElementById("success-animation");
+                    success_player.play();
+                    {% if request.user.is_authenticated %}
+                    const date = jalaali.toJalaali(res.date[0], res.date[1], res.date[2]);
+                    document.getElementById("date").innerHTML = date.jy+"/"+date.jm+ "/"+ date.jd;
+                    document.getElementById("time").innerHTML = res.time;
+                    document.getElementById("user").innerHTML = res.user.first_name + " " + res.user.last_name;
+                    document.getElementById("user-profile").setAttribute("href", "/users/"+res.user.username+"/");                 
+                    {% endif %}
+                } else if (res.status === "not found") {
+                    document.getElementById("spinner").style.display= "none";
+                    document.getElementById("result-failed").style.display = "block";
+                    const failed_player = document.getElementById("failed-animation");
+                    failed_player.play();
+
+                } else {
+                    console.log("error")
+                }
+        }
+        sendData(url, form);
+    })
+</script>
+
+{% endblock inline_javascript %}

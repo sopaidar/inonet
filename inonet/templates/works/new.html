@@ -1,8 +1,13 @@
 {% extends "base.html" %}
+{% load static %}
+{% block added_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}" />
+{% endblock added_css %}
+
 {% block content %}
 <div class="container-fluid pt-5 original-background page-app">
     <div class="col-md-6 mx-auto bg-white post p-5">
-        <form class=" g-3 needs-validation" action="" method="post" novalidate>
+        <form class=" g-3" action="" method="post" autocomplete="off">
             {% csrf_token %}
             <div class="mb-3">
                 <label for="title" class="form-label">عنوان اثر</label>
@@ -12,41 +17,46 @@
     </div>
             </div>
             <div class="mb-3">
-                <label for="work_type" class="form-label">نوع اثر</label>
-                <input name="work_type" type="text" class="form-control" id="work_type" required>
+                <label for="work_type"  class="form-label">نوع اثر</label>
+                <select name="work_type" id="work_type" placeholder="یکی از موارد زیر را انتخاب کنید." required>
+                <option value="">یکی از موارد را انتخاب کنید.</option>
+                  <option value="شعر">شعر</option>
+                  <option value="داستان">داستان</option>
+                  <option value="فیلمنامه">فیلمنامه</option>
+                  <option value="نمایشنامه">نمایشنامه</option>
+                  <option value="نقاشی">نقاشی</option>
+                  <option value="خوش‌نویسی">خوش‌نویسی</option>
+                  <option value="طراحی">طراحی</option>
+                  <option value="موسیقی">موسیقی</option>
+                  <option value="سورس کد">سورس کد</option>
+                  <option value="هنر دیجیتال">هنر دیجیتال</option>
+                  <option value="محتوای دیجیتال">محتوای دیجیتال</option>
+                  <option value="سایر">سایر</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">توضیح یا شرح اثر</label>
-                <input name="description" type="text" class="form-control" id="description">
+                <textarea name="description" class="form-control" id="description"></textarea>
             </div>
             <button role="submit" class="btn btn-primary">ایجاد اثر</button>
 
         </form>
 </div>
 
-
-<script>
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(function () {
-  'use strict'
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
-  Array.prototype.slice.call(forms)
-    .forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-
-        form.classList.add('was-validated')
-      }, false)
-    })
-})()
-</script>
-
-
 {% endblock content %}
+
+{% block added_javascript %}
+<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
+<script>
+  $(function () {
+    $("select").selectize();
+    document.getElementById("work_type-selectized").setAttribute("autocomplete", "off");
+  });
+
+  
+
+
+</script>
+{% endblock added_javascript %}
+

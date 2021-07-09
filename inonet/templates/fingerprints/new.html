@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load crispy_forms_tags %}
+
+
+
+{% block added_css %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock added_css %}
+
+{% block content %}
+<div class="container-fluid pt-5 original-background page-app">
+  <div class="col-md-6 mx-auto bg-white post p-5">
+    <div id="upload-form">
+      <script src="{% static 'js/jquery.js' %}"></script>
+      <script src="{% static 'js/main.js' %}"></script>
+  
+      <div class="input">
+          <div id="droppable-zone">
+              <div id="droppable-zone-wrapper">
+                  <div id="droppable-zone-text">فایل خود را این جا قرار دهید</div>
+              </div>
+              <input id="input" type="file" placeholder="Input2" class="droppable-file">
+          </div>
+      </div>
+      <div class="submit">
+          <input id="execute" type="button" value=" " class="btn btn-default d-none">
+          <label>
+              <input id="auto-update" class="d-none" type="checkbox" value="1" checked="checked"> </label>
+  
+          <div class="form-group">
+              <form id="form" action="" method="post">
+                {% csrf_token %}
+                  <p>
+                      <tr>
+                          <th><label for="id_data_text">اثر انگشت:&nbsp;&nbsp;</label></th>
+                          <td><input class="form-control" type="text" name="fingerprint" id="id_data_text"></td>
+                      </tr>
+                  </p>
+                  <p>
+                      <tr>
+                          <th><label for="id_transaction_hash">متن پست به روزرسانی:&nbsp;&nbsp;</label></th>
+                          <td><input class="form-control" type="text" name="post_text" id="id_post_text">
+                          </td>
+                      </tr>
+                  </p>
+                  <p><input id="submit" type="submit" class="btn btn-primary" value="ثبت" /></p>
+              </form>
+          </div>
+          <script src="{% static 'js/SHA-256.js' %}"></script>
+          <script>method = sha256;</script>
+  </div>
+</div>
+
+
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+
+
+{% endblock content %}

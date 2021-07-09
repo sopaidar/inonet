@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load crispy_forms_tags %}
+
+
+
+{% block added_css %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock added_css %}
+
+{% block content %}
+<div class="container-fluid pt-5 original-background page-app">
+  <div class="col-md-6 mx-auto bg-white post p-5 mb-5" id="works-div">
+    <div id="upload-form">
+      <script src="{% static 'js/jquery.js' %}"></script>
+      <script src="{% static 'js/main.js' %}"></script>
+
+      <div id="choose-work-div">
+          <h4 class="text-center">
+              لطفا اثری را که قصد دریافت گواهی زمانی آن را دارید انتخاب نمایید. اگر هنوز نام اثر خود را ثبت نکرده‌اید <a href="/works/new/">این جا</a> کلیک کنید.
+          </h4>
+          
+          <div class="dropdown">
+            <div id="myDropdown">
+              <input type="text" class="form-control search-input mt-3 mb-3" placeholder="جست و جو در میان آثار ثبت شده" id="myInput" onkeyup="filterFunction()">
+              <div class="row">
+                {% for work in user_works %}
+                    
+                    <div class="col-md-6 col-12 p-1 title">
+                        <a href="#" id="{{work.pk}}" class="search-card">
+                            <div class="card p-2" style="height: 100%;">
+                                <div class="row">
+                                    <div class="col-4 my-auto">
+                                        {% if work.work_image %}
+                                            <img src="{{work.work_image.url}}" alt="" width="100%">
+                                        {% else %}
+                                            <img src="{% static 'images/picture.svg' %}" alt="" width="100%">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-8 pt-2">
+                                        <p>{{work.title}}</p>
+                                        <p>نوع اثر: {{work.work_type}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>      
+                    </div>        
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+      </div>
+    <div id="new-fingerprint-form" style="display: none;">
+        <div class="input pt-2">
+            <div id="droppable-zone">
+                <div id="droppable-zone-wrapper">
+                    <div id="droppable-zone-text">فایل خود را این جا قرار دهید</div>
+                </div>
+                <input id="input" type="file" placeholder="Input2" class="droppable-file">
+            </div>
+        </div>
+        <div class="submit">
+            <input id="execute" type="button" value=" " class="btn btn-default d-none">
+            <label>
+                <input id="auto-update" class="d-none" type="checkbox" value="1" checked="checked"> </label>
+    
+            <div class="form-group">
+                <form id="form" action="" method="post">
+                  {% csrf_token %}
+                  <div class="mb-2" style="display: none;" id="work-id">
+                      <p>اثر انتخاب شده:</p>
+                  </div>
+                    <p>
+                        <tr>
+                            <th><label for="id_data_text">اثر انگشت:&nbsp;&nbsp;</label></th>
+                            <td><input class="form-control" type="text" name="fingerprint" id="id_data_text"></td>
+                        </tr>
+                    </p>
+                    <p>
+                        <tr>
+                            <th><label for="id_transaction_hash">متن پست به روزرسانی:&nbsp;&nbsp;</label></th>
+                            <td><input class="form-control" type="text" name="post_text" id="id_post_text">
+                            </td>
+                        </tr>
+                    </p>
+                    <p><input id="submit" type="submit" class="btn btn-primary" value="ثبت" /></p>
+                </form>
+            </div>
+            <script src="{% static 'js/SHA-256.js' %}"></script>
+            <script>method = sha256;</script>
+      </div>
+    </div>
+
+</div>
+
+
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+
+<script>
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+function filterFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("myDropdown");
+  a = document.getElementsByClassName("title");
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
+}
+
+works = document.getElementsByClassName("search-card");
+Array.prototype.slice.call(works).forEach(function (work) {
+    
+   
+    work.addEventListener("click", ()=>{
+        const id = work.id;
+        document.getElementById("form").setAttribute("action", "/fingerprints/new/?id="+id)
+        document.getElementById("choose-work-div").style.display= "none";
+        document.getElementById("work-id").style.display = "block";
+        work_div = work.getElementsByClassName("card")
+        console.log(work_div)
+        document.getElementById("work-id").append(work_div[0]);
+        document.getElementById("new-fingerprint-form").style.display= "block";
+        
+    })
+    
+})
+
+</script>
+{% endblock content %}
