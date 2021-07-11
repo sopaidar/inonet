@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class FingerPrint(models.Model):
-
+    user = models.ForeignKey("users.User", verbose_name=_("کاربر"), on_delete=models.CASCADE)
     work = models.ForeignKey("works.Work", verbose_name=_("اثر "), on_delete=models.CASCADE, related_name="fingerprintwork")
     fingerprint = models.CharField(_("اثرانگشت"), max_length=255)
     post_text = models.TextField(_("متن پست به روزرسانی"), max_length=1200, blank=True, null=True)

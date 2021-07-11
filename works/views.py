@@ -7,6 +7,8 @@ from django.core.exceptions import PermissionDenied
 from .models import Work
 from inonet.users.models import User
 from fingerprints.models import FingerPrint
+from posts.models import Post
+from django.utils.translation import gettext_lazy as _
 
 # Create your views here.
 class WorkCreateView(LoginRequiredMixin, CreateView):
@@ -20,6 +22,10 @@ class WorkCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+    def get_success_url(self):
+        Post.objects.create(user=self.request.user, work=self.object, post_type=_("اثر جدید"))
+        return super().get_success_url()
 
 
 class WorkDetailView(DetailView):

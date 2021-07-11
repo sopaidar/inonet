@@ -161,7 +161,7 @@ body {
 .verified-icon {
   background: -webkit-gradient(linear, left top, left bottom, from(rgb(54, 184, 245)), to(rgb(16, 236, 16)));
   -webkit-background-clip: text;
-	-webkit-text-fill-color: transparent; 
+	-webkit-text-fill-color: transparent;
 }
 .feed-icon {
   background: -webkit-gradient(linear, left top, left bottom, from(rgb(250, 10, 10)), to(rgb(200, 221, 11)));
@@ -190,6 +190,11 @@ body {
   border-radius: 50%;
 }
 
+.avatar {
+  vertical-align: middle;
+  border-radius: 50%;
+}
+
 .user-name {
   direction: ltr;
   text-align: right;
@@ -209,3 +214,118 @@ body {
   color: rgb(80, 80, 80);
   text-decoration: none;
 }
+
+.user-first-last-name {
+  text-decoration: none;
+}
+
+.work-title {
+  text-decoration: none;
+  font-weight: bolder;
+  color: black;
+}
+
+
+/* like */
+
+
+
+
+.like-container {
+  height: auto;
+  margin: 0 auto;
+  text-align: center;
+}
+
+
+.like-container .love {
+  font-size: 0.9rem;
+  color: #ff4f8f;
+}
+
+.like-container .wrapper .like-button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  text-decoration: none;
+  overflow: hidden;
+}
+.like-container .wrapper .like-button .like-overlay {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ff4f8f;
+  transform: scale(0);
+  transition: all 0.4s;
+  z-index: 0;
+}
+.like-container .wrapper .like-button i.not-liked {
+  display: block;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+.like-container .wrapper .like-button i.is-liked {
+  display: none;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+.like-container .wrapper .like-button.is-active .like-overlay {
+  transform: scale(1);
+}
+.like-container .wrapper .like-button.is-active i.not-liked {
+  display: none;
+}
+.like-container .wrapper .like-button.is-active i.is-liked {
+  display: block;
+}
+
+@-webkit-keyframes bouncy {
+  from, to {
+    -webkit-transform: scale(1, 1);
+  }
+  25% {
+    -webkit-transform: scale(0.9, 1.1);
+  }
+  50% {
+    -webkit-transform: scale(1.1, 0.9);
+  }
+  75% {
+    -webkit-transform: scale(0.95, 1.05);
+  }
+}
+@keyframes bouncy {
+  from, to {
+    transform: scale(1, 1);
+  }
+  25% {
+    transform: scale(0.9, 1.1);
+  }
+  50% {
+    transform: scale(1.1, 0.9);
+  }
+  75% {
+    transform: scale(0.95, 1.05);
+  }
+}
+.bouncy {
+  -webkit-animation: bouncy 0.6s;
+  animation: bouncy 0.6s;
+  -webkit-animation-duration: 0.6s;
+  animation-duration: 0.6s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+/* like */

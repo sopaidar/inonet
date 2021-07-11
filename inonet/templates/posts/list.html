@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% for post in object_list %}
+<div class="mt-2 mb-2 p-3 post">
+    {% if post.user.avatar.url %}
+        <img src="{{post.user.avatar.url}}" alt="user avatar" width="50" height="50" class="avatar" >
+    {% else %}
+        
+    {% endif %}
+    {% if post.post_type == 'اثر جدید' %}
+    <a href="/users/{{post.work.user.user_name}}" class="user-first-last-name">{{post.user.first_name}} {{post.user.last_name}}</a> اثر <a href="/works/{{post.work.pk}}/" class="work-title">{{post.work.title}} ({{post.work.work_type}})</a> را ثبت نمود.
+        {% if post.work.description %}
+        {{post.work.description}}
+        {% endif %}
+    {% elif post.post_type == 'گواهی زمانی جدید' %}
+    <a href="/users/{{post.work.user.user_name}}" class="user-first-last-name">{{post.user.first_name}} {{post.user.last_name}}</a> یک گواهی زمانی برای اثر <a href="/works/{{post.fingerprint.work.pk}}/" class="work-title">{{post.fingerprint.work.title}} ({{post.fingerprint.work.work_type}})</a> ثبت نمود.
+    <p class="pt-1 word-wrap">اثرانگشت: {{post.fingerprint.fingerprint}}</p>
+    {% elif post.post_type == 'خبر جدید' %}
+    <a href="/users/{{post.work.user.user_name}}" class="user-first-last-name">{{post.user.first_name}} {{post.user.last_name}}</a> {{post.text}}
+
+    {% endif %}
+    <hr class="p-0 mb-0">
+
+    <div class="row">
+        <div class="col-4">
+            <div class="like-container pt-2">
+                <div class="wrapper">
+                    <a href="javascript:void(0);" class="like-button">
+                      <i class="material-icons not-liked bouncy">favorite_border</i>
+                      <i class="material-icons is-liked bouncy">favorite</i>
+                      <span class="like-overlay"></span>
+                    </a>
+                </div>
+              </div>
+        </div>
+        <div class="col-4">
+            <div class="like-container pt-2">
+                <div class="wrapper">
+                    <a href="javascript:void(0);" class="like-button">
+                      <i class="material-icons not-liked bouncy">share</i>
+                      <i class="material-icons is-liked bouncy">share</i>
+                      <span class="like-overlay"></span>
+                    </a>
+                </div>
+              </div>
+        </div>
+        <div class="col-4">
+            <div class="like-container pt-2">
+                <div class="wrapper">
+                    <a href="javascript:void(0);" class="like-button">
+                      <i class="material-icons not-liked bouncy">ios_share</i>
+                      <i class="material-icons is-liked bouncy">ios_share</i>
+                      <span class="like-overlay"></span>
+                    </a>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+{% endfor %}
+
+
+<script>
+    document.addEventListener("DOMContentLoaded" ,function(){
+
+els = document.getElementsByClassName('like-button');
+Array.prototype.forEach.call(els, function (el) {
+  el.addEventListener("click", () => {
+     
+        el.classList.toggle("is-active")
+  } )
+});
+
+
+
+})
+</script>
+{% endblock content %}

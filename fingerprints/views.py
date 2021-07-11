@@ -10,6 +10,9 @@ from django.core.exceptions import PermissionDenied
 from .models import FingerPrint
 from works.models import Work
 from inonet.users.models import User
+from posts.models import Post
+from django.utils.translation import gettext_lazy as _
+
 # Create your views here.
 
 class FingerprintCreateView(LoginRequiredMixin, CreateView):
@@ -23,17 +26,24 @@ class FingerprintCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         work = Work.objects.get(pk=self.request.GET['id'])
         print(self.request.GET['id'])
-        if work.user != self.request.user:
+        User = self.request.user
+        if work.user != user:
             raise PermissionDenied()
+        form.instance.user = user
         form.instance.work = work
         return super().form_valid(form)
 
-class NewFingerprintWorkView(TemplateView):
+    def get_success_url(self):
+        Post.objects.create(user=self.request.user, fingerprint=self.object, post_type=_("گواهی زمانی جدید"), text=self.object.post_text)
+        return super().get_success_url()
+
+class NewFingerprintWorkView(LoginRequiredMixin ,TemplateView):
     template_name = "fingerprints/new_work.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user_works"] = Work.objects.filter(user=self.request.user).order_by("-pk")
         return context
+
 
 
 class ValidateView(View):
@@ -69,9 +79,6 @@ class UserFingerprintsListView(LoginRequiredMixin ,ListView):
 
     def get_queryset(self):
         user = User.objects.get(pk = self.kwargs['pk'])
-        works = Work.objects.filter(user=user)
-        qs = FingerPrint.objects.none()
-        for work in works:
-            qs = qs | FingerPrint.objects.filter(work = work)
+        qs = FingerPrint.objects.filter(user = user)
         return qs
     
