@@ -1,9 +1,41 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 
-
-<div>
-    {{form.as_p}}
+<div class="col-md-6 mx-auto post p-2 m-5">
+<form action="/posts/new/" method="POST" enctype="multipart/form-data">
+    <div>
+        {{ form.non_field_errors }}
+    <div class="fieldWrapper">
+        {{ form.text.errors }}
+        <textarea class="post-input p-2" name="text" rows="5" maxlength="511" required="" id="id_text" placeholder="{{request.user.first_name}}، چه خبر جدیدی داری؟"></textarea>
+        </div>
+    <div class="fieldWrapper">
+        {{ form.image.errors }}
+        <label class="text-center text-primary" for="picture-upload-file"><img id="picture-upload-img" src="{% if object.work_image %}{{object.work_image.url}}{% else %}{% static 'images/picture.svg' %}{% endif %}"/>
+            انتخاب تصویر جدید
+        </label>
+        <input name="image" type="file" id="picture-upload-file" /> 
+    </div>
+    <button class="btn btn-primary">ثبت</button>
+</form>
 </div>
+
+
+<script>
+    const reader = new FileReader();
+    const fileInput = document.getElementById("picture-upload-file");
+    const img = document.getElementById("picture-upload-img");
+    let file;
+
+    reader.onload = e => {
+    img.src = e.target.result;
+    }
+
+    fileInput.addEventListener('change', e => {
+    const f = e.target.files[0];
+    file = f;
+    reader.readAsDataURL(f);
+})
+</script>
 {% endblock content %}

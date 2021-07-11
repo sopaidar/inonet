@@ -329,3 +329,12 @@ body {
 }
 
 /* like */
+
+.post-input {
+  width: 100%;
+  max-width: 100%;
+  border: none;
+}
+.post-input:focus {
+  outline: none!important;
+}
