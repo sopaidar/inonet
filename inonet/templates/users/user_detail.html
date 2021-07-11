@@ -1,34 +1,251 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}User: {{ object.username }}{% endblock %}
+{% block title %}نمایه {{ object.username }}{% endblock %}
 
 {% block content %}
-<div class="container">
 
-  <div class="row">
-    <div class="col-sm-12">
+{% if object == request.user %}{% endif %}
+<!-- <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a> -->
+<!-- Action buttons -->
+<div class="container-fluid pt-5 original-background page-app mb-2">
+    <div class="col-sm-12 col-md-8 mx-auto post p-4">
+      <div class="row">
+        <div class="col-12 col-sm-5 col-md-5 col-xl-3">
+          {% if object.avatar %}
+            <img src="{{object.avatar.url}}" alt="" class="work-picture mb-4 profile-avatar d-block mx-auto" width="100%" id="picture" data-bs-toggle="tooltip"  title="تغییر تصویر شاخص">                
+          {% else %}
+              <img src="{% static 'images/picture.svg' %}" class="profile-avatar" alt="" width="100%" id="picture" data-bs-toggle="tooltip"  title="تغییر تصویر شاخص">
+          {% endif %}
+        </div>
+        <div class="pt-4 col-12 col-sm-7 col-md-7 col-xl-9 ps-1">
+          <h1 class="user-title">{{object.first_name}} {{object.last_name}}</h1>
+          <p class="user-name">@{{object.username}}</p>
+          <p>
+          {% if object == request.user %}
+          {% if object.bio %} {{object.bio}} {% else %} {% if object == request.user %} <a class="bio-noinfo" href="{% url 'users:update' %}"> با تکمیل بخش درباره من در ویرایش اطلاعات، متن درباره من این‌جا نمایش داده می‌شود. </a>{% endif %} {% endif %}
+          </p>
+          <p class="user-title">
+            {% if object == request.user %}
+            <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">ویرایش اطلاعات</a>
+            {% else %}
+            <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">دنبال کردن</a>
+            {% endif %}
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    <div class="ps-2 pe-2 pt-0">
+      <hr>
+      <div class="row text-center pb-0 pt-1 mb-0">
+        <div class="col-md-3 col-sm-6 col-6">
+            <p><a href="#" id="works" class="home-icon-link">
+                <span class="material-icons-outlined font-50 new-work-icon align-middle">
+                note_add
+            </span>
+            
+                آثار
+            
+            </a></p>
+        </div>
+        <div class="col-md-3 col-sm-6 col-6">
+            <p><a href="#" id="fingerprints" class="home-icon-link">
+                <span class="material-icons-outlined font-50 fingerprint-icon align-middle">
+                fingerprint
+            </span>
+            
+                گواهی‌‌های زمانی
+            
+            </a></p>
+        </div>
+        <div class="col-md-3 col-sm-6 col-6">
+            <p><a href="" class="home-icon-link">
+                <span class="material-icons-outlined font-50 feed-icon align-middle">
+                feed
+            </span>
+            
+                خبرها
+            
+            </a></p>
+        </div>
+        <div class="col-md-3 col-sm-6 col-6">
+          <p><a href="/fingerprints/validate/" class="home-icon-link">
+              <span class="material-icons-outlined font-50 verified-icon align-middle">
+              verified
+          </span>
+          
+              اعتبارسنجی
+          
+          </a></p>
+      </div>
+    </div>
+    </div>
 
-      <h2>{{ object.username }}</h2>
-      {% if object.name %}
-        <p>{{ object.name }}</p>
-      {% endif %}
+</div>
+<div id="user-data" class="col-sm-12 col-md-8 mx-auto post p-4 mt-2">
+</div>
+<div>
+
+
+{% endblock content %}
+
+{% block modal %}
+<div class="modal fade" id="update-picture-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">به روزرسانی تصویر شاخص</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="picture-upload-div">
+                <form id="upload-image-form">
+                    {% csrf_token %}
+                    <label class="text-center text-primary" for="picture-upload-file"><img id="picture-upload-img" src="{% if object.avatar %}{{object.avatar.url}}{% else %}{% static 'images/picture.svg' %}{% endif %}"/>
+                        انتخاب تصویر جدید
+                    </label>
+                    <input name="avatar" type="file" id="picture-upload-file" />
+                </form>
+                <p class="text-center text-danger" id="picture-upload-msg"></p>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">لغو</button>
+          <button type="button"  id="upload-image-button" class="btn btn-success">ارسال</button>
+        </div>
+      </div>
     </div>
   </div>
+  {% endblock modal %}
 
-{% if object == request.user %}
-<!-- Action buttons -->
-<div class="row">
+{% block inline_javascript %}
+    <script>
+        var myModal = new bootstrap.Modal(document.getElementById('update-picture-modal'))
+        document.getElementById("picture").addEventListener('click', ()=>{
+            myModal.show()
+        })
+    </script>
+    <script>
+        const reader = new FileReader();
+        const fileInput = document.getElementById("picture-upload-file");
+        const img = document.getElementById("picture-upload-img");
+        let file;
 
-  <div class="col-sm-12">
-    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
-    <!-- Your Stuff: Custom user template urls -->
-  </div>
+        reader.onload = e => {
+        img.src = e.target.result;
+        }
 
-</div>
-<!-- End Action buttons -->
-{% endif %}
+        fileInput.addEventListener('change', e => {
+        const f = e.target.files[0];
+        file = f;
+        reader.readAsDataURL(f);
+})
+</script>
+<script>
+    document.getElementById("upload-image-button").addEventListener("click", ()=> {
+        console.log('click');
+        const data = document.getElementById("upload-image-form");
+        const url = "/works/{{object.pk}}/upload_image/";
+        async function sendData(url, data) {
+        const formData  = new FormData(data);
 
-</div>
-{% endblock content %}
+        // for(const name in data) {
+        //     formData.append(name, data[name]);
+        // }
+        console.log(formData)
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+        });
+        const res = await response.json();
+        console.log(res);
+        if (res.msg === "success") {
+            myModal.hide();
+            document.getElementById("picture").setAttribute("src", res.new_pic_url);
+
+        } else if (res.msg === "failed") {
+            let text = "";
+            for (let x in res.errors) {
+            text += res.errors[x];
+}
+            document.getElementById("picture-upload-msg").innerHTML= text;
+        } else {
+            document.getElementById("picture-upload-msg").innerHTML= "خطا! لطفا بعدا تلاش کنید!";
+        }
+        }
+        sendData(url, data);
+
+
+})
+
+</script>
+<script>
+    var exampleEl = document.getElementById('picture')
+    var tooltip = new bootstrap.Tooltip(exampleEl, {delay: { "show": 10, "hide": 100 }, placement: "bottom"})
+</script>
+<script>
+
+    async function load_works() {
+      const response = await fetch("/works/user_works/{{object.pk}}/", {
+                    method: 'GET',
+                });
+                document.getElementById("user-data").innerHTML = await response.text();
+                await console.log(response)
+    }
+    load_works();
+    document.getElementById("works").addEventListener("click", ()=> {
+      load_works();
+    })
+</script>
+<script>
+
+
+  function work_filterFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("myDropdown");
+    a = document.getElementsByClassName("work-title");
+    for (i = 0; i < a.length; i++) {
+      txtValue = a[i].textContent || a[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        a[i].style.display = "";
+      } else {
+        a[i].style.display = "none";
+      }
+    }
+  }
+  
+  </script>
+
+<script>
+document.getElementById("fingerprints").addEventListener("click", () => {
+  async function load_fingerprints() {
+    const response = await fetch("/fingerprints/user_fingerprints/{{object.pk}}/", {
+                  method: 'GET',
+              });
+              document.getElementById("user-data").innerHTML = await response.text();
+              await console.log(response)
+  }
+  load_fingerprints();
+})
+</script>
+
+<script>
+  function fingerprint_filterFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("myDropdown");
+    a = document.getElementsByClassName("fingerprint-title");
+    for (i = 0; i < a.length; i++) {
+      txtValue = a[i].textContent || a[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        a[i].style.display = "";
+      } else {
+        a[i].style.display = "none";
+      }
+    }
+  }
+</script>
+{% endblock inline_javascript %}

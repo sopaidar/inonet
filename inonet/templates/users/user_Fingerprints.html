@@ -1,0 +1,36 @@
+
+{% load static %}
+{% block content %}
+
+          <div class="dropdown">
+            <div id="myDropdown">
+              <input type="text" class="form-control search-input mt-3 mb-3" placeholder="جست و جو در میان آثار ثبت شده" id="myInput" onkeyup="fingerprint_filterFunction()">
+              <div class="row">
+                {% for fingerprint in object_list %}                  
+                    <div class="col-md-6 col-12 p-1 fingerprint-title">
+                        <a href="/fingerprints/{{fingerprint.pk}}/" id="{{fingerprint.pk}}" class="search-card">
+                            <div class="card p-2" style="height: 100%;">
+                                <div class="row">
+                                    <div class="col-4 my-auto">
+                                        {% if fingerprint.work.work_image %}
+                                            <img src="{{fingerprint.work.work_image.url}}" alt="" width="100%">
+                                        {% else %}
+                                            <img src="{% static 'images/picture.svg' %}" alt="" width="100%">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-8 pt-2">
+                                        <p>{{fingerprint.work.title}} ({{fingerprint.work.work_type}})</p>
+                                        <p>{{finger_print.date_time}}</p>
+                                        <p>{{fingerprint.fingerprint}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>      
+                    </div>        
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+
+{% endblock content %}

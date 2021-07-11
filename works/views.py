@@ -1,11 +1,11 @@
-from django.db import models
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from .models import Work
+from inonet.users.models import User
 from fingerprints.models import FingerPrint
 
 # Create your views here.
@@ -48,3 +48,11 @@ class WorkImageUpdateView(LoginRequiredMixin, UpdateView):
         return JsonResponse({'msg': 'failed', 'errors': form._errors})
 
         
+class UserWorksListView(LoginRequiredMixin ,ListView):
+    model = Work
+    template_name = "users/user_works.html"
+    paginate_by = 20
+    def get_queryset(self):
+        qs = Work.objects.filter(user=User.objects.get(pk=self.kwargs['pk']))
+        return qs
+    

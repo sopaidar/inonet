@@ -4,10 +4,12 @@ from django.http import JsonResponse
 from django.views.generic.base import View
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView
+from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from .models import FingerPrint
 from works.models import Work
+from inonet.users.models import User
 # Create your views here.
 
 class FingerprintCreateView(LoginRequiredMixin, CreateView):
@@ -60,3 +62,16 @@ class ValidateView(View):
         
 
 
+class UserFingerprintsListView(LoginRequiredMixin ,ListView):
+    model = Work
+    template_name = "users/user_Fingerprints.html"
+    paginate_by = 20
+
+    def get_queryset(self):
+        user = User.objects.get(pk = self.kwargs['pk'])
+        works = Work.objects.filter(user=user)
+        qs = FingerPrint.objects.none()
+        for work in works:
+            qs = qs | FingerPrint.objects.filter(work = work)
+        return qs
+    

@@ -182,3 +182,30 @@ body {
   text-decoration: none;
   color: black;
 }
+
+.profile-avatar {
+  vertical-align: middle;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.user-name {
+  direction: ltr;
+  text-align: right;
+}
+
+@media (max-width : 567px) {
+  .user-title {
+    text-align: center;
+  }
+  .user-name {
+    direction: ltr;
+    text-align: center;
+  }
+}
+
+.bio-noinfo {
+  color: rgb(80, 80, 80);
+  text-decoration: none;
+}
