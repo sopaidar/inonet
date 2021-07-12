@@ -12,6 +12,7 @@ class User(AbstractUser):
     first_name = models.CharField(_("نام"), blank=True, max_length=255)
     last_name = models.CharField(_("نام خانوادگی"), blank=True, max_length=255)
     avatar = models.ImageField(_("تصویر نمایه"), upload_to="avatars/", blank=True, null=True)
+    likes = models.JSONField(_("لایک‌های کاربر"))
 
     def get_absolute_url(self):
         """Get url for user's detail view.

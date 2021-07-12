@@ -227,10 +227,6 @@ body {
 
 
 /* like */
-
-
-
-
 .like-container {
   height: auto;
   margin: 0 auto;
@@ -330,6 +326,57 @@ body {
 
 /* like */
 
+/* buttons */
+.like-container .wrapper .action-button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  text-decoration: none;
+  overflow: hidden;
+}
+.like-container .wrapper .action-button .like-overlay {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ff4f8f;
+  transform: scale(0);
+  transition: all 0.4s;
+  z-index: 0;
+}
+.like-container .wrapper .action-button i.not-liked {
+  display: block;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+.like-container .wrapper .action-button i.is-liked {
+  display: none;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+.like-container .wrapper .action-button.is-active .like-overlay {
+  transform: scale(1);
+}
+.like-container .wrapper .action-button.is-active i.not-liked {
+  display: none;
+}
+.like-container .wrapper .action-button.is-active i.is-liked {
+  display: block;
+}
+
+/* buttons */
+
 .post-input {
   width: 100%;
   max-width: 100%;
@@ -337,4 +384,31 @@ body {
 }
 .post-input:focus {
   outline: none!important;
+}
+
+.post-div {
+  position: relative;
+}
+
+.more-vert-div {
+  position: absolute;
+  left: 5px;
+}
+
+@media (min-width:567px) {
+  .more-vert-div {
+    left: 10px;
+  }
+}
+
+.more-button-list{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+
+
+.more-icon {
+  color: rgb(100, 100, 100);
 }

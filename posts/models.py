@@ -43,13 +43,17 @@ class Like(models.Model):
     user = models.ForeignKey("users.User", verbose_name=_("کاربر"), on_delete=models.CASCADE)
     post = models.ForeignKey(Post, verbose_name=_("پست"), on_delete=models.CASCADE)
     liked = models.BooleanField(_("لایک شده"), default=True)
+    date_time = models.DateTimeField(_("زمان"),auto_now=True)
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'post'], name="unique_like"),
+        ]
         verbose_name = _("Like")
         verbose_name_plural = _("Likes")
 
     def __str__(self):
-        return self.name
+        return f"post: {self.post.pk} - username: {self.user.username}"
 
     def get_absolute_url(self):
         return reverse("Like_detail", kwargs={"pk": self.pk})

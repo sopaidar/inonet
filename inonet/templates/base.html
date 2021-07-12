@@ -216,6 +216,83 @@
     toast.show();
   })
 </script>
+<script>
+async function get_likes() { 
+  response = await fetch("/posts/user_likes/");
+  res = await response.json();
+  console.log(res.likes)
+  localStorage.removeItem("inonet_likes")
+  localStorage.setItem("inonet_likes", res.likes.likes)
+  console.log("likes:" + localStorage.getItem("inonet_likes"))
+}
+</script>
+<script>
+if (localStorage.getItem('inonet_likes')) {
+    console.log(Object.getOwnPropertyNames(localStorage.getItem('inonet_likes')))
+  } else {
+    
+  get_likes();
+}
+</script>
+  <form id="csrf" >
+    {% csrf_token %}
+  </form>
+<script>
+function buttons() {
+els = document.getElementsByClassName('like-button');
+Array.prototype.forEach.call(els, function (el) {
+  async function get_likes_from_storage() {
+    await get_likes()
+    likes = await localStorage.getItem("inonet_likes");
+    if (likes.includes(el.id)) {
+      el.classList.add("is-active");
+    } 
+  }
+  get_likes_from_storage();
+  el.addEventListener("click", () => {
+    if (el.classList.contains("is-active")) {
+      console.log("active")
+      async function dislike_post(id) {
+          const csrf = document.getElementById("csrf");
+          formdata = new FormData(csrf)
+          response = await fetch("/posts/dislike/"+id+"/", {method:"POST", body: formdata});
+          res = await response.json();
+          await console.log(res.status)
+          if (res.status === "success") {
+            console.log("disliked");
+            get_likes();
+          } else if (res.status === "failed") {
+            console.log(res.errors);
+          }
+        }
+        dislike_post(el.id);
+        get_likes();
+    } else {
+      console.log("not active")
+      async function like_post(id) {
+          const csrf = document.getElementById("csrf");
+          formdata = new FormData(csrf)
+          response = await fetch("/posts/like/"+id+"/", {method:"POST", body: formdata});
+          res = await response.json();
+          await console.log(res.status)
+          if (res.status === "success") {
+            console.log("liked");
+            
+          } else if (res.status === "failed") {
+            console.log(res.errors);
+
+          }
+        }
+        like_post(el.id);
+         get_likes();
+    }
+        el.classList.toggle("is-active")
+  } )
+
+})
+}
+
+</script>
 </div>
   </body>
 </html>

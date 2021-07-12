@@ -52,5 +52,24 @@
             </div>
         <div>
     </div>
+
+    </div>
 </div>
+<div id="posts">
+
+</div>
+
 {% endblock content %}
+{% block inline_javascript %}
+<script>
+     async function load_posts() {
+      const response = await fetch("/posts/", {
+                    method: 'GET',
+                });
+                document.getElementById("posts").innerHTML = await response.text();
+                await console.log(response)
+                await buttons();
+    }
+    load_posts();
+</script>
+{% endblock inline_javascript %}
