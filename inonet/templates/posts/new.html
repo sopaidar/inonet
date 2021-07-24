@@ -9,7 +9,11 @@
     <div class="fieldWrapper">
         {{ form.text.errors }}
         <textarea class="post-input p-2" name="text" rows="5" maxlength="511" required="" id="id_text" placeholder="{{request.user.first_name}}، چه خبر جدیدی داری؟"></textarea>
-        </div>
+    </div>
+     <div class="fieldWrapper">
+        {{ form.draft.errors }}
+        {{form.draft}}
+    </div>
     <div class="fieldWrapper">
         {{ form.image.errors }}
         <label class="text-center text-primary" for="picture-upload-file"><img id="picture-upload-img" src="{% if object.work_image %}{{object.work_image.url}}{% else %}{% static 'images/picture.svg' %}{% endif %}"/>
@@ -23,19 +27,19 @@
 
 
 <script>
-    const reader = new FileReader();
-    const fileInput = document.getElementById("picture-upload-file");
-    const img = document.getElementById("picture-upload-img");
-    let file;
+    const new_post_image_file_reader = new FileReader();
+    const new_post_image_file_fileInput = document.getElementById("picture-upload-file");
+    const new_post_image_file_img = document.getElementById("picture-upload-img");
+    let new_post_image_file_file;
 
     reader.onload = e => {
     img.src = e.target.result;
     }
 
-    fileInput.addEventListener('change', e => {
+    new_post_image_file_fileInput.addEventListener('change', e => {
     const f = e.target.files[0];
-    file = f;
-    reader.readAsDataURL(f);
+    new_post_image_file_file = f;
+    new_post_image_file_reader.readAsDataURL(f);
 })
 </script>
 {% endblock content %}

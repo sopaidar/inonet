@@ -69,6 +69,10 @@
                 document.getElementById("posts").innerHTML = await response.text();
                 await console.log(response)
                 await buttons();
+                await share_buttons();
+                await comment_buttons();
+                await action_buttons();
+                autosize_auto();
     }
     load_posts();
 </script>

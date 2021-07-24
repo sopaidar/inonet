@@ -292,3 +292,4 @@ REST_FRAMEWORK = {
 CORS_URLS_REGEX = r"^/api/.*$"
 # Your stuff...
 # ------------------------------------------------------------------------------
+ACCOUNT_LOGOUT_ON_GET = True

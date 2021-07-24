@@ -112,7 +112,7 @@
                   </a>
               </li>
               <li class="dropdown-item">
-                <a href="" class="nav-link">
+                <a href="javascript:void(0);" class="nav-link" id=new-post-nav>
                   <span class="material-icons-outlined  align-middle">
                     feed
                   </span>
@@ -187,11 +187,104 @@
     {% endblock content %}
 
 
-    {% block modal %}{% endblock modal %}
+    {% block modal %}
+
+    
+    
+    {% endblock modal %}
 
     {% block inline_javascript %}
     {# Script tags with only code, no src (defer by default) #}
     {% endblock inline_javascript %}
+    <!-- new post -->
+<div class="modal fade" id="new-post-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content ask-modal">
+      <div class="modal-body">
+          <form id="new-post-form">
+              <div>
+                  {{ form.non_field_errors }}
+              </div>
+              {% csrf_token %}
+              <div class="fieldWrapper">
+                  {{ form.text.errors }}
+                  <textarea class="post-input p-2 autosize" id="new-post-text" name="text" rows="5" maxlength="511" required="" id="id_text" placeholder="{{request.user.first_name}}، چه خبر جدیدی داری؟"></textarea>
+              </div>
+              <div class="fieldWrapper d-none">
+                  {{ form.shared_post.errors }}
+                  <input class="post-input p-2" id="new-post-shared_post" name="shared_post">
+              </div>
+              <div class="fieldWrapper d-none">
+                {{ form.draft.errors }}
+                <input type="checkbox" name="draft" id="id_draft">
+            </div>
+              <div class="fieldWrapper" id="new-post-image">
+                  {{ form.image.errors }}
+                  <label class="text-center text-primary" for="picture-upload-file">
+                    <img id="new-post-picture-upload-img" src="">
+                     <span id="new-post-image-label">افزودن تصویر</span>
+                  </label>
+                  <div class="close-button">
+                    <img id="close-button" class="close-button-icon" src="{% static 'images/close-red.png' %}" alt="" width="24px" height="24px">
+                  
+                  </div>
+                  <input name="image" type="file" id="picture-upload-file" /> 
+              </div>
+          </form>
+          <div class="pt-2" style="text-align: left;">
+          <a href="javascript:void(0);" class="btn btn-primary" id="new-post-button">ارسال خبر</a>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="discard-post-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content ask-modal">
+      <div class="modal-body">
+        <p>آیا می‌خواهید آن چه نوشته‌اید پاک شود؟</p>
+        <div class="row">
+          <div class="col-6 text-center">
+            <a href="javascript:void(0)" class="btn btn-success ask-option" id="save-draft">ذخیره در پیش‌نویس‌ها</a> 
+          </div>
+          <div class="col-6 text-center">
+            <a href="javascript:void(0)" class="btn btn-danger ask-option" id="discard-post">پاک کردن نوشته</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal fade" id="share-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content ask-modal">
+      <div class="modal-body">
+        <a href="javascript:void(0)" class="ask-option" id="share-share-post"><p>اشتراک‌گذاری</p></a>
+        <hr>
+        <a href="javascript:void(0)" class="ask-option share-with-post" id="share-share-post-with-post"><p>اشتراک‌گذاری با نوشتن خبر</p></a>
+        </div>
+    </div>
+  </div>
+</div>
+    
+<div class="modal fade" id="unshare-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content ask-modal">
+      <div class="modal-body">
+        <a href="javascript:void(0)" class="ask-option" id="unshare-unshare-post"><p>حذف اشتراک‌گذاری</p></a>
+        <hr>
+        <a href="javascript:void(0)" class="ask-option share-with-post" id="unshare-share-post-with-post"><p>اشتراک‌گذاری با نوشتن خبر</p></a>
+      </div>
+    </div>
+  </div>
+</div>    
+
+  
+    
+    
 <div class="container">
   {% if messages %}
   {% for message in messages %}
@@ -209,11 +302,98 @@
     </div>
   {% endfor %}
 {% endif %}
+<script src="{% static 'js/autosize.js' %}"></script>
+<script>
+  function autosize_auto() {
+    console.log("gyuh")
+    autosize(document.querySelectorAll('.autosize'));
+  }
+  autosize_auto()
+</script>
+<script>
+  const new_post_modal = new bootstrap.Modal(document.getElementById("new-post-modal"));
+  function new_post() {
+    document.getElementById("new-post-modal").classList.remove("succeed");
+    document.getElementById("new-post-shared_post").value = "";
+    document.getElementById("id_draft").checked = false;
+    document.getElementById("id_draft").value = "off";
+    new_post_modal.show();
+    
+  }
+  document.getElementById("new-post-modal").addEventListener("shown.bs.modal", ()=> {
+      document.getElementById("new-post-text").focus();
+      if (document.getElementById("new-post-text").value === "") {
+        document.getElementById("new-post-button").classList.add("disabled");
+      }
+      document.getElementById("new-post-text").addEventListener("keyup", ()=> {
+        if (document.getElementById("new-post-text").value !== "") {
+        document.getElementById("new-post-button").classList.remove("disabled");
+      } else {
+        document.getElementById("new-post-button").classList.add("disabled");
+      }
+      })
+    })
+  document.getElementById("new-post-nav").addEventListener("click", ()=> {
+    new_post();
+  })
+</script>
 <script>
   var toastElList = [].slice.call(document.querySelectorAll('.toast'))
   toastElList.map(function (toastEl) {
     toast = new bootstrap.Toast(toastEl, {delay:20000});
     toast.show();
+  })
+</script>
+<script>
+  const new_post_image_file_reader = new FileReader();
+  const new_post_image_file_fileInput = document.getElementById("picture-upload-file");
+  const new_post_image_file_img = document.getElementById("new-post-picture-upload-img");
+  let new_post_image_file_file;
+
+  new_post_image_file_reader.onload = e => {
+    new_post_image_file_img.src = e.target.result;
+    document.getElementById("close-button").style.display = "block";
+    document.getElementById("new-post-image-label").innerHTML = "تغییر تصویر"
+  }
+
+  new_post_image_file_fileInput.addEventListener('change', e => {
+  const f = e.target.files[0];
+  new_post_image_file_file = f;
+  new_post_image_file_reader.readAsDataURL(f);
+})
+function reset_new_post_image_input() {
+  new_post_image_file_img.src = "";
+  document.getElementById("close-button").style.display = "none";
+  document.getElementById("new-post-image-label").innerHTML = "افزودن تصویر"
+  new_post_image_file_fileInput.value = "";
+}
+document.getElementById("close-button").addEventListener("click", ()=>{
+  reset_new_post_image_input();
+})
+
+</script>
+<script>
+  // check to save draft
+   const discard_post_modal = new bootstrap.Modal(document.getElementById("discard-post-modal"), {backdrop:"static", keyboard:false});
+  document.getElementById("new-post-modal").addEventListener("hide.bs.modal", ()=> {
+      if (document.getElementById("new-post-text").value !== "" || new_post_image_file_fileInput.value !== "") {
+        if (document.getElementById("new-post-modal").classList.contains("succeed") === false) {
+        discard_post_modal.show()
+        }
+      }
+    })
+  document.getElementById("discard-post").addEventListener("click", ()=> {
+    document.getElementById("new-post-text").value = "";
+    reset_new_post_image_input();
+    discard_post_modal.hide();
+  })
+  
+  document.getElementById("save-draft").addEventListener("click", ()=> {
+    document.getElementById("id_draft").checked = true;
+    document.getElementById("id_draft").value = "on";
+    console.log(document.getElementById("id_draft").checked)
+    discard_post_modal.hide();
+    send_new_post();
   })
 </script>
 <script>
@@ -223,6 +403,8 @@ async function get_likes() {
   console.log(res.likes)
   localStorage.removeItem("inonet_likes")
   localStorage.setItem("inonet_likes", res.likes.likes)
+  localStorage.removeItem("inonet_shares")
+  localStorage.setItem("inonet_shares", res.shares.shares)
   console.log("likes:" + localStorage.getItem("inonet_likes"))
 }
 </script>
@@ -233,6 +415,49 @@ if (localStorage.getItem('inonet_likes')) {
     
   get_likes();
 }
+</script>
+<script>
+// New post
+
+async function send_new_post() {
+  console.log("clik")
+  const new_post_form = document.getElementById("new-post-form")
+  formdata = new FormData(new_post_form);
+  document.getElementById("new-post-button").classList.add("disabled");
+  document.getElementById("new-post-button").innerHTML = 'در حال ارسال <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>';
+  response = await fetch("/posts/new/", {method:"POST", body: formdata});
+  console.log(formdata)
+  res = await response.json();
+  await console.log(res)
+  if (res.status === "success") {
+    console.log(res.post);
+    document.getElementById("new-post-modal").classList.add("succeed");
+    new_post_modal.hide();
+    document.getElementById("new-post-text").value = "";
+    reset_new_post_image_input();
+    document.getElementById("new-post-button").classList.remove("disabled");
+    document.getElementById("new-post-button").innerHTML = 'ارسال خبر';
+  }
+}
+document.getElementById("new-post-button").addEventListener("click", ()=> {
+    console.log('a')
+    send_new_post();
+  })
+</script>
+<script>
+  var post_id = 0;
+  // share with post
+Array.prototype.forEach.call(document.getElementsByClassName("share-with-post"), (el)=>{
+  el.addEventListener("click", ()=> {
+    console.log("share")
+    if (post_id > 0) {
+      document.getElementById("new-post-shared_post").value = post_id;
+      share_modal.hide();
+      new_post_modal.show();
+    }
+  })
+})
+  
 </script>
   <form id="csrf" >
     {% csrf_token %}
@@ -293,6 +518,170 @@ Array.prototype.forEach.call(els, function (el) {
 }
 
 </script>
-</div>
+<script>
+const post_share_modal = new bootstrap.Modal(document.getElementById("new-post-modal"));
+function share_buttons() {
+els = document.getElementsByClassName('share-button');
+Array.prototype.forEach.call(els, function (el) {
+  async function get_shares_from_storage() {
+    await get_likes()
+    shares = await localStorage.getItem("inonet_shares");
+    if (shares.includes(el.getAttribute("post-id"))) {
+      el.classList.add("is-active");
+    } 
+  }
+  get_shares_from_storage();
+  el.addEventListener("click", () => {
+    post_id = el.getAttribute("post-id");
+    console.log("post_id: "+ post_id);
+    if (el.classList.contains("is-active")) {
+        const unshare_modal = new bootstrap.Modal(document.getElementById('unshare-modal'));
+        unshare_modal.show()
+        console.log("active")
+        async function unshare_post(id) {
+            const csrf = document.getElementById("csrf");
+            formdata = new FormData(csrf)
+            response = await fetch("/posts/unshare/"+id+"/", {method:"POST", body: formdata});
+            res = await response.json();
+            await console.log(res.status)
+            if (res.status === "success") {
+              console.log("unshared");
+              get_likes();
+            } else if (res.status === "failed") {
+              console.log(res.errors);
+            }
+          }
+        document.getElementById("unshare-unshare-post").addEventListener("click", ()=> {
+          unshare_post(el.getAttribute("post-id"));
+          get_likes();
+          el.classList.remove("is-active");
+          unshare_modal.hide();
+        })
+        document.getElementById("unshare-share-post-with-post").addEventListener("click", ()=> {        
+          unshare_modal.hide();
+          post_share_modal.show();
+        })
+        
+    } else {
+      console.log("not active")
+      async function share_post(id) {
+          const csrf = document.getElementById("csrf");
+          formdata = new FormData(csrf)
+          response = await fetch("/posts/share/"+id+"/", {method:"POST", body: formdata});
+          res = await response.json();
+          await console.log(res.status)
+          if (res.status === "success") {
+            console.log("shared");
+            
+          } else if (res.status === "failed") {
+            console.log(res.errors);
+
+          }
+        }
+        const share_modal = new bootstrap.Modal(document.getElementById('share-modal'));
+        share_modal.show()
+        document.getElementById("share-share-post").addEventListener("click", ()=> {
+          share_post(el.getAttribute("post-id"));
+          get_likes();
+          el.classList.add("is-active");
+          share_modal.hide();
+        })
+        document.getElementById("share-share-post-with-post").addEventListener("click", ()=> {  
+          share_modal.hide();      
+          post_share_modal.show();
+        })
+    }
+        
+  } )
+
+})
+}
+
+</script>
+<script>
+function comment_buttons() {
+  const  comment_els = document.getElementsByClassName('comment-button');
+Array.prototype.forEach.call(comment_els, function (el) {
+  el.addEventListener("click", () =>{
+    el.classList.toggle("is-active");
+    const post_id = el.getAttribute("post-id");
+    const comment_div = document.getElementById("comments-div-"+post_id)
+    comment_div.classList.toggle("d-none");
+    if (comment_div.classList.contains("fetched") === false) {
+      async function fetch_comments() {
+        response = await fetch("/posts/" + post_id + "/comments/");
+        res = await response.json();
+        const seprator = document.createElement("div");
+        seprator.classList.add("m-3")
+        comment_div.append(seprator)
+        Array.prototype.forEach.call(res, (comment)=> {
+          const comment_html = `
+          <div class="new-comment-div">
+            <div class="comment-avatar me-1">
+              <a href="/users/${comment.fields.user.username}/" class="image-link">
+                <img src="${comment.fields.user.avatar_url}" class="avatar comment-avatar" alt="user avatar" width="40px" height="40px">
+              </a>
+            </div>
+            <div class="comment">
+              <p><a href="/users/${comment.fields.user.username}/">${comment.fields.user.first_name} ${comment.fields.user.last_name}</a></p>
+              <p class="comment-text">${comment.fields.text}</p>
+            </div>
+          </div>
+          `
+          const one_comment = document.createElement("div");
+          one_comment.innerHTML = comment_html;
+          comment_div.append(one_comment);
+        })
+        comment_div.classList.add("fetched");
+      }
+      fetch_comments();
+    }
+  })
+})
+const cooment_inputs = document.getElementsByClassName("comment-form-input");
+Array.prototype.forEach.call(cooment_inputs, function (el) {
+  el.addEventListener("keypress", function(e) {
+  if (e.keyCode === 13 && e.shiftKey) {}
+  else if (e.keyCode === 13) {
+    e.preventDefault();
+    el.classList.toggle("disabled");
+    const form = document.getElementById("comment-form-"+ el.getAttribute("post-id"));
+    const formdata = new FormData(form);
+    const csrf = document.getElementsByName("csrfmiddlewaretoken")[0];
+    console.log(csrf.name + "/n" +csrf.value)
+    formdata.append(csrf.name, csrf.value);
+    async function send_comment() {
+      response = await fetch("/posts/"+el.getAttribute("post-id")+"/comments/new/", {method:"POST", body: formdata});
+      res = await response.json()
+      if (res.status === "success") {
+        console.log("success")
+        el.value = "";
+        el.classList.toggle("disabled");
+      } else {
+        console.log(res.errors)
+        el.classList.toggle("disabled");
+      }
+    }
+    send_comment();
+  }
+});
+})
+}
+
+</script>
+<script>
+function action_buttons() {
+  console.log("a")
+  const  action_els = document.getElementsByClassName('action-button');
+Array.prototype.forEach.call(action_els, function (el) {
+  el.addEventListener("click", () =>{
+    el.classList.toggle("is-active");
+    console.log("Ok")
+  })
+})
+}
+</script>
+
+
   </body>
 </html>

@@ -26,7 +26,7 @@ class FingerprintCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         work = Work.objects.get(pk=self.request.GET['id'])
         print(self.request.GET['id'])
-        User = self.request.user
+        user = self.request.user
         if work.user != user:
             raise PermissionDenied()
         form.instance.user = user

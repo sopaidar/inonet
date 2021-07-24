@@ -5,7 +5,11 @@ from .views import (
     Timeline,
     UserLikes,
     LikeCreateView,
-    DisLikeUpdateView
+    DisLikeUpdateView,
+    ShareCreateView,
+    UnShareUpdateView,
+    CommentCreateView,
+    PostComments
 )
 
 
@@ -15,4 +19,9 @@ urlpatterns = [
     path("user_likes/", UserLikes.as_view(), name="user-likes"),
     path("like/<int:pk>/", LikeCreateView.as_view(), name="like"),
     path("dislike/<int:pk>/", DisLikeUpdateView.as_view(), name="dislike"),
+    path("share/<int:pk>/", ShareCreateView.as_view(), name="share"),
+    path("unshare/<int:pk>/", UnShareUpdateView.as_view(), name="unshare"),
+    path("<int:pk>/comments/new/", CommentCreateView.as_view(), name="new-comment"),
+    path("<int:pk>/comments/", PostComments.as_view(), name="post-comments"),
+
 ]
