@@ -9,7 +9,8 @@ from .views import (
     ShareCreateView,
     UnShareUpdateView,
     CommentCreateView,
-    PostComments
+    PostComments,
+    PostDetailView
 )
 
 
@@ -23,5 +24,6 @@ urlpatterns = [
     path("unshare/<int:pk>/", UnShareUpdateView.as_view(), name="unshare"),
     path("<int:pk>/comments/new/", CommentCreateView.as_view(), name="new-comment"),
     path("<int:pk>/comments/", PostComments.as_view(), name="post-comments"),
+    path("<int:pk>/", PostDetailView.as_view(), name="post-detail"),
 
 ]

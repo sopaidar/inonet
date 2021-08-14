@@ -46,7 +46,6 @@ class Timeline(ListView):
         qs = Post.objects.filter(draft=False).order_by("-pk")
         return qs
     
-
 class UserLikes(View):
     def get(self, request):
         likes = self.request.user.likes
@@ -213,3 +212,7 @@ class PostComments(LoginRequiredMixin, View):
 
 
         return HttpResponse(data_json)
+
+class PostDetailView(LoginRequiredMixin, DetailView):
+    model = Post
+    template_name = "posts/post.html"

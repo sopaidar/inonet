@@ -1,79 +1,106 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div class="container-fluid pt-5 original-background page-app">
     <div class="col-md-6 mx-auto bg-white post p-5">
         <div>
             <div class="p-3">
-                <p class="text-center">
+                <p class="text-center lh-base">
                     بدون این که اصل اثرت رو آپلود کنی یا به کسی بدی به همه دنیا بگو اثر جدیدی آفریدی! اینونت برات یه شاهد و سند معتبر از وجود اثرت در این زمان می‌سازه و خیلی راحت هم می‌تونی سرمایه‌گذار، ناشر و یا همکار برای اثرت پیدا کنی!
-                    </p>
+                </p>
             </div>
             <div class="row text-center pb-0 pt-1 mb-0">
                 <div class="col-md-3 col-sm-6 col-6">
                     <a href="/works/new/" class="home-icon-link">
                         <span class="material-icons-outlined font-50 new-work-icon">
-                        note_add
-                    </span>
-                    <p>
-                        اثر جدید
-                    </p>
+                            note_add
+                        </span>
+                        <p>
+                            اثر جدید
+                        </p>
                     </a>
                 </div>
                 <div class="col-md-3 col-sm-6 col-6">
                     <a href="/fingerprints/new_work/" class="home-icon-link">
                         <span class="material-icons-outlined font-50 fingerprint-icon">
-                        fingerprint
-                    </span>
-                    <p>
-                        ثبت گواهی‌زمانی
-                    </p>
+                            fingerprint
+                        </span>
+                        <p>
+                            ثبت گواهی‌زمانی
+                        </p>
                     </a>
                 </div>
                 <div class="col-md-3 col-sm-6 col-6">
                     <a href="/fingerprints/validate/" class="home-icon-link">
                         <span class="material-icons-outlined font-50 verified-icon">
-                        verified
-                    </span>
-                    <p>
-                        اعتبارسنجی
-                    </p>
+                            verified
+                        </span>
+                        <p>
+                            اعتبارسنجی
+                        </p>
                     </a>
                 </div>
                 <div class="col-md-3 col-sm-6 col-6">
-                    <a href="" class="home-icon-link">
+                    <a href="javascript:void(0);" class="home-icon-link" id="new-post-home">
                         <span class="material-icons-outlined font-50 feed-icon">
-                        feed
-                    </span>
-                    <p>
-                        خبر جدید
-                    </p>
+                            feed
+                        </span>
+                        <p>
+                            خبر جدید
+                        </p>
                     </a>
                 </div>
             </div>
-        <div>
+            <div>
+            </div>
+
+        </div>
+    </div>
+    <div id="posts">
+        <div class="m-5">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-grow text-primary m-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-success m-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-warning m-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-info m-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-danger m-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
     </div>
 
-    </div>
-</div>
-<div id="posts">
+    {% endblock content %} {% block inline_javascript %} {% if request.user.is_authenticated %}
+    <script>
+        async function load_posts() {
+            const response = await fetch("/posts/", {
+                method: 'GET',
+            });
+            document.getElementById("posts").innerHTML = await response.text();
+            await console.log(response)
+            await buttons();
+            await share_buttons();
+            await comment_buttons();
+            await action_buttons();
+            autosize_auto();
+        }
+        load_posts();
 
-</div>
+        document.getElementById("new-post-home").addEventListener("click", () => {
+            document.getElementById("new-post-nav").click()
+        })
+    </script>
+    {% else %}
+    <script>
+        document.getElementById("new-post-home").addEventListener("click", () => {
+            window.location.href = '/accounts/login/';
 
-{% endblock content %}
-{% block inline_javascript %}
-<script>
-     async function load_posts() {
-      const response = await fetch("/posts/", {
-                    method: 'GET',
-                });
-                document.getElementById("posts").innerHTML = await response.text();
-                await console.log(response)
-                await buttons();
-                await share_buttons();
-                await comment_buttons();
-                await action_buttons();
-                autosize_auto();
-    }
-    load_posts();
-</script>
-{% endblock inline_javascript %}
+        })
+    </script>
+    {% endif %} {% endblock inline_javascript %}
