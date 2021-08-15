@@ -140,12 +140,10 @@
                         <ul class="dropdown-menu dropdown-menu-end dropdown-icon shadow" aria-labelledby="navbarDropdown-1">
 
                             <li class="dropdown-item">
-                                <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "ثبت
-                                    نام" %}</a>
+                                <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "ثبت نام" %}</a>
                             </li>
                             <li class="dropdown-item">
-                                <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "ورود"
-                                    %}</a>
+                                <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "ورود" %}</a>
                             </li>
 
 
@@ -759,6 +757,119 @@
 
         }
     </script>
+
+
+
+    <!-- followes -->
+    <script>
+        async function get_followings(is_new) {
+            if (is_new == false) {
+                if (localStorage.getItem("inonet_followings")) {
+                    return localStorage.getItem("inonet_followings")
+                } else {
+                    response = await fetch("/user/user_followings/");
+                    res = await response.json();
+                    if (res.status == "success") {
+                        localStorage.removeItem("inonet_followings")
+                        localStorage.setItem("inonet_followings", res.followings.followings)
+                        console.log("followings:" + localStorage.getItem("inonet_followings"))
+                        return res.followings.followings
+                    }
+                }
+
+
+            } else {
+                response = await fetch("/user/user_followings/");
+                res = await response.json();
+                if (res.status == "success") {
+                    localStorage.removeItem("inonet_followings")
+                    localStorage.setItem("inonet_followings", res.followings.followings)
+                    console.log("followings:" + localStorage.getItem("inonet_followings"))
+                    return res.followings.followings
+                }
+            }
+        }
+        async function buuton_is_followed() {
+            const followings = await get_followings(false);
+            console.log(followings)
+            const follow_buttons = document.getElementsByClassName("follow-button");
+            Array.prototype.forEach.call(follow_buttons, (follow_button) => {
+                if (followings.includes(follow_button.id)) {
+                    follow_button.classList.add("followed");
+                    follow_button.innerHTML = "دنبال می‌کنید &#10003;";
+                    follow_button.classList.add("btn-primary");
+                    follow_button.classList.remove("btn-outline-primary");
+
+                } else {
+                    follow_button.classList.add("not-followed");
+                    follow_button.innerHTML = "دنبال کردن"
+                    follow_button.classList.remove("btn-primary");
+                    follow_button.classList.add("btn-outline-primary");
+                }
+
+            })
+
+        }
+    </script>
+    <script>
+        get_followings(true);
+    </script>
+    <script>
+        async function follow(username) {
+            const button = document.getElementById(username);
+            if (button.classList.contains("not-followed")) {
+                const form = document.getElementById("csrf");
+                const formdata = new FormData(form);
+                const response = await fetch(`/user/${username}/follow/`, {
+                    method: "POST",
+                    body: formdata
+                });
+                const res = await response.json();
+                if (res.status == "success") {
+                    button.classList.add("followed");
+                    button.classList.remove("not-followed");
+                    button.classList.add("btn-primary");
+                    button.classList.remove("btn-outline-primary");
+                    button.innerHTML = "دنبال می‌کنید &#10003;";
+                    console.log(res)
+                } else {
+                    console.log("error" + res)
+                }
+            } else if (button.classList.contains("followed")) {
+                const form = document.getElementById("csrf");
+                const formdata = new FormData(form);
+                const response = await fetch(`/user/${username}/unfollow/`, {
+                    method: "POST",
+                    body: formdata
+                });
+                const res = await response.json();
+                if (res.status == "success") {
+                    button.classList.remove("followed");
+                    button.classList.add("not-followed");
+                    button.classList.remove("btn-primary");
+                    button.classList.add("btn-outline-primary");
+                    button.innerHTML = "دنبال کردن"
+                    console.log(res)
+                } else {
+                    console.log("error" + res)
+                }
+            }
+
+        }
+    </script>
+    <script>
+        async function shareaddress(id) {
+            try {
+                await window.navigator.share({
+                    url: `https://inonet.ir/posts/${id}/`
+                })
+                console.log("Success")
+            } catch (err) {
+                console.log('Error: ' + err)
+            }
+        }
+    </script>
+
     {% block end_javascript %}{% endblock end_javascript %}
 
 </body>

@@ -18,8 +18,12 @@
                 </p>
                 <p class="user-title">
                     {% if object == request.user %}
-                    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">ویرایش اطلاعات</a> {% else %}
-                    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">دنبال کردن</a> {% endif %}
+                        <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">ویرایش اطلاعات</a>
+                    {% else %}
+                        <a class="btn follow-button" href="javascript:follow('{{object.username}}');" id="{{object.username}}" role="button">
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        </a>
+                    {% endif %}
                 </p>
             </div>
         </div>
@@ -125,6 +129,12 @@
             </div>
         </div>
         {% endblock modal %} {% block inline_javascript %}
+        <script>
+            document.addEventListener("DOMContentLoaded", ()=> {
+                console.log("hey")
+                buuton_is_followed()
+            })
+        </script>
         <script>
             var myModal = new bootstrap.Modal(document.getElementById('update-picture-modal'))
             document.getElementById("picture").addEventListener('click', () => {

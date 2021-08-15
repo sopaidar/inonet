@@ -1,17 +1,16 @@
-{% extends "base.html" %}
-{% load crispy_forms_tags %}
-
-{% block title %}{{ user.username }}{% endblock %}
-
-{% block content %}
-  <h1>{{ user.username }}</h1>
-  <form class="form-horizontal" method="post" action="{% url 'users:update' %}">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <div class="control-group">
-      <div class="controls">
-        <button type="submit" class="btn btn-primary">Update</button>
-      </div>
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block title %}{{ user.username }}{% endblock %} {% block content %}
+<div class="container-fluid pt-5 original-background page-app mb-2">
+    <div class="col-sm-12 col-md-6 mx-auto post p-5">
+        <h1 class="text-center mb-3">ویرایش اطلاعات شخصی </h1>
+        <hr>
+        <form class="form-horizontal" method="post" action="{% url 'users:update' %}">
+            {% csrf_token %} {{ form|crispy }}
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">به روزرسانی</button>
+                </div>
+            </div>
+        </form>
     </div>
-  </form>
+</diV>
 {% endblock %}

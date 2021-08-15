@@ -54,6 +54,7 @@
 
         </div>
     </div>
+    {% if request.user.is_authenticated %}
     <div id="posts">
         <div class="m-5">
             <div class="d-flex justify-content-center">
@@ -75,7 +76,7 @@
             </div>
         </div>
     </div>
-
+    {% endif %}
     {% endblock content %} {% block inline_javascript %} {% if request.user.is_authenticated %}
     <script>
         async function load_posts() {

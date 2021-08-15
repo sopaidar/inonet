@@ -1,0 +1,42 @@
+{% extends 'base.html' %}{% load i18n %}{% block content %}
+{% translate "پسند جدید" as NL %}
+{% translate "نظر جدید" as NC %}
+{% translate "دنبال کننده جدید" as NF %}
+{% translate "به اشتراک‌گذاری جدید" as NS %}
+{% translate "به اشتراک‌گذاری جدید (با متن)" as NT %}
+
+{% for notification in object_list %}
+{% if notification.notification_type == NL %}
+    <span class="material-icons-outlined">
+    favorite
+    </span>
+{% endif %}
+{% if notification.notification_type == NC %}
+    <span class="material-icons-outlined">
+    favorite
+    </span>
+{% endif %}
+{% if notification.notification_type == NF %}
+    <span class="material-icons-outlined">
+    favorite
+    </span>
+{% endif %}
+{% if notification.notification_type == NS %}
+    <span class="material-icons-outlined">
+    favorite
+    </span>
+{% endif %}
+{% if notification.notification_type == NT %}
+    <span class="material-icons-outlined">
+    favorite
+    </span>
+{% endif %}
+{% if notification.actor.avatar.url %}
+<img src={{notification.actor.avatar.url}} height="30px" width="30px" class="avatar">
+{% endif %}
+
+{{notification.user.username}}
+{{notification.notification_type}}
+
+{% endfor %}
+{% endblock content %}

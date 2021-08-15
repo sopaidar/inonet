@@ -1,3 +1,4 @@
+import json
 from django.db import IntegrityError
 from django.db.models.fields import DateTimeField, UUIDField
 from django.db.models.fields.related import ForeignKey
@@ -13,7 +14,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Like, Post, Share, Comment
 from inonet.users.models import User
-import json
+from notifications.models import Notification
 from django.utils.translation import gettext_lazy as _
 
 class PostCreateView(LoginRequiredMixin ,CreateView):
@@ -26,9 +27,12 @@ class PostCreateView(LoginRequiredMixin ,CreateView):
     ]
     template_name = "posts/new.html"
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        user = self.request.user
+        form.instance.user = user
         if form.instance.shared_post:
             form.instance.post_type = _("خبر به اشتراک‌گذاری شده")
+            notification = Notification(actor=user, user=form.instance.shared_post.user, notification_type=_("به اشتراک‌گذاری جدید (با متن)"), post=form.instance.shared_post)
+            notification.save()
         else:
             form.instance.post_type = _("خبر جدید")
         form.save()
@@ -67,6 +71,8 @@ class LikeCreateView(LoginRequiredMixin ,CreateView):
             post.save()
             user.likes["likes"].append(post.pk)
             user.save()
+            notification = Notification(actor=user, user=post.user, notification_type=_("پسند جدید"), post=post)
+            notification.save()
             return JsonResponse({"status":"success"})
         except Like.DoesNotExist:
             pass
@@ -83,6 +89,8 @@ class LikeCreateView(LoginRequiredMixin ,CreateView):
         else:
             user.likes = {"likes":[post.pk]}
         user.save()
+        notification = Notification(actor=user, user=post.user, notification_type=_("پسند جدید"), post=post)
+        notification.save()
         return JsonResponse({"status":"success"})
     def form_invalid(self, form):
         return JsonResponse({"status":"failed", 'errors': form._errors})
@@ -132,6 +140,8 @@ class ShareCreateView(LoginRequiredMixin ,CreateView):
             post.save()
             user.shares["shares"].append(post.pk)
             user.save()
+            notification = Notification(actor=user, user=post.user, notification_type=_("به اشتراک‌گذاری جدید"), post=post)
+            notification.save()
             return JsonResponse({"status":"success"})
         except Share.DoesNotExist:
             pass
@@ -148,6 +158,8 @@ class ShareCreateView(LoginRequiredMixin ,CreateView):
         else:
             user.shares = {"shares":[post.pk]}
             user.save()
+        notification = Notification(actor=user, user=post.user, notification_type=_("به اشتراک‌گذاری جدید"), post=post)
+        notification.save()
         return JsonResponse({"status":"success"})
     def form_invalid(self, form):
         return JsonResponse({"status":"failed", 'errors': form._errors})
@@ -190,9 +202,13 @@ class CommentCreateView(LoginRequiredMixin ,CreateView):
     ]
     template_name = "posts/new.html"
     def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.instance.post = Post.objects.get(pk=self.kwargs["pk"])
+        user = self.request.user
+        post = Post.objects.get(pk=self.kwargs["pk"])
+        form.instance.user = user
+        form.instance.post = post
         form.save()
+        notification = Notification(actor=user, user=post.user, notification_type=_("نظر جدید"), post=post)
+        notification.save()
         return JsonResponse({"status":"success"})
     def form_invalid(self, form):
         return JsonResponse({"status":"failed", 'errors': form._errors})
