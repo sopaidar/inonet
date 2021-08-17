@@ -4,12 +4,21 @@
 {% translate "دنبال کننده جدید" as NF %}
 {% translate "بازنشر جدید" as NS %}
 {% translate "بازنشر جدید (با متن)" as NT %}
-
+{% if not object_list %}
+<div class="pt-2 pb-2 seen-notification">
+<li class="dropdown-item">
+<span class="material-icons-outlined align-middle text-primary">
+notifications_none
+</span>
+اعلانی برای نمایش وجود ندارد.
+</li>
+</div>
+{% endif %}
 {% for notification in object_list %}
 <div {% if notification.seen %}class="pt-2 pb-2 seen-notification"{% elif notification.got %}class="pt-2 pb-2 new-notification notification"{%else%}class="pt-2 pb-2 new-notification notification not-got"{% endif %}>
 <li class="dropdown-item">
 {% if notification.notification_type == NL %}
-<a href="/posts/{{notification.post.pk}}/">
+<a href="/posts/{{notification.post.uuid}}/">
     <span class="material-icons-outlined align-middle text-danger">
     favorite
     </span>
@@ -24,7 +33,7 @@
 </a>
 {% endif %}
 {% if notification.notification_type == NC %}
-<a href="/posts/{{notification.post.pk}}/">
+<a href="/posts/{{notification.post.uuid}}/">
     <span class="material-icons-outlined align-middle text-primary">
     chat
     </span>
@@ -52,7 +61,7 @@
 </a>
 {% endif %}
 {% if notification.notification_type == NS %}
-<a href="/posts/{{notification.post.pk}}/">
+<a href="/posts/{{notification.post.uuid}}/">
     <span class="material-icons-outlined align-middle text-success">
     share
     </span>
@@ -65,7 +74,7 @@
 </a>
 {% endif %}
 {% if notification.notification_type == NT %}
-<a href="/posts/{{notification.post.pk}}/">
+<a href="/posts/{{notification.post.uuid}}/">
     <span class="material-icons-outlined align-middle text-success">
     share
     </span>

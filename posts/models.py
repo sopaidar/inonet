@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.db.models.base import Model
 from django.db.models.fields import BLANK_CHOICE_DASH
@@ -19,6 +20,7 @@ POST_TYPES = [
 class Post(models.Model):
 
     user = models.ForeignKey("users.User", verbose_name=_("کاربر"), on_delete=models.CASCADE)
+    uuid = models.UUIDField(_("uuid"), unique=True, default=uuid.uuid4, editable=False)
     work = models.ForeignKey("works.Work", verbose_name=_("اثر"), on_delete=models.CASCADE, null=True, blank=True)
     shared_post = models.ForeignKey("self", verbose_name=_("خبر بازنشر شده"), on_delete=models.CASCADE, blank=True, null=True)
     fingerprint = models.ForeignKey("fingerprints.Fingerprint", verbose_name=_("اثر"), on_delete=models.CASCADE, null=True, blank=True)
@@ -36,14 +38,15 @@ class Post(models.Model):
         verbose_name_plural = _("Posts")
 
     def __str__(self):
-        return f"post: {self.pk}- user:{self.user.username}"
+        return f"post: {self.uuid}- user:{self.user.username}"
 
     def get_absolute_url(self):
-        return reverse("Post_detail", kwargs={"pk": self.pk})
+        return reverse("Post_detail", kwargs={"uuid":self.uuid})
 
 class Like(models.Model):
 
     user = models.ForeignKey("users.User", verbose_name=_("کاربر"), on_delete=models.CASCADE)
+    uuid = models.UUIDField(_("uuid"), unique=True, default=uuid.uuid4, editable=False)
     post = models.ForeignKey(Post, verbose_name=_("پست"), on_delete=models.CASCADE)
     liked = models.BooleanField(_("لایک شده"), default=True)
     date_time = models.DateTimeField(_("زمان"),auto_now=True)
@@ -56,14 +59,15 @@ class Like(models.Model):
         verbose_name_plural = _("Likes")
 
     def __str__(self):
-        return f"post: {self.post.pk} - username: {self.user.username}"
+        return f"post: {self.post.uuid} - username: {self.user.username}"
 
     def get_absolute_url(self):
-        return reverse("Like_detail", kwargs={"pk": self.pk})
+        return reverse("Like_detail", kwargs={"uuid":self.uuid})
 
 class Comment(models.Model):
 
     user = models.ForeignKey("users.User", verbose_name=_("کاربر"), on_delete=models.CASCADE)
+    uuid = models.UUIDField(_("uuid"), unique=True, default=uuid.uuid4, editable=False)
     post = models.ForeignKey(Post, verbose_name=_("پست"), on_delete=models.CASCADE)
     text = models.TextField(_("متن کامنت"), max_length=255, blank=False, null=False)
     answered_to = models.ForeignKey("self", verbose_name=_("کامنت پاسخ داده شده"), on_delete=models.CASCADE, blank=True, null=True, default= None)
@@ -75,16 +79,17 @@ class Comment(models.Model):
         verbose_name_plural = _("Comments")
 
     def __str__(self):
-        return f"post: {self.post.pk} - username: {self.user.username}"
+        return f"post: {self.post.uuid} - username: {self.user.username}"
 
     def get_absolute_url(self):
-        return reverse("Comment_detail", kwargs={"pk": self.pk})
+        return reverse("Comment_detail", kwargs={"uuid":self.uuid})
 
 
 
 class Share(models.Model):
 
     user = models.ForeignKey("users.User", verbose_name=_("کاربر"), on_delete=models.CASCADE)
+    uuid = models.UUIDField(_("uuid"), unique=True, default=uuid.uuid4, editable=False)
     post = models.ForeignKey(Post, verbose_name=_("پست"), on_delete=models.CASCADE)
     shared = models.BooleanField(_("بازنشر شده"), default=True)
     date_time = models.DateTimeField(_("زمان"),auto_now=True)
@@ -97,8 +102,8 @@ class Share(models.Model):
         verbose_name_plural = _("Shares")
 
     def __str__(self):
-        return f"post: {self.post.pk} - username: {self.user.username}"
+        return f"post: {self.post.uuididid} - username: {self.user.username}"
 
     def get_absolute_url(self):
-        return reverse("Share_detail", kwargs={"pk": self.pk})
+        return reverse("Share_detail", kwargs={"uuid":self.uuid})
 

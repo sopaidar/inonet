@@ -24,7 +24,7 @@ class FingerprintCreateView(LoginRequiredMixin, CreateView):
     ]
 
     def form_valid(self, form):
-        work = Work.objects.get(pk=self.request.GET['id'])
+        work = Work.objects.get(uuid=self.request.GET['id'])
         print(self.request.GET['id'])
         user = self.request.user
         if work.user != user:
@@ -66,8 +66,8 @@ class ValidateView(View):
                         "fingerprint": fp.fingerprint,
                         "date": [fp.date_time.year, fp.date_time.month, fp.date_time.day],
                         "time": f"{fp.date_time.hour}:{fp.date_time.minute}:{fp.date_time.second}",
-                        "id": fp.pk,
-                        "work": {"id":fp.work.pk, "title":fp.work.title},
+                        "id": fp.uuid,
+                        "work": {"id":fp.work.uuid, "title":fp.work.title},
                         "user":{"username":fp.work.user.username, "first_name":fp.work.user.first_name, "last_name": fp.work.user.last_name}
                     }
                 )
@@ -83,7 +83,7 @@ class UserFingerprintsListView(LoginRequiredMixin ,ListView):
     paginate_by = 20
 
     def get_queryset(self):
-        user = User.objects.get(pk = self.kwargs['pk'])
+        user = User.objects.get(uuid = self.kwargs['uuid'])
         qs = FingerPrint.objects.filter(user = user)
         return qs
     

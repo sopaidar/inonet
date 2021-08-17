@@ -12,6 +12,6 @@ urlpatterns = [
     path("new/", view=FingerprintCreateView.as_view(), name="new-fingerprint"),
     path("new_work/", NewFingerprintWorkView.as_view(), name="new_work"),
     path("validate/", ValidateView.as_view(), name="validate"),
-    path("user_fingerprints/<int:pk>/", UserFingerprintsListView.as_view(), name="user-fingerprints"),
+    path("user_fingerprints/<uuid:uuid>/", UserFingerprintsListView.as_view(), name="user-fingerprints"),
 
 ]

@@ -32,7 +32,7 @@
             <div class="col-md-3 bg-white post p-5 mx-auto mb-3">
                 <h4 class="text-center">گواهی‌های زمانی:</h4>
                 <div class="d-grid gap-2 pt-3">
-                    <a href="/fingerprints/new?id={{object.pk}}" class="btn btn-primary">ایجاد گواهی زمانی</a>
+                    <a href="/fingerprints/new?id={{object.uuid}}" class="btn btn-primary">ایجاد گواهی زمانی</a>
                 </div>
                 <div class="pt-3">
                     <p>تاریخچه گواهی‌های زمانی:</p>
@@ -110,7 +110,7 @@
     document.getElementById("upload-image-button").addEventListener("click", ()=> {
         console.log('click');
         const data = document.getElementById("upload-image-form");
-        const url = "/works/{{object.pk}}/upload_image/";
+        const url = "/works/{{object.uuid}}/upload_image/";
         async function sendData(url, data) {
         const formData  = new FormData(data);
 

@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -34,6 +35,7 @@ WORK_TYPE = [
 class Work(models.Model):
 
     user = models.ForeignKey("users.User", verbose_name=_("کاربر"), on_delete=models.CASCADE)
+    uuid = models.UUIDField(_("uuid"), unique=True, default=uuid.uuid4, editable=False)
     title = models.CharField(_("عنوان"), max_length=100)
     work_type= models.CharField(_("نوع اثر"), max_length=100, choices=WORK_TYPE)
     description = models.TextField(_("درباره اثر"), blank=True, null=True)
@@ -48,7 +50,7 @@ class Work(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("work-detail", kwargs={"pk": self.pk})
+        return reverse("work-detail", kwargs={"uuid": self.uuid})
 
 class WorkImages(models.Model):
 
@@ -65,4 +67,4 @@ class WorkImages(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("work-image-detail", kwargs={"pk": self.pk})
+        return reverse("work-image-detail", kwargs={"uuid": self.uuid})

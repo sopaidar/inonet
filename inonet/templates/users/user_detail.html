@@ -75,6 +75,25 @@
 
     </div>
     <div id="user-data" class="col-sm-12 col-md-8 mx-auto post p-4 mt-2">
+        <div class="m-5">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-grow text-primary m-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-success m-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-warning m-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-info m-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-danger m-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="user-posts-div" class="d-none">
         <div class="m-5">
@@ -128,7 +147,7 @@
                 </div>
             </div>
         </div>
-        {% endblock modal %} {% block inline_javascript %}
+        {% endblock modal %} {% block end_javascript %}
         <script>
             document.addEventListener("DOMContentLoaded", ()=> {
                 buuton_is_followed()
@@ -158,7 +177,6 @@
         </script>
         <script>
             document.getElementById("upload-image-button").addEventListener("click", () => {
-                console.log('click');
                 const data = document.getElementById("upload-image-form");
                 const url = "/users/~upload_avatar/";
                 async function sendData(url, data) {
@@ -206,8 +224,9 @@
         <script>
             async function load_works() {
                 document.getElementById("user-data").classList.remove("d-none")
+                loading("user-data");
                 document.getElementById("user-posts-div").classList.add("d-none")
-                const response = await fetch("/works/user_works/{{object.pk}}/", {
+                const response = await fetch("/works/user_works/{{object.uuid}}/", {
                     method: 'GET',
                 });
                 document.getElementById("user-data").innerHTML = await response.text();
@@ -239,9 +258,10 @@
         <script>
             document.getElementById("fingerprints").addEventListener("click", () => {
                 async function load_fingerprints() {
+                    loading("user-data");
                     document.getElementById("user-data").classList.remove("d-none")
                     document.getElementById("user-posts-div").classList.add("d-none")
-                    const response = await fetch("/fingerprints/user_fingerprints/{{object.pk}}/", {
+                    const response = await fetch("/fingerprints/user_fingerprints/{{object.uuid}}/", {
                         method: 'GET',
                     });
                     document.getElementById("user-data").innerHTML = await response.text();
@@ -293,4 +313,4 @@
                 load_posts();
             })
         </script>
-        {% endblock inline_javascript %}
+        {% endblock end_javascript %}

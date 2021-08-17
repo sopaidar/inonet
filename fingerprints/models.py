@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 # Create your models here.
 class FingerPrint(models.Model):
     user = models.ForeignKey("users.User", verbose_name=_("کاربر"), on_delete=models.CASCADE)
-    uuid = models.UUIDField(primary_key=False, default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     work = models.ForeignKey("works.Work", verbose_name=_("اثر "), on_delete=models.CASCADE, related_name="fingerprintwork")
     fingerprint = models.CharField(_("اثرانگشت"), max_length=255)
     post_text = models.TextField(_("متن پست به روزرسانی"), max_length=1200, blank=True, null=True)
@@ -23,4 +23,4 @@ class FingerPrint(models.Model):
         return self.work.title
 
     def get_absolute_url(self):
-        return reverse("work-detail", kwargs={"pk": self.work.pk})
+        return reverse("work-detail", kwargs={"uuid": self.work.uuid})

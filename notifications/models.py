@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext as _
@@ -20,6 +21,7 @@ NOTIFICATION_TYPE_CHOICES = [
 class Notification(models.Model):
 
     user = models.ForeignKey("users.User", verbose_name=_("کاربر اعلان"), on_delete=models.CASCADE, related_name="user")
+    uuid = models.UUIDField(_("uuid"), unique=True, default=uuid.uuid4, editable=False)
     notification_type = models.CharField(_("نوع اعلان"), max_length=50, choices=NOTIFICATION_TYPE_CHOICES, default=NL)
     actor = models.ForeignKey("users.User", verbose_name=_("فعال‌کننده"), on_delete=models.CASCADE, related_name="actor")
     post = models.ForeignKey("posts.Post", verbose_name=_(""), on_delete=models.CASCADE, null=True)
@@ -35,4 +37,4 @@ class Notification(models.Model):
         return f"{self.notification_type} - فعال‌کننده: {self.actor.username} - کاربر: {self.user.username}"
 
     # def get_absolute_url(self):
-    #     return reverse("Notification_detail", kwargs={"pk": self.pk})
+    #     return reverse("Notification_detail", kwargs={"uuid": self.uuid})

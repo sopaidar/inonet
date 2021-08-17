@@ -1,3 +1,4 @@
+import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
@@ -8,6 +9,7 @@ class User(AbstractUser):
     """Default user for inonet."""
 
     #: First and last name do not cover name patterns around the globe
+    uuid = models.UUIDField(_("uuid"), unique=True, default=uuid.uuid4, editable=False)
     first_name = models.CharField(_("نام"), blank=True, max_length=255)
     last_name = models.CharField(_("نام خانوادگی"), blank=True, max_length=255)
     bio = models.TextField(_("درباره من"), max_length=255, null=True, blank=True)

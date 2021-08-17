@@ -44,7 +44,7 @@ LANGUAGES = (
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
-    "default": env.db("DATABASE_URL", default="sqlite:///inonet.db"),
+    "default": env.db("DATABASE_URL", default="sqlite:///inonet_2.db"),
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 

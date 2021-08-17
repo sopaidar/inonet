@@ -123,13 +123,20 @@ document.getElementById("save-draft").addEventListener("click", () => {
 // New post
 
 async function send_new_post() {
-  console.log("clik");
+  let url = "/posts/new/";
+  if (document.getElementById("new-post-shared_post").value !== "") {
+    url =
+      "/posts/new/" +
+      document.getElementById("new-post-shared_post").value +
+      "/";
+  }
+  console.log(url);
   const new_post_form = document.getElementById("new-post-form");
   formdata = new FormData(new_post_form);
   document.getElementById("new-post-button").classList.add("disabled");
   document.getElementById("new-post-button").innerHTML =
     'در حال ارسال <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>';
-  response = await fetch("/posts/new/", {
+  response = await fetch(url, {
     method: "POST",
     body: formdata,
   });
@@ -144,6 +151,9 @@ async function send_new_post() {
     document.getElementById("new-post-shared_post").value = "";
     document.getElementById("shared-post").innerHTML = "";
     reset_new_post_image_input();
+    document.getElementById("new-post-button").classList.remove("disabled");
+    document.getElementById("new-post-button").innerHTML = "ارسال خبر";
+  } else if (res.status === "success") {
     document.getElementById("new-post-button").classList.remove("disabled");
     document.getElementById("new-post-button").innerHTML = "ارسال خبر";
   }
@@ -435,7 +445,7 @@ async function fetch_comments(post_id, is_new) {
     comment_div.append(one_comment);
   });
   comment_div.classList.add("fetched");
-  document.getElementById(`${post_id}-commemts-count`).innerHTML = res.length;
+  document.getElementById(`${post_id}-comments-count`).innerHTML = res.length;
 }
 
 function comment_buttons() {
@@ -462,10 +472,14 @@ function comment_buttons() {
       if (e.keyCode === 13 && e.shiftKey) {
       } else if (e.keyCode === 13) {
         e.preventDefault();
+        if (el.value == "" || el.value == "\n") {
+          return false;
+        }
         el.classList.toggle("disabled");
         const form = document.getElementById(
           "comment-form-" + el.getAttribute("post-id")
         );
+
         const formdata = new FormData(form);
         const csrf = document.getElementsByName("csrfmiddlewaretoken")[0];
         console.log(csrf.name + "/n" + csrf.value);
@@ -681,4 +695,81 @@ document.getElementById("notification-icon").addEventListener("click", () => {
   }
 });
 
+// ====================== loading =====================//
 
+const loading_div = `
+<div class="m-5">
+  <div class="d-flex justify-content-center">
+      <div class="spinner-grow text-primary m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-success m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-warning m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-info m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-danger m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+      </div>
+  </div>
+</div>
+`;
+function loading(id) {
+  console.log("loading");
+  document.getElementById(id).innerHTML = loading_div;
+}
+
+//==================== lazy load ======================//
+document.addEventListener("DOMContentLoaded", function () {
+  var lazyloadImages;
+
+  if ("IntersectionObserver" in window) {
+    lazyloadImages = document.querySelectorAll(".lazy");
+    var imageObserver = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var image = entry.target;
+          image.src = image.dataset.src;
+          image.classList.remove("lazy");
+          imageObserver.unobserve(image);
+        }
+      });
+    });
+
+    lazyloadImages.forEach(function (image) {
+      imageObserver.observe(image);
+    });
+  } else {
+    var lazyloadThrottleTimeout;
+    lazyloadImages = document.querySelectorAll(".lazy");
+
+    function lazyload() {
+      if (lazyloadThrottleTimeout) {
+        clearTimeout(lazyloadThrottleTimeout);
+      }
+
+      lazyloadThrottleTimeout = setTimeout(function () {
+        var scrollTop = window.pageYOffset;
+        lazyloadImages.forEach(function (img) {
+          if (img.offsetTop < window.innerHeight + scrollTop) {
+            img.src = img.dataset.src;
+            img.classList.remove("lazy");
+          }
+        });
+        if (lazyloadImages.length == 0) {
+          document.removeEventListener("scroll", lazyload);
+          window.removeEventListener("resize", lazyload);
+          window.removeEventListener("orientationChange", lazyload);
+        }
+      }, 20);
+    }
+
+    document.addEventListener("scroll", lazyload);
+    window.addEventListener("resize", lazyload);
+    window.addEventListener("orientationChange", lazyload);
+  }
+});

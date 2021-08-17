@@ -22,19 +22,38 @@ class PostCreateView(LoginRequiredMixin ,CreateView):
     fields = [
         "text",
         "image",
-        "shared_post",
         "draft"
     ]
-    template_name = "posts/new.html"
+    template_name = "posts/new.html" 
+
     def form_valid(self, form):
         user = self.request.user
         form.instance.user = user
-        if form.instance.shared_post:
-            form.instance.post_type = _("خبر بازنشر شده")
-            notification = Notification(actor=user, user=form.instance.shared_post.user, notification_type=_("بازنشر جدید (با متن)"), post=form.instance.shared_post)
-            notification.save()
-        else:
-            form.instance.post_type = _("خبر جدید")
+        form.instance.post_type = _("خبر جدید")
+        form.save()
+        return JsonResponse({"status":"success"})
+    def form_invalid(self, form):
+        return JsonResponse({"status":"failed", 'errors': form._errors})
+
+
+class SharePostCreateView(LoginRequiredMixin ,CreateView):
+    model = Post
+    fields = [
+        "text",
+        "image",
+        "draft"
+    ]
+    template_name = "posts/new.html" 
+
+    def form_valid(self, form):
+        user = self.request.user
+        form.instance.user = user
+        try:
+            post = Post.objects.get(uuid=self.kwargs["uuid"])
+        except Post.DoesNotExist:
+            return JsonResponse({"status":"failed", 'errors': 'Post does not exist.'})
+        form.instance.shared_post = post
+        form.instance.post_type = _("خبر بازنشر شده")
         form.save()
         return JsonResponse({"status":"success"})
     def form_invalid(self, form):
@@ -61,7 +80,7 @@ class LikeCreateView(LoginRequiredMixin ,CreateView):
     template_name = "posts/new.html"
     fields = []
     def form_valid(self, form):
-        post = Post.objects.get(pk=self.kwargs["pk"])
+        post = Post.objects.get(uuid=self.kwargs["uuid"])
         user = self.request.user
         try:
             like = Like.objects.get(user=user, post=post)
@@ -69,7 +88,7 @@ class LikeCreateView(LoginRequiredMixin ,CreateView):
             like.save()
             post.likes = post.likes + 1
             post.save()
-            user.likes["likes"].append(post.pk)
+            user.likes["likes"].append(str(post.uuid))
             user.save()
             notification = Notification(actor=user, user=post.user, notification_type=_("پسند جدید"), post=post)
             notification.save()
@@ -85,9 +104,9 @@ class LikeCreateView(LoginRequiredMixin ,CreateView):
         post.likes = post.likes + 1
         post.save()
         if "likes" in user.likes:
-            user.likes["likes"].append(post.pk)
+            user.likes["likes"].append(str(post.uuid))
         else:
-            user.likes = {"likes":[post.pk]}
+            user.likes = {"likes":[str(post.uuid)]}
         user.save()
         notification = Notification(actor=user, user=post.user, notification_type=_("پسند جدید"), post=post)
         notification.save()
@@ -98,7 +117,7 @@ class LikeCreateView(LoginRequiredMixin ,CreateView):
 class DisLikeUpdateView(LoginRequiredMixin ,UpdateView):
     model = Like
     def get_object(self):
-        post = Post.objects.get(pk=self.kwargs["pk"])
+        post = Post.objects.get(uuid=self.kwargs["uuid"])
         user = self.request.user
         try:
             like = Like.objects.get(user=user, post=post)
@@ -108,7 +127,7 @@ class DisLikeUpdateView(LoginRequiredMixin ,UpdateView):
     template_name = "posts/new.html"
     fields = []
     def form_valid(self, form):
-        post = Post.objects.get(pk=self.kwargs["pk"])
+        post = Post.objects.get(uuid=self.kwargs["uuid"])
         user = self.request.user
         if self.object.user != user:
             raise PermissionError
@@ -118,7 +137,7 @@ class DisLikeUpdateView(LoginRequiredMixin ,UpdateView):
         form.save()
         post.likes = post.likes - 1
         post.save()
-        user.likes["likes"] = list(filter((post.pk).__ne__, user.likes["likes"]))
+        user.likes["likes"] = list(filter((str(post.uuid)).__ne__, user.likes["likes"]))
         user.save()
         return JsonResponse({"status":"success"})
     def form_invalid(self, form):
@@ -130,7 +149,7 @@ class ShareCreateView(LoginRequiredMixin ,CreateView):
     template_name = "posts/new.html"
     fields = []
     def form_valid(self, form):
-        post = Post.objects.get(pk=self.kwargs["pk"])
+        post = Post.objects.get(uuid=self.kwargs["uuid"])
         user = self.request.user
         try:
             share = Share.objects.get(user=user, post=post)
@@ -140,7 +159,7 @@ class ShareCreateView(LoginRequiredMixin ,CreateView):
             share.save()
             post.shares = post.shares + 1
             post.save()
-            user.shares["shares"].append(post.pk)
+            user.shares["shares"].append(str(post.uuid))
             user.save()
             notification = Notification(actor=user, user=post.user, notification_type=_("بازنشر جدید"), post=post)
             notification.save()
@@ -156,10 +175,10 @@ class ShareCreateView(LoginRequiredMixin ,CreateView):
         post.shares = post.shares + 1
         post.save()
         if "shares" in user.shares:
-            user.shares["shares"].append(post.pk)
+            user.shares["shares"].append(str(post.uuid))
             user.save()
         else:
-            user.shares = {"shares":[post.pk]}
+            user.shares = {"shares":[str(post.uuid)]}
             user.save()
         notification = Notification(actor=user, user=post.user, notification_type=_("بازنشر جدید"), post=post)
         notification.save()
@@ -170,7 +189,7 @@ class ShareCreateView(LoginRequiredMixin ,CreateView):
 class UnShareUpdateView(LoginRequiredMixin ,UpdateView):
     model = Share
     def get_object(self):
-        post = Post.objects.get(pk=self.kwargs["pk"])
+        post = Post.objects.get(uuid=self.kwargs["uuid"])
         user = self.request.user
         try:
             share = Share.objects.get(user=user, post=post)
@@ -180,7 +199,7 @@ class UnShareUpdateView(LoginRequiredMixin ,UpdateView):
     template_name = "posts/new.html"
     fields = []
     def form_valid(self, form):
-        post = Post.objects.get(pk=self.kwargs["pk"])
+        post = Post.objects.get(uuid=self.kwargs["uuid"])
         user = self.request.user
         if self.object.user != user:
             raise PermissionError
@@ -190,7 +209,7 @@ class UnShareUpdateView(LoginRequiredMixin ,UpdateView):
         form.save()
         post.shares = post.shares - 1
         post.save()
-        user.shares["shares"] = list(filter((post.pk).__ne__, user.shares["shares"]))
+        user.shares["shares"] = list(filter((str(post.uuid)).__ne__, user.shares["shares"]))
         user.save()
         return JsonResponse({"status":"success"})
     def form_invalid(self, form):
@@ -206,7 +225,7 @@ class CommentCreateView(LoginRequiredMixin ,CreateView):
     template_name = "posts/new.html"
     def form_valid(self, form):
         user = self.request.user
-        post = Post.objects.get(pk=self.kwargs["pk"])
+        post = Post.objects.get(uuid=self.kwargs["uuid"])
         form.instance.user = user
         form.instance.post = post
         form.save()
@@ -220,9 +239,9 @@ class CommentCreateView(LoginRequiredMixin ,CreateView):
 
 # drf
 class PostComments(LoginRequiredMixin, View):
-    def get(self, request, pk):
+    def get(self, request, uuid):
 
-        data = serializers.serialize("json", Comment.objects.filter(post=Post.objects.get(pk=pk)))
+        data = serializers.serialize("json", Comment.objects.filter(post=Post.objects.get(uuid=uuid)))
         data_json = json.loads(data)
         for comment in data_json:
             user_pk = comment["fields"]["user"]
@@ -237,3 +256,6 @@ class PostComments(LoginRequiredMixin, View):
 class PostDetailView(LoginRequiredMixin, DetailView):
     model = Post
     template_name = "posts/post.html"
+    def get_object(self):
+        post = Post.objects.get(uuid=self.kwargs["uuid"])
+        return post

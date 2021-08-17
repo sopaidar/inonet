@@ -21,5 +21,5 @@ class Follow(models.Model):
         return self.follower
 
     # def get_absolute_url(self):
-    #     return reverse("Follw_detail", kwargs={"pk": self.pk})
+    #     return reverse("Follw_detail", kwargs={"uuid": self.uuid})
 

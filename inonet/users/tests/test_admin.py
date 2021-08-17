@@ -35,6 +35,6 @@ class TestUserAdmin:
 
     def test_view_user(self, admin_client):
         user = User.objects.get(username="admin")
-        url = reverse("admin:users_user_change", kwargs={"object_id": user.pk})
+        url = reverse("admin:users_user_change", kwargs={"object_id": user.uuid})
         response = admin_client.get(url)
         assert response.status_code == 200

@@ -28,10 +28,14 @@ class WorkCreateView(LoginRequiredMixin, CreateView):
         return super().get_success_url()
 
 
-class WorkDetailView(DetailView):
+class WorkDetailView(LoginRequiredMixin, DetailView):
     model= Work
     template_name = "works/detail.html"
-    slug_url_kwarg = "pk"
+    slug_url_kwarg = "uuid"
+
+    def get_object(self):
+        work = Work.objects.get(uuid=self.kwargs["uuid"])
+        return work
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -43,6 +47,10 @@ class WorkImageUpdateView(LoginRequiredMixin, UpdateView):
     model= Work
     fields= ["work_image"]
     template_name = "works/detail.html"
+
+    def get_object(self):
+        work = Work.objects.get(uuid=self.kwargs["uuid"])
+        return work
 
     def form_valid(self, form):
         if self.object.user != self.request.user:
@@ -59,6 +67,6 @@ class UserWorksListView(LoginRequiredMixin ,ListView):
     template_name = "users/user_works.html"
     paginate_by = 20
     def get_queryset(self):
-        qs = Work.objects.filter(user=User.objects.get(pk=self.kwargs['pk']))
+        qs = Work.objects.filter(user=User.objects.get(uuid=self.kwargs['uuid']))
         return qs
     

@@ -17,7 +17,7 @@
                 </ul>
             </li>
         </div>
-        <div id="post-text-{{object.pk}}">
+        <div id="post-text-{{object.uuid}}">
             <div class="post-row">
                 <div class="col col-avatar">
                     {% if object.user.avatar.url %}
@@ -33,9 +33,9 @@
                 <div class="col-title ps-2">
                     {% if object.post_type == 'اثر جدید' %}
                     <a href="/users/{{object.user.username}}/" class="user-first-last-name">{{object.user.first_name}}
-                        {{object.user.last_name}}</a> اثر <a href="/works/{{object.work.pk}}/" class="work-title">{{object.work.title}} ({{object.work.work_type}})</a> را ثبت نمود. {% elif object.post_type == 'گواهی زمانی جدید' %}
+                        {{object.user.last_name}}</a> اثر <a href="/works/{{object.work.uuid}}/" class="work-title">{{object.work.title}} ({{object.work.work_type}})</a> را ثبت نمود. {% elif object.post_type == 'گواهی زمانی جدید' %}
                     <a href="/users/{{object.user.username}}/" class="user-first-last-name">{{object.user.first_name}}
-                        {{object.user.last_name}}</a> یک گواهی زمانی برای اثر <a href="/works/{{object.fingerprint.work.pk}}/" class="work-title">{{object.fingerprint.work.title}}
+                        {{object.user.last_name}}</a> یک گواهی زمانی برای اثر <a href="/works/{{object.fingerprint.work.uuid}}/" class="work-title">{{object.fingerprint.work.title}}
                         ({{object.fingerprint.work.work_type}})</a> ثبت نمود. {% elif object.post_type == 'خبر جدید' %}
                     <a href="/users/{{object.user.username}}/" class="user-first-last-name">{{object.user.first_name}}
                         {{object.user.last_name}}</a> {% elif object.post_type == 'خبر بازنشر شده' %}
@@ -56,7 +56,7 @@
             </div>
             {% endif %}
             {% if post.post_type == 'خبر بازنشر شده' %}
-            <a href="/posts/{{object.shared_post.pk}}/" class="user-first-last-name d-block">
+            <a href="/posts/{{object.shared_post.uuid}}/" class="user-first-last-name d-block">
                 <div class="shared-post-preview p-2 text-muted">
                     <div class="post-row">
                         <div class="col col-avatar">
@@ -103,13 +103,13 @@
             <div class="col-3">
                 <div class="like-container pt-2">
                     <div class="wrapper">
-                        <a href="javascript:void(0);" id="{{object.pk}}" class="like-button">
+                        <a href="javascript:void(0);" id="{{object.uuid}}" class="like-button">
                             <i class="material-icons not-liked bouncy">favorite_border</i>
                             <i class="material-icons is-liked bouncy">favorite</i>
                             <span class="like-overlay"></span>
                         </a>
                         <p class="text-muted text-small">
-                            <small><span id="{{object.pk}}-likes-count">{{object.likes}}</span> پسند</small>
+                            <small><span id="{{object.uuid}}-likes-count">{{object.likes}}</span> پسند</small>
                         </p>
                     </div>
                 </div>
@@ -117,13 +117,13 @@
             <div class="col-3">
                 <div class="like-container pt-2">
                     <div class="wrapper">
-                        <a href="javascript:void(0);" post-id="{{object.pk}}" class="comment-button" id="comment-button">
+                        <a href="javascript:void(0);" post-id="{{object.uuid}}" class="comment-button" id="comment-button">
                             <i class="material-icons not-liked bouncy">chat</i>
                             <i class="material-icons is-liked bouncy">chat</i>
                             <span class="like-overlay"></span>
                         </a>
                         <p class="text-muted text-small">
-                            <small><span id="{{object.pk}}-comments-count">{{object.comments}}</span> نظر</small>
+                            <small><span id="{{object.uuid}}-comments-count">{{object.comments}}</span> نظر</small>
                         </p>
                     </div>
                 </div>
@@ -131,13 +131,13 @@
             <div class="col-3">
                 <div class="like-container pt-2">
                     <div class="wrapper">
-                        <a href="javascript:void(0);" post-id="{{object.pk}}" class="share-button">
+                        <a href="javascript:void(0);" post-id="{{object.uuid}}" class="share-button">
                             <i class="material-icons not-liked bouncy">share</i>
                             <i class="material-icons is-liked bouncy">share</i>
                             <span class="like-overlay"></span>
                         </a>
                         <p class="text-muted text-small">
-                            <small><span id="{{object.pk}}-share-count">{{object.shares}}</span> بازنشر</small>
+                            <small><span id="{{object.uuid}}-share-count">{{object.shares}}</span> بازنشر</small>
                         </p>
                     </div>
                 </div>
@@ -154,14 +154,14 @@
                             <small>به‌اشتراک‌گذاری</small>
                         </p>
                         <ul class="dropdown-menu" aria-labelledby="share-button">
-                            <li><a class="dropdown-item" href="javascript:copyaddress({{object.pk}});">کپی لینک</a></li>
-                            <li><a class="dropdown-item system-share" href="javascript:shareaddress({{object.pk}});">به اشتراک‌گذاری با...</a></li>
+                            <li><a class="dropdown-item" href="javascript:copyaddress('{{object.uuid}}');">کپی لینک</a></li>
+                            <li><a class="dropdown-item system-share" href="javascript:shareaddress({{object.uuid}});">به اشتراک‌گذاری با...</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="d-none" id="comments-div-{{object.pk}}">
+        <div class="d-none" id="comments-div-{{object.uuid}}">
             <div class="new-comment-div pt-3">
                 <div class="comment-avatar">
                     {% if request.user.avatar and request.user.avatar.url %}
@@ -169,8 +169,8 @@
                     <img class="avatar" src="" alt=""> {% endif %}
                 </div>
                 <div class="comment-input ps-2 pe-2">
-                    <form class="comment-form" id="comment-form-{{object.pk}}">
-                        <textarea class="form-control search-input autosize comment-form-input" post-id="{{object.pk}}" name="text" placeholder="نظر شما چیه؟" maxlength="255"></textarea>
+                    <form class="comment-form" id="comment-form-{{object.uuid}}">
+                        <textarea class="form-control search-input autosize comment-form-input" post-id="{{object.uuid}}" name="text" placeholder="نظر شما چیه؟" maxlength="255"></textarea>
                     </form>
                 </div>
             </div>
