@@ -14,7 +14,7 @@ class User(AbstractUser):
     avatar = models.ImageField(_("تصویر نمایه"), upload_to="avatars/", blank=True, null=True)
     followers = models.PositiveIntegerField(_("تعداد دنبال‌کنندگان"), default=0)
     likes = models.JSONField(_("لایک‌های کاربر"),default=dict)
-    shares = models.JSONField(_("به‌اشتراک‌گذاری‌های کاربر"), default=dict)
+    shares = models.JSONField(_("بازنشر‌های کاربر"), default=dict)
     followings = models.JSONField(_("کاربران فالو شده"), default=dict)
     notification_status = models.PositiveIntegerField(_("وضعیت اعلان‌ها"), default=0)
 

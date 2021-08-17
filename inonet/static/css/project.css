@@ -4,7 +4,7 @@
 body {
     font-family: Samim !important;
     /* Margin bottom by footer height */
-    padding-top: 0px;
+    padding-top: 4rem;
     background-color: rgb(240, 242, 245);
     min-height: 100vh;
 }
@@ -663,3 +663,23 @@ a {
     border-radius: 12px;
     background-color: rgb(250, 250, 250);
 }
+
+
+.notification-icon {
+    position: relative;
+    display: inline-block;
+
+  }
+
+.notification-icon .badge {
+    position: absolute;
+    top: 5px;
+    left: 2px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+  }
+
+  .notification {
+      background: #eef3ff;
+  }

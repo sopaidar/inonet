@@ -1,42 +1,83 @@
-{% extends 'base.html' %}{% load i18n %}{% block content %}
+{% load i18n %} {% load static %}
 {% translate "پسند جدید" as NL %}
 {% translate "نظر جدید" as NC %}
 {% translate "دنبال کننده جدید" as NF %}
-{% translate "به اشتراک‌گذاری جدید" as NS %}
-{% translate "به اشتراک‌گذاری جدید (با متن)" as NT %}
+{% translate "بازنشر جدید" as NS %}
+{% translate "بازنشر جدید (با متن)" as NT %}
 
 {% for notification in object_list %}
+<div {% if notification.seen %}class="pt-2 pb-2 seen-notification"{% elif notification.got %}class="pt-2 pb-2 new-notification notification"{%else%}class="pt-2 pb-2 new-notification notification not-got"{% endif %}>
+<li class="dropdown-item">
 {% if notification.notification_type == NL %}
-    <span class="material-icons-outlined">
+<a href="/posts/{{notification.post.pk}}/">
+    <span class="material-icons-outlined align-middle text-danger">
     favorite
     </span>
+    {% if notification.actor.avatar.url %}
+    <img src={{notification.actor.avatar.url}} height="45px" width="45px" class="avatar">
+    {% else %}
+    <img src="{% static 'images/picture.svg' %}" class="avatar" alt="avatar" width="45px" height="45px">
+    {% endif %}
+    
+    {{notification.actor.first_name}} {{notification.actor.last_name}} 
+    پست شما را پسندیده است.
+</a>
 {% endif %}
 {% if notification.notification_type == NC %}
-    <span class="material-icons-outlined">
-    favorite
+<a href="/posts/{{notification.post.pk}}/">
+    <span class="material-icons-outlined align-middle text-primary">
+    chat
     </span>
+    {% if notification.actor.avatar.url %}
+    <img src={{notification.actor.avatar.url}} height="45px" width="45px" class="avatar">
+    {% else %}
+    <img src="{% static 'images/picture.svg' %}" class="avatar" alt="avatar" width="45px" height="45px">
+    {% endif %}
+    {{notification.actor.first_name}} {{notification.actor.last_name}} 
+    نظر جدیدی برای پست شما نوشته است.
+</a>
 {% endif %}
 {% if notification.notification_type == NF %}
-    <span class="material-icons-outlined">
-    favorite
+<a href="/users/{{notification.actor.username}}/">
+    <span class="material-icons-outlined align-middle text-primary">
+    person_add
     </span>
+    {% if notification.actor.avatar.url %}
+    <img src={{notification.actor.avatar.url}} height="45px" width="45px" class="avatar">
+    {% else %}
+    <img src="{% static 'images/picture.svg' %}" class="avatar" alt="avatar" width="45px" height="45px">
+    {% endif %}
+    {{notification.actor.first_name}} {{notification.actor.last_name}}
+    شما را دنبال می‌کند.
+</a>
 {% endif %}
 {% if notification.notification_type == NS %}
-    <span class="material-icons-outlined">
-    favorite
+<a href="/posts/{{notification.post.pk}}/">
+    <span class="material-icons-outlined align-middle text-success">
+    share
     </span>
+    {% if notification.actor.avatar.url %}
+    <img src={{notification.actor.avatar.url}} height="45px" width="45px" class="avatar">
+    {% else %}
+    <img src="{% static 'images/picture.svg' %}" class="avatar" alt="avatar" width="45px" height="45px">
+    {% endif %}
+    پست شما را به اشتراک گذاشته است.
+</a>
 {% endif %}
 {% if notification.notification_type == NT %}
-    <span class="material-icons-outlined">
-    favorite
+<a href="/posts/{{notification.post.pk}}/">
+    <span class="material-icons-outlined align-middle text-success">
+    share
     </span>
-{% endif %}
-{% if notification.actor.avatar.url %}
-<img src={{notification.actor.avatar.url}} height="30px" width="30px" class="avatar">
+    {% if notification.actor.avatar.url %}
+    <img src={{notification.actor.avatar.url}} height="45px" width="45px" class="avatar">
+    {% else %}
+    <img src="{% static 'images/picture.svg' %}" class="avatar" alt="avatar" width="45px" height="45px">
+    {% endif %}
+    با نگارش پست جدید، پست شما را به اشتراک گذاشته است.
+</a>
 {% endif %}
 
-{{notification.user.username}}
-{{notification.notification_type}}
-
+</li>
+</div>
 {% endfor %}
-{% endblock content %}

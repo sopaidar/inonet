@@ -54,7 +54,11 @@ class ValidateView(View):
     def post(self, request):
         fingerprint = self.request.POST.get("fingerprint")
         try:
-            fp = FingerPrint.objects.get(fingerprint=fingerprint)
+            fp = FingerPrint.objects.filter(fingerprint=fingerprint)
+            if len(fp) < 1:
+                return JsonResponse({"status": "not found"})
+            else:
+                fp = fp[0]
             if self.request.user.is_authenticated:
                 return JsonResponse(
                     {
@@ -62,7 +66,8 @@ class ValidateView(View):
                         "fingerprint": fp.fingerprint,
                         "date": [fp.date_time.year, fp.date_time.month, fp.date_time.day],
                         "time": f"{fp.date_time.hour}:{fp.date_time.minute}:{fp.date_time.second}",
-                        "id": fp.pk, "work": fp.work.pk,
+                        "id": fp.pk,
+                        "work": {"id":fp.work.pk, "title":fp.work.title},
                         "user":{"username":fp.work.user.username, "first_name":fp.work.user.first_name, "last_name": fp.work.user.last_name}
                     }
                 )

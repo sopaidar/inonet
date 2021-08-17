@@ -44,11 +44,23 @@
         </div>
   </div>
   <div id="spinner" class="p-5" style="display: none;">
-    <div class="d-flex justify-content-center">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-grow text-primary m-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-success m-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-warning m-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-info m-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-danger m-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
-      </div>
   </div>
 
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
@@ -61,7 +73,7 @@
         <div class="text-center">
             {% if request.user.is_authenticated %}
                 <p>این اثرانگشت در تاریخ <span id="date"></span> ساعت <span id="time"></span> توسط <a href="" id="user-profile"><span id="user"></span></a> ثبت شده است.</p>
-                <p>نام اثر: </p>
+                <p>نام اثر: <a href="" id="work-link"><span id="work-title"></span></a></p>
             {% else %}
             این اثر پیش‌تر در «اینونت» ثبت شده است. برای کسب اطلاعات بیش‌تر وارد حساب کاربری خود شوید.
             {% endif %}
@@ -108,7 +120,9 @@
                     document.getElementById("date").innerHTML = date.jy+"/"+date.jm+ "/"+ date.jd;
                     document.getElementById("time").innerHTML = res.time;
                     document.getElementById("user").innerHTML = res.user.first_name + " " + res.user.last_name;
-                    document.getElementById("user-profile").setAttribute("href", "/users/"+res.user.username+"/");                 
+                    document.getElementById("user-profile").setAttribute("href", "/users/"+res.user.username+"/");
+                    document.getElementById("work-title").innerHTML = res.work.title;
+                    document.getElementById("work-link").setAttribute("href", "/works/"+res.work.id+"/");
                     {% endif %}
                 } else if (res.status === "not found") {
                     document.getElementById("spinner").style.display= "none";

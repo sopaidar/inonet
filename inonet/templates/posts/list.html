@@ -50,7 +50,7 @@
                         {% elif post.post_type == 'خبر جدید' %}
                     <a href="/users/{{post.user.username}}/" class="user-first-last-name">{{post.user.first_name}}
                         {{post.user.last_name}}</a>
-                        {% elif post.post_type == 'خبر به اشتراک‌گذاری شده' %}
+                        {% elif post.post_type == 'خبر بازنشر شده' %}
                     <a href="/users/{{post.user.username}}/" class="user-first-last-name">{{post.user.first_name}}
                         {{post.user.last_name}}</a>
                         {% endif %}
@@ -73,7 +73,7 @@
                     </div>
                 {% endif %}
             </div>
-            {% if post.post_type == 'خبر به اشتراک‌گذاری شده' %}
+            {% if post.post_type == 'خبر بازنشر شده' %}
             <a href="/posts/{{post.shared_post.pk}}/" class="user-first-last-name d-block">
                 <div class="shared-post-preview p-2 text-muted">
                     <div class="post-row">
@@ -86,7 +86,7 @@
                             {% if post.shared_post.post_type == 'اثر جدید' %} {{post.shared_post.user.first_name}} {{post.shared_post.user.last_name}} اثر {{post.shared_post.work.title}} ({{post.shared_post.work.work_type}}) را ثبت نمود.
                             {% elif post.shared_post.post_type == 'گواهی زمانی جدید' %} {{post.shared_post.user.first_name}} {{post.shared_post.user.last_name}} یک گواهی زمانی برای اثر {{post.shared_post.fingerprint.work.title}} ({{post.shared_post.fingerprint.work.work_type}}) ثبت نمود.
                             {% elif post.shared_post.post_type == 'خبر جدید' %} {{post.shared_post.user.first_name}} {{post.shared_post.user.last_name}}
-                            {% elif post.shared_post.post_type == 'خبر به اشتراک‌گذاری شده' %} {{post.shared_post.user.first_name}} {{post.shared_post.user.last_name}}
+                            {% elif post.shared_post.post_type == 'خبر بازنشر شده' %} {{post.shared_post.user.first_name}} {{post.shared_post.user.last_name}}
                             {% endif %}
                             <p class="small user-name mb-0">@{{post.shared_post.user.username}}</p>
                         </div>
@@ -125,6 +125,9 @@
                             <i class="material-icons is-liked bouncy">favorite</i>
                             <span class="like-overlay"></span>
                         </a>
+                        <p class="text-muted text-small">
+                            <small><span id="{{post.pk}}-likes-count">{{post.likes}}</span> پسند</small>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -136,6 +139,9 @@
                             <i class="material-icons is-liked bouncy">chat</i>
                             <span class="like-overlay"></span>
                         </a>
+                        <p class="text-muted text-small">
+                            <small><span id="{{post.pk}}-comments-count">{{post.comments}}</span> نظر</small>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -147,6 +153,9 @@
                             <i class="material-icons is-liked bouncy">share</i>
                             <span class="like-overlay"></span>
                         </a>
+                        <p class="text-muted text-small">
+                            <small><span id="{{post.pk}}-share-count">{{post.shares}}</span> بازنشر</small>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -158,6 +167,9 @@
                             <i class="material-icons is-liked bouncy">ios_share</i>
                             <span class="like-overlay"></span>
                         </a>
+                        <p class="text-muted text-small">
+                            <small>به‌اشتراک‌گذاری</small>
+                        </p>
                         <ul class="dropdown-menu" aria-labelledby="share-button">
                             <li><a class="dropdown-item" href="javascript:copyaddress({{post.pk}});">کپی لینک</a></li>
                             <li><a class="dropdown-item system-share" href="javascript:shareaddress({{post.pk}});">به اشتراک‌گذاری با...</a></li>

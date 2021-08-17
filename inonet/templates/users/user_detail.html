@@ -131,7 +131,6 @@
         {% endblock modal %} {% block inline_javascript %}
         <script>
             document.addEventListener("DOMContentLoaded", ()=> {
-                console.log("hey")
                 buuton_is_followed()
             })
         </script>
@@ -161,7 +160,7 @@
             document.getElementById("upload-image-button").addEventListener("click", () => {
                 console.log('click');
                 const data = document.getElementById("upload-image-form");
-                const url = "/works/{{object.pk}}/upload_image/";
+                const url = "/users/~upload_avatar/";
                 async function sendData(url, data) {
                     const formData = new FormData(data);
 

@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http.response import JsonResponse
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView, ListView
@@ -54,3 +55,19 @@ class UserPosts(LoginRequiredMixin, ListView):
         user = User.objects.get(username=self.kwargs["username"])
         qs = Post.objects.filter(user=user,draft=False).order_by("-pk")
         return qs
+
+
+class UserAvatarUpdateView(LoginRequiredMixin, UpdateView):
+    model= User
+    fields= ["avatar"]
+    template_name = "works/detail.html"
+
+    def get_object(self):
+        return self.request.user
+
+    def form_valid(self, form):
+        form.save()
+        return JsonResponse({'msg': 'success', 'new_pic_url': self.object.avatar.url})
+
+    def form_invalid(self, form):
+        return JsonResponse({'msg': 'failed', 'errors': form._errors})

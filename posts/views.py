@@ -30,8 +30,8 @@ class PostCreateView(LoginRequiredMixin ,CreateView):
         user = self.request.user
         form.instance.user = user
         if form.instance.shared_post:
-            form.instance.post_type = _("خبر به اشتراک‌گذاری شده")
-            notification = Notification(actor=user, user=form.instance.shared_post.user, notification_type=_("به اشتراک‌گذاری جدید (با متن)"), post=form.instance.shared_post)
+            form.instance.post_type = _("خبر بازنشر شده")
+            notification = Notification(actor=user, user=form.instance.shared_post.user, notification_type=_("بازنشر جدید (با متن)"), post=form.instance.shared_post)
             notification.save()
         else:
             form.instance.post_type = _("خبر جدید")
@@ -134,13 +134,15 @@ class ShareCreateView(LoginRequiredMixin ,CreateView):
         user = self.request.user
         try:
             share = Share.objects.get(user=user, post=post)
+            if share.shared == True:
+                return JsonResponse({"status":"failed", 'errors': "shared before"})
             share.shared = True
             share.save()
             post.shares = post.shares + 1
             post.save()
             user.shares["shares"].append(post.pk)
             user.save()
-            notification = Notification(actor=user, user=post.user, notification_type=_("به اشتراک‌گذاری جدید"), post=post)
+            notification = Notification(actor=user, user=post.user, notification_type=_("بازنشر جدید"), post=post)
             notification.save()
             return JsonResponse({"status":"success"})
         except Share.DoesNotExist:
@@ -155,10 +157,11 @@ class ShareCreateView(LoginRequiredMixin ,CreateView):
         post.save()
         if "shares" in user.shares:
             user.shares["shares"].append(post.pk)
+            user.save()
         else:
             user.shares = {"shares":[post.pk]}
             user.save()
-        notification = Notification(actor=user, user=post.user, notification_type=_("به اشتراک‌گذاری جدید"), post=post)
+        notification = Notification(actor=user, user=post.user, notification_type=_("بازنشر جدید"), post=post)
         notification.save()
         return JsonResponse({"status":"success"})
     def form_invalid(self, form):
@@ -209,6 +212,8 @@ class CommentCreateView(LoginRequiredMixin ,CreateView):
         form.save()
         notification = Notification(actor=user, user=post.user, notification_type=_("نظر جدید"), post=post)
         notification.save()
+        post.comments= post.comments + 1
+        post.save()
         return JsonResponse({"status":"success"})
     def form_invalid(self, form):
         return JsonResponse({"status":"failed", 'errors': form._errors})
