@@ -20,7 +20,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link href="{% static 'css/project.css' %}" rel="stylesheet"> {% block added_css %} {% endblock added_css %} {% endblock %} {% block javascript %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     {% block added_javascript %} {% endblock added_javascript %} {% endblock javascript %}
 
 </head>
@@ -194,16 +194,14 @@
                             <input class="post-input p-2" id="new-post-shared_post" name="shared_post">
 
                         </div>
-                        <div class="fieldWrapper d-none shared-post-preview p-2 text-muted" id="shared-post">
-
-                        </div>
+                        
                         <div class="fieldWrapper d-none">
                             {{ form.draft.errors }}
                             <input type="checkbox" name="draft" id="id_draft">
                         </div>
                         <div class="fieldWrapper" id="new-post-image">
                             {{ form.image.errors }}
-                            <label class="text-center text-primary" for="picture-upload-file">
+                            <label class="text-center text-primary" for="post-picture-upload-file">
                                 <img id="new-post-picture-upload-img" src="">
                                 <span id="new-post-image-label">افزودن تصویر</span>
                             </label>
@@ -211,7 +209,10 @@
                                 <img id="close-button" class="close-button-icon" src="{% static 'images/close-red.png' %}" alt="" width="24px" height="24px">
 
                             </div>
-                            <input name="image" type="file" id="picture-upload-file" />
+                            <input name="image" type="file" id="post-picture-upload-file" />
+                        </div>
+                        <div class="fieldWrapper d-none shared-post-preview p-2 text-muted mb-2" id="shared-post">
+
                         </div>
                     </form>
                     <div class="pt-2" style="text-align: left;">
@@ -315,6 +316,7 @@
         </form>
     </div>
     <script src="{% static 'js/autosize.js' %}"></script>
+    <script src="{% static 'js/persian-date.js' %}"></script>
     <script src="{% static 'js/app.js' %}"></script>
     {% block end_javascript %}{% endblock end_javascript %}
 

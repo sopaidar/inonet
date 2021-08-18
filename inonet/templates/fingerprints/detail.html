@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block content %}
+<div class="container-fluid pt-5 original-background page-app">
+    <div class="col-md-6 mx-auto bg-white post p-5 word-wrap">
+        <h1 class="text-center">گواهی زمانی</h1>
+        <p>
+            نام اثر:
+            <a href="/works/{{object.work.uuid}}">
+                {{object.work.title}}
+            </a>
+        </p>
+        <p>
+            نام ثبت‌کننده:
+            <a href="/works/{{object.user.usernam}}">
+                {{object.user.first_name}} {{object.user.last_name}}
+            </a>
+        </p>
+        <p>تاریخ و زمان:
+            <span class="persian-date text-primary">{{fingerprint.date_time}}</span>
+        </p>
+        <p>
+            اثرانگشت اثر (خروجی تابع SHA-256 اثر):
+            <a href="javascript:copy_element_text('{{object.fingerprint}}');">
+                <p class="text-center">
+                    {{object.fingerprint}}
+                </p>
+            </a>
+        </p>
+        
+        <div class="qrcode-div" id="{{object.uuid}}-qrcode"></div>
+
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/qrcode.js' %}"></script>
+<script>
+    let uuid = "{{object.uuid}}"
+    new QRCode(document.getElementById("{{object.uuid}}-qrcode"),
+    `https://inonet.ir/fingerprints/detail/${uuid}/`,
+);
+</script>
+{% endblock content %}

@@ -295,3 +295,6 @@ CORS_URLS_REGEX = r"^/api/.*$"
 # Your stuff...
 # ------------------------------------------------------------------------------
 ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_FORMS = {
+    "signup": "inonet.users.forms.SignUpForm"
+}

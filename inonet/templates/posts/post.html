@@ -20,13 +20,13 @@
         <div id="post-text-{{object.uuid}}">
             <div class="post-row">
                 <div class="col col-avatar">
-                    {% if object.user.avatar.url %}
+                    {% if object.user.avatar and object.user.avatar.url %}
                     <a href="/users/{{object.user.username}}/" class="image-link">
                         <img src="{{object.user.avatar.url}}" alt="user avatar" width="50" height="50" class="avatar">
                     </a>
                     {% else %}
                     <a href="/users/{{object.user.username}}/" class="image-link">
-                        <img src="" alt="user avatar" width="50" height="50" class="avatar">
+                        <img src="{% static 'images/picture.svg' %}" alt="user avatar" width="50" height="50" class="avatar">
                     </a>
                     {% endif %}
                 </div>
@@ -57,12 +57,12 @@
             {% endif %}
             {% if post.post_type == 'خبر بازنشر شده' %}
             <a href="/posts/{{object.shared_post.uuid}}/" class="user-first-last-name d-block">
-                <div class="shared-post-preview p-2 text-muted">
+                <div class="shared-post-preview p-2 text-muted mb-2">
                     <div class="post-row">
                         <div class="col col-avatar">
-                            {% if object.shared_post.user.avatar.url %}
+                            {% if object.shared_post.user.avatar and object.shared_post.user.avatar.url %}
                             <img src="{{object.shared_post.user.avatar.url}}" alt="user avatar" width="50" height="50" class="avatar"> {% else %}
-                            <img src="" alt="user avatar" width="50" height="50" class="avatar"> {% endif %}
+                            <img src="{% static 'images/picture.svg' %}" alt="user avatar" width="50" height="50" class="avatar"> {% endif %}
                         </div>
                         <div class="col-title ps-2">
                             {% if object.shared_post.post_type == 'اثر جدید' %} {{object.shared_post.user.first_name}} {{object.shared_post.user.last_name}} اثر {{object.shared_post.work.title}} ({{object.shared_post.work.work_type}}) را ثبت نمود.
@@ -155,7 +155,7 @@
                         </p>
                         <ul class="dropdown-menu" aria-labelledby="share-button">
                             <li><a class="dropdown-item" href="javascript:copyaddress('{{object.uuid}}');">کپی لینک</a></li>
-                            <li><a class="dropdown-item system-share" href="javascript:shareaddress({{object.uuid}});">به اشتراک‌گذاری با...</a></li>
+                            <li><a class="dropdown-item system-share" href="javascript:shareaddress('{{object.uuid}}');">به اشتراک‌گذاری با...</a></li>
                         </ul>
                     </div>
                 </div>
@@ -166,7 +166,7 @@
                 <div class="comment-avatar">
                     {% if request.user.avatar and request.user.avatar.url %}
                     <img class="avatar" src="{{request.user.avatar.url}}" alt="user avatar" width="40px" height="40px"> {% else %}
-                    <img class="avatar" src="" alt=""> {% endif %}
+                    <img class="avatar" src="{% static 'images/picture.svg' %}" alt="user avatar" width="40px" height="40px"> {% endif %}
                 </div>
                 <div class="comment-input ps-2 pe-2">
                     <form class="comment-form" id="comment-form-{{object.uuid}}">

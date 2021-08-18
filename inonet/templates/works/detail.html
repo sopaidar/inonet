@@ -39,10 +39,13 @@
                 </div>
                 <div class="col-md-12 word-wrap">
                     {% for fingerprint in fingerprints %}
+                    
                     <p>تاریخ و زمان:</p>
-                    <p>{{fingerprint.date_time}}</p>
+                    <p class="persian-date">{{fingerprint.date_time}}</p>
                     <p>اثرانگشت:</p>
-                    <p dir="ltr">{{fingerprint.fingerprint|safe}}</p>
+                    <a href="/fingerprints/detail/{{fingerprint.uuid}}/">
+                        <p dir="ltr">{{fingerprint.fingerprint|safe}}</p>
+                    </a>
                     <hr>
                 {% endfor %}
                 </div>
@@ -148,4 +151,5 @@
     var exampleEl = document.getElementById('picture')
     var tooltip = new bootstrap.Tooltip(exampleEl, {delay: { "show": 10, "hide": 100 }, placement: "bottom"})
 </script>
+
 {% endblock inline_javascript %}

@@ -246,7 +246,10 @@ class PostComments(LoginRequiredMixin, View):
         for comment in data_json:
             user_pk = comment["fields"]["user"]
             user= User.objects.get(pk=user_pk)
-            comment["fields"]["user"] = {"username": user.username, "first_name": user.first_name, "last_name": user.last_name, "avatar_url": user.avatar.url}
+            user_avatar = None
+            if user.avatar and user.avatar.url:
+                user_avatar = user.avatar.url
+            comment["fields"]["user"] = {"username": user.username, "first_name": user.first_name, "last_name": user.last_name, "avatar_url": user_avatar}
 
         data_json = json.dumps(data_json)
 

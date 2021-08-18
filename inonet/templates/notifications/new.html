@@ -22,7 +22,7 @@ notifications_none
     <span class="material-icons-outlined align-middle text-danger">
     favorite
     </span>
-    {% if notification.actor.avatar.url %}
+    {% if  notification.actor.avatar and notification.actor.avatar.url %}
     <img src={{notification.actor.avatar.url}} height="45px" width="45px" class="avatar">
     {% else %}
     <img src="{% static 'images/picture.svg' %}" class="avatar" alt="avatar" width="45px" height="45px">
@@ -37,7 +37,7 @@ notifications_none
     <span class="material-icons-outlined align-middle text-primary">
     chat
     </span>
-    {% if notification.actor.avatar.url %}
+    {% if  notification.actor.avatar and notification.actor.avatar.url %}
     <img src={{notification.actor.avatar.url}} height="45px" width="45px" class="avatar">
     {% else %}
     <img src="{% static 'images/picture.svg' %}" class="avatar" alt="avatar" width="45px" height="45px">
@@ -51,7 +51,7 @@ notifications_none
     <span class="material-icons-outlined align-middle text-primary">
     person_add
     </span>
-    {% if notification.actor.avatar.url %}
+    {% if  notification.actor.avatar and notification.actor.avatar.url %}
     <img src={{notification.actor.avatar.url}} height="45px" width="45px" class="avatar">
     {% else %}
     <img src="{% static 'images/picture.svg' %}" class="avatar" alt="avatar" width="45px" height="45px">
@@ -65,7 +65,7 @@ notifications_none
     <span class="material-icons-outlined align-middle text-success">
     share
     </span>
-    {% if notification.actor.avatar.url %}
+    {% if  notification.actor.avatar and notification.actor.avatar.url %}
     <img src={{notification.actor.avatar.url}} height="45px" width="45px" class="avatar">
     {% else %}
     <img src="{% static 'images/picture.svg' %}" class="avatar" alt="avatar" width="45px" height="45px">
@@ -78,7 +78,7 @@ notifications_none
     <span class="material-icons-outlined align-middle text-success">
     share
     </span>
-    {% if notification.actor.avatar.url %}
+    {% if  notification.actor.avatar and notification.actor.avatar.url %}
     <img src={{notification.actor.avatar.url}} height="45px" width="45px" class="avatar">
     {% else %}
     <img src="{% static 'images/picture.svg' %}" class="avatar" alt="avatar" width="45px" height="45px">

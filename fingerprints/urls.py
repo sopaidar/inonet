@@ -5,6 +5,7 @@ from .views import (
     NewFingerprintWorkView,
     ValidateView,
     UserFingerprintsListView,
+    FingerPrintDetailView
 )
 
 
@@ -13,5 +14,6 @@ urlpatterns = [
     path("new_work/", NewFingerprintWorkView.as_view(), name="new_work"),
     path("validate/", ValidateView.as_view(), name="validate"),
     path("user_fingerprints/<uuid:uuid>/", UserFingerprintsListView.as_view(), name="user-fingerprints"),
+    path("detail/<uuid:uuid>/", FingerPrintDetailView.as_view(), name="fingerprint-detail"),
 
 ]

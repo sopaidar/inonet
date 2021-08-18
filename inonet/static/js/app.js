@@ -1,3 +1,10 @@
+var get_new_likes = true;
+console.log(sessionStorage.getItem("get_new_likes"));
+if (sessionStorage.getItem("get_new_likes") == false) {
+  get_new_likes = false;
+  console.log("false");
+}
+
 // autosize
 function autosize_auto() {
   autosize(document.querySelectorAll(".autosize"));
@@ -50,7 +57,7 @@ document.getElementById("new-post-nav").addEventListener("click", () => {
 
 const new_post_image_file_reader = new FileReader();
 const new_post_image_file_fileInput = document.getElementById(
-  "picture-upload-file"
+  "post-picture-upload-file"
 );
 const new_post_image_file_img = document.getElementById(
   "new-post-picture-upload-img"
@@ -186,7 +193,7 @@ async function get_likes(is_new) {
       localStorage.getItem("inonet_likes") &&
       localStorage.getItem("inonet_shares")
     ) {
-      return true;
+      console.log("old_likes");
     } else {
       response = await fetch("/posts/user_likes/");
       res = await response.json();
@@ -195,7 +202,9 @@ async function get_likes(is_new) {
       localStorage.setItem("inonet_likes", res.likes.likes);
       localStorage.removeItem("inonet_shares");
       localStorage.setItem("inonet_shares", res.shares.shares);
-      console.log("likes:" + localStorage.getItem("inonet_likes"));
+      sessionStorage.setItem("get_new_likes", false);
+      get_new_likes = false;
+      console.log("new_likes");
     }
   } else {
     response = await fetch("/posts/user_likes/");
@@ -205,11 +214,13 @@ async function get_likes(is_new) {
     localStorage.setItem("inonet_likes", res.likes.likes);
     localStorage.removeItem("inonet_shares");
     localStorage.setItem("inonet_shares", res.shares.shares);
-    console.log("likes:" + localStorage.getItem("inonet_likes"));
+    sessionStorage.setItem("get_new_likes", false);
+    get_new_likes = false;
+    console.log("new_likes");
   }
 }
 
-get_likes(true);
+get_likes(get_new_likes);
 
 // buttons
 
@@ -226,7 +237,7 @@ async function like_post(id) {
   if (res.status === "success") {
     console.log("liked");
     new_likes = parseInt(
-      document.getElementById(`${id}-likes-count`).innerHTML + 1
+      parseInt(document.getElementById(`${id}-likes-count`).innerHTML) + 1
     );
     if (new_likes > -1) {
       document.getElementById(`${id}-likes-count`).innerHTML = new_likes;
@@ -249,7 +260,7 @@ async function dislike_post(id) {
     console.log("disliked");
     get_likes(true);
     new_likes = parseInt(
-      document.getElementById(`${id}-likes-count`).innerHTML - 1
+      parseInt(document.getElementById(`${id}-likes-count`).innerHTML) - 1
     );
     if (new_likes > -1) {
       document.getElementById(`${id}-likes-count`).innerHTML = new_likes;
@@ -260,11 +271,11 @@ async function dislike_post(id) {
 }
 
 function buttons() {
+  get_likes(false);
+  likes = localStorage.getItem("inonet_likes");
   els = document.getElementsByClassName("like-button");
   Array.prototype.forEach.call(els, function (el) {
-    async function get_likes_from_storage() {
-      await get_likes(false);
-      likes = await localStorage.getItem("inonet_likes");
+    function get_likes_from_storage() {
       if (likes.includes(el.id)) {
         el.classList.add("is-active");
       }
@@ -274,7 +285,6 @@ function buttons() {
       if (el.classList.contains("is-active")) {
         console.log("active");
         dislike_post(el.id);
-        get_likes(true);
       } else {
         console.log("not active");
         like_post(el.id);
@@ -291,10 +301,9 @@ const post_share_modal = new bootstrap.Modal(
 );
 const share_modal = new bootstrap.Modal(document.getElementById("share-modal"));
 
-async function get_shares_from_storage(element) {
-  await get_likes(false);
-  shares = await localStorage.getItem("inonet_shares");
-  console.log(shares);
+function get_shares_from_storage(element) {
+  shares = localStorage.getItem("inonet_shares");
+
   if (shares.includes(element.getAttribute("post-id"))) {
     element.classList.add("is-active");
   }
@@ -312,7 +321,7 @@ async function share_post(id) {
   if (res.status === "success") {
     console.log("shared");
     new_shares = parseInt(
-      document.getElementById(`${id}-share-count`).innerHTML + 1
+      parseInt(document.getElementById(`${id}-share-count`).innerHTML) + 1
     );
     if (new_shares > -1) {
       document.getElementById(`${id}-share-count`).innerHTML = new_shares;
@@ -334,7 +343,7 @@ async function unshare_post(id) {
   if (res.status === "success") {
     console.log("unshared");
     new_shares = parseInt(
-      document.getElementById(`${id}-share-count`).innerHTML - 1
+      parseInt(document.getElementById(`${id}-share-count`).innerHTML) - 1
     );
     if (new_shares > -1) {
       document.getElementById(`${id}-share-count`).innerHTML = new_shares;
@@ -346,6 +355,7 @@ async function unshare_post(id) {
 }
 
 function share_buttons() {
+  get_likes(false);
   els = document.getElementsByClassName("share-button");
   Array.prototype.forEach.call(els, function (el) {
     get_shares_from_storage(el);
@@ -363,7 +373,7 @@ function share_buttons() {
           .getElementById("unshare-unshare-post")
           .addEventListener("click", () => {
             unshare_post(el.getAttribute("post-id"));
-            get_likes(true);
+
             el.classList.remove("is-active");
             unshare_modal.hide();
           });
@@ -425,12 +435,17 @@ async function fetch_comments(post_id, is_new) {
       comment.classList.add("d-none");
     });
   }
+
   Array.prototype.forEach.call(res, (comment) => {
+    let comment_avatar = "/static/images/picture.svg";
+    if (comment.fields.user.avatar_url) {
+      comment_avatar = comment.fields.user.avatar_url;
+    }
     const comment_html = `
         <div class="new-comment-div">
             <div class="comment-avatar me-1">
             <a href="/users/${comment.fields.user.username}/" class="image-link">
-                <img src="${comment.fields.user.avatar_url}" class="avatar comment-avatar" alt="user avatar" width="40px" height="40px">
+                <img src="${comment_avatar}" class="avatar comment-avatar" alt="user avatar" width="40px" height="40px">
             </a>
             </div>
             <div class="comment">
@@ -538,6 +553,22 @@ function copyaddress(id) {
   document.body.removeChild(el);
 }
 
+function copy_element_text(text) {
+  const el = document.createElement("textarea");
+  el.value = text;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand("copy");
+  document.getElementById("toast-title").innerHTML = "کپی شد!";
+  document.getElementById("toast-body").innerHTML = `<p dir="ltr">${text}/</p>`;
+  const toast_div = document.getElementById("liveToast");
+  const toast = new bootstrap.Toast(toast_div, {
+    delay: 3000,
+  });
+  toast.show();
+  document.body.removeChild(el);
+}
+
 // system share post address
 async function shareaddress(id) {
   try {
@@ -572,7 +603,7 @@ async function get_followings(is_new) {
     if (res.status == "success") {
       localStorage.removeItem("inonet_followings");
       localStorage.setItem("inonet_followings", res.followings.followings);
-      console.log("followings:" + localStorage.getItem("inonet_followings"));
+      console.log("followings:" + res.followings.followings);
       return res.followings.followings;
     }
   }
@@ -696,80 +727,121 @@ document.getElementById("notification-icon").addEventListener("click", () => {
 });
 
 // ====================== loading =====================//
-
-const loading_div = `
-<div class="m-5">
-  <div class="d-flex justify-content-center">
-      <div class="spinner-grow text-primary m-2" role="status">
-          <span class="visually-hidden">Loading...</span>
-      </div>
-      <div class="spinner-grow text-success m-2" role="status">
-          <span class="visually-hidden">Loading...</span>
-      </div>
-      <div class="spinner-grow text-warning m-2" role="status">
-          <span class="visually-hidden">Loading...</span>
-      </div>
-      <div class="spinner-grow text-info m-2" role="status">
-          <span class="visually-hidden">Loading...</span>
-      </div>
-      <div class="spinner-grow text-danger m-2" role="status">
-          <span class="visually-hidden">Loading...</span>
-      </div>
-  </div>
-</div>
-`;
 function loading(id) {
+  const loading_div = `
+    <div class="m-5">
+      <div class="d-flex justify-content-center">
+          <div class="spinner-grow text-primary m-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>
+          <div class="spinner-grow text-success m-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>
+          <div class="spinner-grow text-warning m-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>
+          <div class="spinner-grow text-info m-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>
+          <div class="spinner-grow text-danger m-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>
+      </div>
+    </div>
+    `;
   console.log("loading");
   document.getElementById(id).innerHTML = loading_div;
 }
 
-//==================== lazy load ======================//
-document.addEventListener("DOMContentLoaded", function () {
-  var lazyloadImages;
-
-  if ("IntersectionObserver" in window) {
-    lazyloadImages = document.querySelectorAll(".lazy");
-    var imageObserver = new IntersectionObserver(function (entries, observer) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          var image = entry.target;
-          image.src = image.dataset.src;
-          image.classList.remove("lazy");
-          imageObserver.unobserve(image);
-        }
-      });
-    });
-
-    lazyloadImages.forEach(function (image) {
-      imageObserver.observe(image);
-    });
-  } else {
-    var lazyloadThrottleTimeout;
-    lazyloadImages = document.querySelectorAll(".lazy");
-
-    function lazyload() {
-      if (lazyloadThrottleTimeout) {
-        clearTimeout(lazyloadThrottleTimeout);
-      }
-
-      lazyloadThrottleTimeout = setTimeout(function () {
-        var scrollTop = window.pageYOffset;
-        lazyloadImages.forEach(function (img) {
-          if (img.offsetTop < window.innerHeight + scrollTop) {
-            img.src = img.dataset.src;
-            img.classList.remove("lazy");
-          }
-        });
-        if (lazyloadImages.length == 0) {
-          document.removeEventListener("scroll", lazyload);
-          window.removeEventListener("resize", lazyload);
-          window.removeEventListener("orientationChange", lazyload);
-        }
-      }, 20);
-    }
-
-    document.addEventListener("scroll", lazyload);
-    window.addEventListener("resize", lazyload);
-    window.addEventListener("orientationChange", lazyload);
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  const persian_date = document.querySelectorAll(".persian-date");
+  Array.prototype.forEach.call(persian_date, (date) => {
+    let new_date = new persianDate(date.innerHTML)
+      .toLocale("fa")
+      .toCalendar("persian")
+      .format("D MMMM YYYY - HH:m:s");
+    date.innerHTML = new_date;
+  });
 });
+
+//================== load posts ==========================//
+
+function add_loading(div_id, number) {
+  const loading_div = `
+    <div class="m-5" id="loading-post-${number}">
+      <div class="d-flex justify-content-center">
+          <div class="spinner-grow text-primary m-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>
+          <div class="spinner-grow text-success m-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>
+          <div class="spinner-grow text-warning m-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>
+          <div class="spinner-grow text-info m-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>
+          <div class="spinner-grow text-danger m-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>
+      </div>
+    </div>
+    `;
+  console.log(`loading-post-${number}`);
+  document.getElementById(div_id).insertAdjacentHTML("beforeend", loading_div);
+}
+
+
+
+// Globals
+let isFetching = false;
+let currentPage = 1;
+let has_pages = true;
+
+// Functions
+const fetchPosts = async (url, div_id, resize) => {
+  if (has_pages != true) {
+    return
+  }
+  if (currentPage > 1) {
+    add_loading(div_id, currentPage);
+  }
+  isFetching = true;
+  const response = await fetch(`${url}?page=${currentPage}`, {
+    method: "GET",
+  });
+  res = await response.text();
+  if (response.status !=200) {
+    document.getElementById(`loading-post-${currentPage}`).innerHTML = "<hr>"
+    has_pages = false
+    return
+  }
+  if (currentPage < 2) {
+    document.getElementById(div_id).innerHTML = res;
+  } else {
+    document.getElementById(div_id).insertAdjacentHTML("beforeend", res);
+  }
+  await buttons();
+  await share_buttons();
+  await comment_buttons();
+  await action_buttons();
+  await autosize_auto();
+  if (resize) {
+    const posts_div = document.getElementsByClassName("post-div");
+    Array.prototype.forEach.call(posts_div, (post) => {
+      post.classList.remove("col-md-6");
+      post.classList.add("col-md-8");
+    });
+
+  }
+  if (currentPage > 1) {
+    document.getElementById(`loading-post-${currentPage}`).classList.add("d-none")
+  }
+  currentPage++;
+  isFetching = false;
+};
+
+
+
+

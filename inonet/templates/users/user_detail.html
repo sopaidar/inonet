@@ -1,316 +1,423 @@
-{% extends "base.html" %} {% load static %} {% block title %}نمایه {{ object.username }}{% endblock %} {% block content %} {% if object == request.user %}{% endif %}
+{% extends "base.html" %} {% load static %} {% block title %}نمایه {{object.username }}{% endblock %} {% block content %} {% if object == request.user %}{% endif %}
 <!-- <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a> -->
 <!-- Action buttons -->
 <div class="container-fluid pt-5 original-background page-app mb-2">
-    <div class="col-sm-12 col-md-8 mx-auto post p-4">
-        <div class="row">
-            <div class="col-12 col-sm-5 col-md-5 col-xl-3">
-                {% if object.avatar %}
-                <img src="{{object.avatar.url}}" alt="" class="work-picture mb-4 profile-avatar d-block mx-auto" width="100%" id="picture" data-bs-toggle="tooltip" title="تغییر تصویر شاخص"> {% else %}
-                <img src="{% static 'images/picture.svg' %}" class="work-picture mb-4 profile-avatar d-block mx-auto" alt="" width="100%" id="picture" data-bs-toggle="tooltip" title="تغییر تصویر شاخص"> {% endif %}
-            </div>
-            <div class="pt-4 col-12 col-sm-7 col-md-7 col-xl-9 ps-1">
-                <h1 class="user-title">{{object.first_name}} {{object.last_name}}</h1>
-                <p class="profile-user-name">@{{object.username}}</p>
-                <p>
-                    {% if object.bio %} {{object.bio}} {% else %} {% if object == request.user %} <a class="bio-noinfo" href="{% url 'users:update' %}"> با تکمیل بخش درباره من در ویرایش اطلاعات، متن درباره من این‌جا نمایش داده
-            می‌شود. </a>{% endif %} {% endif %}
-                </p>
-                <p class="user-title">
-                    {% if object == request.user %}
-                        <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">ویرایش اطلاعات</a>
-                    {% else %}
-                        <a class="btn follow-button" href="javascript:follow('{{object.username}}');" id="{{object.username}}" role="button">
-                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                        </a>
-                    {% endif %}
-                </p>
-            </div>
-        </div>
-        <div class="ps-2 pe-2 pt-0">
-            <hr>
-            <div class="row text-center pb-0 pt-1 mb-0">
-                <div class="col-md-3 col-sm-6 col-6">
-                    <p>
-                        <a href="javascript:void(0);" id="works" class="home-icon-link">
-                            <span class="material-icons-outlined font-50 new-work-icon align-middle">
+  <div class="col-sm-12 col-md-8 mx-auto post p-4">
+    <div class="row">
+      <div class="col-12 col-sm-5 col-md-5 col-xl-3">
+        {% if object.avatar %}
+        <img
+          src="{{object.avatar.url}}"
+          alt=""
+          class="work-picture mb-4 profile-avatar d-block mx-auto"
+          width="100%"
+          id="picture"
+          data-bs-toggle="tooltip"
+          title="تغییر تصویر شاخص"
+        />
+        {% else %}
+        <img
+          src="{% static 'images/picture.svg' %}"
+          class="work-picture mb-4 profile-avatar d-block mx-auto"
+          alt=""
+          width="100%"
+          id="picture"
+          data-bs-toggle="tooltip"
+          title="تغییر تصویر شاخص"
+        />
+        {% endif %}
+      </div>
+      <div class="pt-4 col-12 col-sm-7 col-md-7 col-xl-9 ps-1">
+        <h1 class="user-title">{{object.first_name}} {{object.last_name}}</h1>
+        <p class="profile-user-name">@{{object.username}}</p>
+        <p>
+          {% if object.bio %} {{object.bio}} {% else %} {% if object == request.user %}
+          <a class="bio-noinfo" href="{% url 'users:update' %}">
+            با تکمیل بخش درباره من در ویرایش اطلاعات، متن درباره من این‌جا نمایش
+            داده می‌شود. </a
+          >{% endif %} {% endif %}
+        </p>
+        <p class="user-title">
+          {% if object == request.user %}
+          <a
+            class="btn btn-primary"
+            href="{% url 'users:update' %}"
+            role="button"
+            >ویرایش اطلاعات</a
+          >
+          {% else %}
+          <a
+            class="btn follow-button"
+            href="javascript:follow('{{object.username}}');"
+            id="{{object.username}}"
+            role="button"
+          >
+            <span
+              class="spinner-grow spinner-grow-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+          </a>
+          {% endif %}
+        </p>
+      </div>
+    </div>
+    <div class="ps-2 pe-2 pt-0">
+      <hr />
+      <div class="row text-center pb-0 pt-1 mb-0">
+        <div class="col-md-3 col-sm-6 col-6">
+          <p>
+            <a href="javascript:void(0);" id="works" class="home-icon-link">
+              <span
+                class="
+                  material-icons-outlined
+                  font-50
+                  new-work-icon
+                  align-middle
+                "
+              >
                 note_add
-              </span> آثار
-
-                        </a>
-                    </p>
-                </div>
-                <div class="col-md-3 col-sm-6 col-6">
-                    <p>
-                        <a href="javascript:void(0);" id="fingerprints" class="home-icon-link">
-                            <span class="material-icons-outlined font-50 fingerprint-icon align-middle">
+              </span>
+              آثار
+            </a>
+          </p>
+        </div>
+        <div class="col-md-3 col-sm-6 col-6">
+          <p>
+            <a
+              href="javascript:void(0);"
+              id="fingerprints"
+              class="home-icon-link"
+            >
+              <span
+                class="
+                  material-icons-outlined
+                  font-50
+                  fingerprint-icon
+                  align-middle
+                "
+              >
                 fingerprint
-              </span> گواهی‌‌های زمانی
-
-                        </a>
-                    </p>
-                </div>
-                <div class="col-md-3 col-sm-6 col-6">
-                    <p>
-                        <a href="javascript:void(0);" class="home-icon-link" id="user-posts">
-                            <span class="material-icons-outlined font-50 feed-icon align-middle">
+              </span>
+              گواهی‌‌های زمانی
+            </a>
+          </p>
+        </div>
+        <div class="col-md-3 col-sm-6 col-6">
+          <p>
+            <a
+              href="javascript:void(0);"
+              class="home-icon-link"
+              id="user-posts"
+            >
+              <span
+                class="material-icons-outlined font-50 feed-icon align-middle"
+              >
                 feed
-              </span> خبرها
-
-                        </a>
-                    </p>
-                </div>
-                <div class="col-md-3 col-sm-6 col-6">
-                    <p>
-                        <a href="/fingerprints/validate/" class="home-icon-link">
-                            <span class="material-icons-outlined font-50 verified-icon align-middle">
+              </span>
+              خبرها
+            </a>
+          </p>
+        </div>
+        <div class="col-md-3 col-sm-6 col-6">
+          <p>
+            <a href="/fingerprints/validate/" class="home-icon-link">
+              <span
+                class="
+                  material-icons-outlined
+                  font-50
+                  verified-icon
+                  align-middle
+                "
+              >
                 verified
-              </span> اعتبارسنجی
-
-                        </a>
-                    </p>
-                </div>
-            </div>
+              </span>
+              اعتبارسنجی
+            </a>
+          </p>
         </div>
-
+      </div>
     </div>
-    <div id="user-data" class="col-sm-12 col-md-8 mx-auto post p-4 mt-2">
-        <div class="m-5">
-            <div class="d-flex justify-content-center">
-                <div class="spinner-grow text-primary m-2" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow text-success m-2" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow text-warning m-2" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow text-info m-2" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow text-danger m-2" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
+  </div>
+  <div id="user-data" class="col-sm-12 col-md-8 mx-auto post p-4 mt-2">
+    <div class="m-5">
+      <div class="d-flex justify-content-center">
+        <div class="spinner-grow text-primary m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
-    </div>
-    <div id="user-posts-div" class="d-none">
-        <div class="m-5">
-            <div class="d-flex justify-content-center">
-                <div class="spinner-grow text-primary m-2" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow text-success m-2" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow text-warning m-2" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow text-info m-2" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow text-danger m-2" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
+        <div class="spinner-grow text-success m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
+        <div class="spinner-grow text-warning m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-info m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-danger m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
     </div>
-    <div>
-
-
-        {% endblock content %} {% block modal %}
-        <div class="modal fade" id="update-picture-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">به روزرسانی تصویر شاخص</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="picture-upload-div">
-                            <form id="upload-image-form">
-                                {% csrf_token %}
-                                <label class="text-center text-primary" for="picture-upload-file"><img id="picture-upload-img"
-                    src="{% if object.avatar %}{{object.avatar.url}}{% else %}{% static 'images/picture.svg' %}{% endif %}" />
+  </div>
+  <div id="user-posts-div" class="d-none">
+    <div class="m-5">
+      <div class="d-flex justify-content-center">
+        <div class="spinner-grow text-primary m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-success m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-warning m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-info m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-danger m-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    {% endblock content %} {% block modal %}
+    <div
+      class="modal fade"
+      id="update-picture-modal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              به روزرسانی تصویر شاخص
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="picture-upload-div">
+              <form id="upload-image-form">
+                {% csrf_token %}
+                <label
+                  class="text-center text-primary"
+                  for="picture-upload-file"
+                  ><img
+                    id="picture-upload-img"
+                    src="{% if object.avatar %}{{object.avatar.url}}{% else %}{% static 'images/picture.svg' %}{% endif %}"
+                  />
                   انتخاب تصویر جدید
                 </label>
-                                <input name="avatar" type="file" id="picture-upload-file" />
-                            </form>
-                            <p class="text-center text-danger" id="picture-upload-msg"></p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">لغو</button>
-                        <button type="button" id="upload-image-button" class="btn btn-success">ارسال</button>
-                    </div>
-                </div>
+                <input name="avatar" type="file" id="picture-upload-file" />
+              </form>
+              <p class="text-center text-danger" id="picture-upload-msg"></p>
             </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              لغو
+            </button>
+            <button
+              type="button"
+              id="upload-image-button"
+              class="btn btn-success"
+            >
+              ارسال
+            </button>
+          </div>
         </div>
-        {% endblock modal %} {% block end_javascript %}
-        <script>
-            document.addEventListener("DOMContentLoaded", ()=> {
-                buuton_is_followed()
-            })
-        </script>
-        <script>
-            var myModal = new bootstrap.Modal(document.getElementById('update-picture-modal'))
-            document.getElementById("picture").addEventListener('click', () => {
-                myModal.show()
-            })
-        </script>
-        <script>
-            const reader = new FileReader();
-            const fileInput = document.getElementById("picture-upload-file");
-            const img = document.getElementById("picture-upload-img");
-            let file;
+      </div>
+    </div>
+    {% endblock modal %} {% block end_javascript %}
+    <script>
+        var show_posts = false;
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        buuton_is_followed();
+      });
+    </script>
+    <script>
+      var myModal = new bootstrap.Modal(
+        document.getElementById("update-picture-modal")
+      );
+      document.getElementById("picture").addEventListener("click", () => {
+        myModal.show();
+      });
+    </script>
+    <script>
+      const reader = new FileReader();
+      const fileInput = document.getElementById("picture-upload-file");
+      const img = document.getElementById("picture-upload-img");
+      let file;
 
-            reader.onload = e => {
-                img.src = e.target.result;
+      reader.onload = (e) => {
+        img.src = e.target.result;
+      };
+
+      fileInput.addEventListener("change", (e) => {
+        const f = e.target.files[0];
+        file = f;
+        reader.readAsDataURL(f);
+      });
+    </script>
+    <script>
+      document
+        .getElementById("upload-image-button")
+        .addEventListener("click", () => {
+          const data = document.getElementById("upload-image-form");
+          const url = "/users/~upload_avatar/";
+          async function sendData(url, data) {
+            const formData = new FormData(data);
+
+            // for(const name in data) {
+            //     formData.append(name, data[name]);
+            // }
+            console.log(formData);
+            const response = await fetch(url, {
+              method: "POST",
+              body: formData,
+            });
+            const res = await response.json();
+            console.log(res);
+            if (res.msg === "success") {
+              myModal.hide();
+              document
+                .getElementById("picture")
+                .setAttribute("src", res.new_pic_url);
+            } else if (res.msg === "failed") {
+              let text = "";
+              for (let x in res.errors) {
+                text += res.errors[x];
+              }
+              document.getElementById("picture-upload-msg").innerHTML = text;
+            } else {
+              document.getElementById("picture-upload-msg").innerHTML =
+                "خطا! لطفا بعدا تلاش کنید!";
             }
+          }
+          sendData(url, data);
+        });
+    </script>
+    <script>
+      var exampleEl = document.getElementById("picture");
+      var tooltip = new bootstrap.Tooltip(exampleEl, {
+        delay: {
+          show: 10,
+          hide: 100,
+        },
+        placement: "bottom",
+      });
+    </script>
+    <script>
+      async function load_works() {
+        document.getElementById("user-data").classList.remove("d-none");
+        loading("user-data");
+        document.getElementById("user-posts-div").classList.add("d-none");
+        const response = await fetch("/works/user_works/{{object.uuid}}/", {
+          method: "GET",
+        });
+        document.getElementById("user-data").innerHTML = await response.text();
+        await console.log(response);
+      }
+      load_works();
+      document.getElementById("works").addEventListener("click", () => {
+          show_posts = false;
+        load_works();
+      });
+    </script>
+    <script>
+      function work_filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown");
+        a = document.getElementsByClassName("work-title");
+        for (i = 0; i < a.length; i++) {
+          txtValue = a[i].textContent || a[i].innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+          } else {
+            a[i].style.display = "none";
+          }
+        }
+      }
+    </script>
 
-            fileInput.addEventListener('change', e => {
-                const f = e.target.files[0];
-                file = f;
-                reader.readAsDataURL(f);
-            })
-        </script>
-        <script>
-            document.getElementById("upload-image-button").addEventListener("click", () => {
-                const data = document.getElementById("upload-image-form");
-                const url = "/users/~upload_avatar/";
-                async function sendData(url, data) {
-                    const formData = new FormData(data);
-
-                    // for(const name in data) {
-                    //     formData.append(name, data[name]);
-                    // }
-                    console.log(formData)
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        body: formData
-                    });
-                    const res = await response.json();
-                    console.log(res);
-                    if (res.msg === "success") {
-                        myModal.hide();
-                        document.getElementById("picture").setAttribute("src", res.new_pic_url);
-
-                    } else if (res.msg === "failed") {
-                        let text = "";
-                        for (let x in res.errors) {
-                            text += res.errors[x];
-                        }
-                        document.getElementById("picture-upload-msg").innerHTML = text;
-                    } else {
-                        document.getElementById("picture-upload-msg").innerHTML = "خطا! لطفا بعدا تلاش کنید!";
-                    }
-                }
-                sendData(url, data);
-
-
-            })
-        </script>
-        <script>
-            var exampleEl = document.getElementById('picture')
-            var tooltip = new bootstrap.Tooltip(exampleEl, {
-                delay: {
-                    "show": 10,
-                    "hide": 100
-                },
-                placement: "bottom"
-            })
-        </script>
-        <script>
-            async function load_works() {
-                document.getElementById("user-data").classList.remove("d-none")
-                loading("user-data");
-                document.getElementById("user-posts-div").classList.add("d-none")
-                const response = await fetch("/works/user_works/{{object.uuid}}/", {
-                    method: 'GET',
-                });
-                document.getElementById("user-data").innerHTML = await response.text();
-                await console.log(response)
+    <script>
+      document.getElementById("fingerprints").addEventListener("click", () => {
+          show_posts = false;
+        async function load_fingerprints() {
+          loading("user-data");
+          document.getElementById("user-data").classList.remove("d-none");
+          document.getElementById("user-posts-div").classList.add("d-none");
+          const response = await fetch(
+            "/fingerprints/user_fingerprints/{{object.uuid}}/",
+            {
+              method: "GET",
             }
-            load_works();
-            document.getElementById("works").addEventListener("click", () => {
-                load_works();
-            })
-        </script>
-        <script>
-            function work_filterFunction() {
-                var input, filter, ul, li, a, i;
-                input = document.getElementById("myInput");
-                filter = input.value.toUpperCase();
-                div = document.getElementById("myDropdown");
-                a = document.getElementsByClassName("work-title");
-                for (i = 0; i < a.length; i++) {
-                    txtValue = a[i].textContent || a[i].innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        a[i].style.display = "";
-                    } else {
-                        a[i].style.display = "none";
-                    }
-                }
-            }
-        </script>
+          );
+          document.getElementById("user-data").innerHTML =
+            await response.text();
+          await console.log(response);
+        }
+        load_fingerprints();
+      });
+    </script>
 
-        <script>
-            document.getElementById("fingerprints").addEventListener("click", () => {
-                async function load_fingerprints() {
-                    loading("user-data");
-                    document.getElementById("user-data").classList.remove("d-none")
-                    document.getElementById("user-posts-div").classList.add("d-none")
-                    const response = await fetch("/fingerprints/user_fingerprints/{{object.uuid}}/", {
-                        method: 'GET',
-                    });
-                    document.getElementById("user-data").innerHTML = await response.text();
-                    await console.log(response)
-                }
-                load_fingerprints();
-            })
-        </script>
+    <script>
+      function fingerprint_filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown");
+        a = document.getElementsByClassName("fingerprint-title");
+        for (i = 0; i < a.length; i++) {
+          txtValue = a[i].textContent || a[i].innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+          } else {
+            a[i].style.display = "none";
+          }
+        }
+      }
+    </script>
+    <script>
+      document.getElementById("user-posts").addEventListener("click", () => {
+        show_posts = true;
+        document.getElementById("user-data").classList.add("d-none");
+        document.getElementById("user-posts-div").classList.remove("d-none");
+        
+        fetchPosts("/users/{{object.username}}/posts/", "user-posts-div", true);
 
-        <script>
-            function fingerprint_filterFunction() {
-                var input, filter, ul, li, a, i;
-                input = document.getElementById("myInput");
-                filter = input.value.toUpperCase();
-                div = document.getElementById("myDropdown");
-                a = document.getElementsByClassName("fingerprint-title");
-                for (i = 0; i < a.length; i++) {
-                    txtValue = a[i].textContent || a[i].innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        a[i].style.display = "";
-                    } else {
-                        a[i].style.display = "none";
-                    }
-                }
-            }
-        </script>
-        <script>
-            async function load_posts() {
-                document.getElementById("user-data").classList.add("d-none")
-                document.getElementById("user-posts-div").classList.remove("d-none")
-                const response = await fetch("/users/{{object.username}}/posts/", {
-                    method: 'GET',
-                });
-                document.getElementById("user-posts-div").innerHTML = await response.text();
-                const posts_div = document.getElementsByClassName("post-div")
-                Array.prototype.forEach.call(posts_div, (post) => {
-                    post.classList.remove("col-md-6")
-                    post.classList.add("col-md-8")
-                })
 
-                await console.log(response)
-                await buttons();
-                await share_buttons();
-                await comment_buttons();
-                await action_buttons();
-                autosize_auto();
-            }
-            document.getElementById("user-posts").addEventListener("click", () => {
-                load_posts();
-            })
-        </script>
-        {% endblock end_javascript %}
+        window.addEventListener("scroll", async () => {
+          // Do not run if currently fetching
+          if (isFetching) return;
+          if (show_posts === false) return;
+          // Scrolled to bottom
+          if (
+            window.innerHeight + window.scrollY >=
+            document.body.offsetHeight
+          ) {
+            await fetchPosts("/users/{{object.username}}/posts/", "user-posts-div", true);
+            console.log(currentPage);
+          }
+        });
+      });
+    </script>
+    {% endblock end_javascript %}
+  </div>
+</div>

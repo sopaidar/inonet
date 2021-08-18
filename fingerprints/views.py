@@ -5,6 +5,7 @@ from django.views.generic.base import View
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from .models import FingerPrint
@@ -86,4 +87,10 @@ class UserFingerprintsListView(LoginRequiredMixin ,ListView):
         user = User.objects.get(uuid = self.kwargs['uuid'])
         qs = FingerPrint.objects.filter(user = user)
         return qs
-    
+
+
+class FingerPrintDetailView(DetailView):
+    model = FingerPrint
+    template_name = "fingerprints/detail.html"
+    def get_object(self):
+        return FingerPrint.objects.get(uuid = self.kwargs['uuid'])
