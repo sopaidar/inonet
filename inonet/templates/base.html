@@ -171,9 +171,9 @@
 
 
     <div id="content">
-    {% block content %} {% endblock content %}
+        {% block content %} {% endblock content %}
     </div>
-    
+
     {% block modal %} {% endblock modal %} {% block inline_javascript %} {% endblock inline_javascript %}
     <!-- new post -->
     <div class="modal fade" id="new-post-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -194,7 +194,7 @@
                             <input class="post-input p-2" id="new-post-shared_post" name="shared_post">
 
                         </div>
-                        
+
                         <div class="fieldWrapper d-none">
                             {{ form.draft.errors }}
                             <input type="checkbox" name="draft" id="id_draft">
@@ -276,8 +276,84 @@
         </div>
     </div>
 
-
-
+    <!-- report modal -->
+    <div class="modal fade" id="report-modal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content ask-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title">گزارش تخلف</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="report-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="report_type" id="report-form-report_type">
+                        <input type="hidden" name="post" id="report-form-post">
+                        <input type="hidden" name="user" id="report-form-user">
+                        <input type="hidden" name="comment" id="report-form-comment">
+                        <input type="hidden" name="work" id="report-form-work">
+                        <div id="report-subject">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="report_subject" id="report_subject1" value="از این مورد خوشم نمی‌آید" checked>
+                                <label class="form-check-label" for="report_subject1">
+                                    از این مورد خوشم نمی‌آید
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="report_subject" id="report_subject2" value="محتوای غیراخلاقی">
+                                <label class="form-check-label" for="report_subject2">
+                                    محتوای غیراخلاقی
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="report_subject" id="report_subject3" value="نفرت پراکنی نسبت به قومیت، زبان، ملیت یا گروهی خاص">
+                                <label class="form-check-label" for="report_subject3">
+                                    نفرت پراکنی نسبت به قومیت، زبان، ملیت یا گروهی خاص
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="report_subject" id="report_subject4" value="اطلاعات نادرست">
+                                <label class="form-check-label" for="report_subject4">
+                                    اطلاعات نادرست
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="report_subject" id="report_subject5" value="آزار یا تهدید">
+                                <label class="form-check-label" for="report_subject5">
+                                    آزار یا تهدید
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="report_subject" id="report_subject6" value="کلاه‌برداری یا تقلب">
+                                <label class="form-check-label" for="report_subject6">
+                                    کلاه‌برداری یا تقلب
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="report_subject" id="report_subject7" value="نقض حقوق مالکیت فکری">
+                                <label class="form-check-label" for="report_subject7">
+                                    نقض حقوق مالکیت فکری
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="report_subject" id="report_subject8" value="تبلیغ خودکشی یا آزار رساندن به خود">
+                                <label class="form-check-label" for="report_subject8">
+                                    تبلیغ خودکشی یا آزار رساندن به خود
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="report_subject" id="report_subject9" value="دیگر موارد غیرقانونی">
+                                <label class="form-check-label" for="report_subject9">
+                                    دیگر موارد غیرقانونی
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                    <a class="btn btn-primary" href="javascript:send_report();" id="report-submit">ارسال</a>
+                </div> 
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         {% if messages %} {% for message in messages %}

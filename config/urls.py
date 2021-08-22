@@ -21,7 +21,8 @@ urlpatterns = [
     path("posts/", include("posts.urls")),
     path("user/", include("following.urls")),
     path("notifications/", include("notifications.urls")),
-    path("search/", include("search.urls"))
+    path("search/", include("search.urls")),
+    path("report/", include("report.urls")),
 
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

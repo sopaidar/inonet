@@ -12,6 +12,7 @@ class User(AbstractUser):
     uuid = models.UUIDField(_("uuid"), unique=True, default=uuid.uuid4, editable=False)
     first_name = models.CharField(_("نام"), blank=True, max_length=255)
     last_name = models.CharField(_("نام خانوادگی"), blank=True, max_length=255)
+    full_name = models.CharField(_("نام کامل"), blank=True, max_length=511)
     bio = models.TextField(_("درباره من"), max_length=255, null=True, blank=True)
     avatar = models.ImageField(_("تصویر نمایه"), upload_to="avatars/", blank=True, null=True)
     followers = models.PositiveIntegerField(_("تعداد دنبال‌کنندگان"), default=0)
