@@ -81,8 +81,8 @@
 
             }) {% endcomment %}
 
-    document.addEventListener("DOMContentLoaded", async () => {
-      await fetchPosts("/posts/", "posts", false);
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchPosts("/posts/", "posts", false);
     });
 
     window.addEventListener("scroll", async () => {

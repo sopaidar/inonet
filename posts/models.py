@@ -27,6 +27,7 @@ class Post(models.Model):
     post_type = models.CharField(_("نوع پست"), choices=POST_TYPES, max_length=50)
     text = models.TextField(_("متن پست"), max_length=511)
     image = models.ImageField(_("تصویر"), upload_to='posts/', blank=True, null=True)
+    date_time = models.DateTimeField(_("زمان"), auto_now=True)
     draft = models.BooleanField(_("پیش‌نویس"), default=False, null=False, blank=False)
     likes = models.IntegerField(_("تعداد لایک‌ها"), default=0)
     comments = models.IntegerField(_("تعداد نظرها"), default=0)
@@ -73,6 +74,7 @@ class Comment(models.Model):
     answered_to = models.ForeignKey("self", verbose_name=_("کامنت پاسخ داده شده"), on_delete=models.CASCADE, blank=True, null=True, default= None)
     posted = models.BooleanField(_("بازنشر شده"), default=True)
     date_time = models.DateTimeField(_("زمان"),auto_now=True)
+    likes = models.IntegerField(_("تعداد لایک‌ها"), default=0)
 
     class Meta:
         verbose_name = _("Comment")
@@ -84,6 +86,26 @@ class Comment(models.Model):
     def get_absolute_url(self):
         return reverse("Comment_detail", kwargs={"uuid":self.uuid})
 
+class CommentLike(models.Model):
+
+    user = models.ForeignKey("users.User", verbose_name=_("کاربر"), on_delete=models.CASCADE)
+    uuid = models.UUIDField(_("uuid"), unique=True, default=uuid.uuid4, editable=False)
+    comment = models.ForeignKey(Comment, verbose_name=_("نظر"), on_delete=models.CASCADE)
+    liked = models.BooleanField(_("لایک شده"), default=True)
+    date_time = models.DateTimeField(_("زمان"),auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'comment'], name="unique_comment_like"),
+        ]
+        verbose_name = _("پسندیدن نظر")
+        verbose_name_plural = _("پسندیدن نظرها")
+
+    def __str__(self):
+        return f"post: {self.comment.uuid} - username: {self.user.username}"
+
+    def get_absolute_url(self):
+        return reverse("Like_detail", kwargs={"uuid":self.uuid})
 
 
 class Share(models.Model):

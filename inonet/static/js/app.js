@@ -1,8 +1,25 @@
 var get_new_likes = true;
-console.log(sessionStorage.getItem("get_new_likes"));
+var get_new_comment_likes = true;
+console.log(sessionStorage.getItem("get_new_comment_likes = get_new_likes"));
 if (sessionStorage.getItem("get_new_likes") == false) {
     get_new_likes = false;
     console.log("false");
+}
+if (sessionStorage.getItem("get_new_comment_likes") == false) {
+    get_new_comment_likes = false;
+    console.log("get_new_comment_likes = false");
+}
+
+//=================url ===================//
+const urlParams = new URLSearchParams(window.location.search);
+
+function go_to_comment() {
+    const comment_id = urlParams.get('comment');
+    if (comment_id) {
+        const comment = document.getElementById(comment_id)
+        comment.scrollIntoView();
+        console.log("dorost")
+    }
 }
 
 // autosize
@@ -147,7 +164,7 @@ async function send_new_post() {
     });
     console.log(formdata);
     res = await response.json();
-    await console.log(res);
+    console.log(res);
     if (res.status === "success") {
         console.log(res.post);
         document.getElementById("new-post-modal").classList.add("succeed");
@@ -220,6 +237,39 @@ async function get_likes(is_new) {
 
 get_likes(get_new_likes);
 
+//comment likes
+async function get_comment_likes(is_new) {
+    if (is_new == false) {
+        if (
+            localStorage.getItem("inonet_comment_likes")
+        ) {
+            console.log("old_comment_likes");
+        } else {
+            response = await fetch("/posts/user_comment_likes/");
+            res = await response.json();
+            console.log(res.comment_likes);
+            localStorage.removeItem("inonet_comment_likes");
+            localStorage.setItem("inonet_comment_likes", res.comment_likes.comment_likes);
+            sessionStorage.setItem("get_new_comment_likes", false);
+            get_new_comment_likes = false;
+            console.log("new_comment_likes");
+        }
+    } else {
+        response = await fetch("/posts/user_comment_likes/");
+        res = await response.json();
+        console.log(res.comment_likes);
+        localStorage.removeItem("inonet_comment_likes");
+        localStorage.setItem("inonet_comment_likes", res.comment_likes.comment_likes);
+        sessionStorage.setItem("get_new_comment_likes", false);
+        get_new_comment_likes = false;
+        console.log("new_comment_likes");
+    }
+}
+
+get_comment_likes(get_new_comment_likes);
+
+
+
 // buttons
 
 // Like buttons
@@ -231,7 +281,7 @@ async function like_post(id) {
         body: formdata,
     });
     res = await response.json();
-    await console.log(res.status);
+    console.log(res.status);
     if (res.status === "success") {
         console.log("liked");
         new_likes = parseInt(
@@ -253,7 +303,7 @@ async function dislike_post(id) {
         body: formdata,
     });
     res = await response.json();
-    await console.log(res.status);
+    console.log(res.status);
     if (res.status === "success") {
         console.log("disliked");
         get_likes(true);
@@ -267,6 +317,52 @@ async function dislike_post(id) {
         console.log(res.errors);
     }
 }
+
+//==========================Comment Like===========================//
+
+async function like_comment(id) {
+    const csrf = document.getElementById("csrf");
+    formdata = new FormData(csrf);
+    response = await fetch("/posts/like_comment/" + id + "/", {
+        method: "POST",
+        body: formdata,
+    });
+    res = await response.json();
+    console.log(res.status);
+    if (res.status === "success") {
+        console.log("liked");
+        document.getElementById(`${id}-like-button`).setAttribute("href", `javascript:dislike_comment('${id}');`)
+        document.getElementById(`${id}-like-button`).innerHTML = "حذف پسند";
+        document.getElementById(`${id}-comment-likes-icon`).innerHTML = "favorite";
+        document.getElementById(`${id}-comment-likes-count`).innerHTML = res.likes;
+    } else if (res.status === "failed") {
+        console.log(res.errors);
+    }
+}
+
+async function dislike_comment(id) {
+    const csrf = document.getElementById("csrf");
+    formdata = new FormData(csrf);
+    response = await fetch("/posts/dislike_comment/" + id + "/", {
+        method: "POST",
+        body: formdata,
+    });
+    res = await response.json();
+    console.log(res.status);
+    if (res.status === "success") {
+        console.log("disliked");
+        document.getElementById(`${id}-like-button`).setAttribute("href", `javascript:like_comment('${id}');`)
+        document.getElementById(`${id}-like-button`).innerHTML = "پسندیدن";
+        document.getElementById(`${id}-comment-likes-icon`).innerHTML = "favorite_border";
+        document.getElementById(`${id}-comment-likes-count`).innerHTML = res.likes;
+    } else if (res.status === "failed") {
+        console.log(res.errors);
+    }
+}
+
+
+
+//===================//=========================//=======================//
 
 function buttons() {
     get_likes(false);
@@ -315,7 +411,7 @@ async function share_post(id) {
         body: formdata,
     });
     res = await response.json();
-    await console.log(res.status);
+    console.log(res.status);
     if (res.status === "success") {
         console.log("shared");
         new_shares = parseInt(
@@ -337,7 +433,7 @@ async function unshare_post(id) {
         body: formdata,
     });
     res = await response.json();
-    await console.log(res.status);
+    console.log(res.status);
     if (res.status === "success") {
         console.log("unshared");
         new_shares = parseInt(
@@ -433,32 +529,118 @@ async function fetch_comments(post_id, is_new) {
             comment.classList.add("d-none");
         });
     }
-
+    get_comment_likes(get_comment_likes);
+    const comment_likes = localStorage.getItem("inonet_comment_likes")
     Array.prototype.forEach.call(res, (comment) => {
         let comment_avatar = "/static/images/picture.svg";
         if (comment.fields.user.avatar_url) {
             comment_avatar = comment.fields.user.avatar_url;
         }
-        const comment_html = `
-        <div class="new-comment-div">
-            <div class="comment-avatar me-1">
-            <a href="/users/${comment.fields.user.username}/" class="image-link">
-                <img src="${comment_avatar}" class="avatar comment-avatar" alt="user avatar" width="40px" height="40px">
-            </a>
+        let comment_html;
+        if (comment_likes.includes(comment.fields.uuid)) {
+            comment_html = `
+            <div class="new-comment-div">
+                <div class="comment-avatar me-1">
+                <a href="/users/${comment.fields.user.username}/" class="image-link">
+                    <img src="${comment_avatar}" class="avatar comment-avatar" alt="user avatar" width="40px" height="40px">
+                </a>
+                </div>
+                <div class="comment">
+                <p><a href="/users/${comment.fields.user.username}/">${comment.fields.user.first_name} ${comment.fields.user.last_name}</a></p>
+                <p class="comment-text">${comment.fields.text}</p>
+                <div class="comment-like-count">
+                    
+                    <p class="comment-like-div shadow ms-1 me-1">
+                    <span class="material-icons-outlined align-middle comment-like-icon" id="${comment.fields.uuid}-comment-likes-icon">
+                    favorite
+                    </span>
+                    <span id="${comment.fields.uuid}-comment-likes-count">
+                    ${comment.fields.likes}
+                    </span>
+                </p>
+                </div>
+                </div>
+                
             </div>
-            <div class="comment">
-            <p><a href="/users/${comment.fields.user.username}/">${comment.fields.user.first_name} ${comment.fields.user.last_name}</a></p>
-            <p class="comment-text">${comment.fields.text}</p>
+            <div class="comment-buttons">
+                <div class="text-muted comment-date ">
+                    <a href="javascript:dislike_comment('${comment.fields.uuid}');" id="${comment.fields.uuid}-like-button">حذف پسند</a> .
+                    <span class="persian-date">${comment.fields.date_time}</span>
+                    <li class="dropdown more-button-list" style="display:inline;">
+                        <a href="#" class="more-text" id="comment-${comment.fields.uuid}-report" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="p-0 m-o material-icons comment-more-icon align-middle">more_horiz</span>
+                        </a>
+                        <ul class="dropdown-menu shadow" aria-labelledby="navbarDropdown-2">
+                            <li class="dropdown-item">
+                                <a href="javascript:report('comment', '${comment.fields.uuid}');" class="nav-link text-reset comment-report-text">
+                                    <span class="material-icons-outlined comment-more-icon align-middle">
+                                        report
+                                    </span> گزارش تخلف
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </div>
             </div>
-        </div>
-        `;
+            `;
+        } else {
+            comment_html = `
+            <div class="new-comment-div">
+                <div class="comment-avatar me-1">
+                <a href="/users/${comment.fields.user.username}/" class="image-link">
+                    <img src="${comment_avatar}" class="avatar comment-avatar" alt="user avatar" width="40px" height="40px">
+                </a>
+                </div>
+                <div class="comment">
+                <p><a href="/users/${comment.fields.user.username}/">${comment.fields.user.first_name} ${comment.fields.user.last_name}</a></p>
+                <p class="comment-text">${comment.fields.text}</p>
+                <div class="comment-like-count">
+                    
+                    <p class="comment-like-div shadow ms-1 me-1">
+                    <span class="material-icons-outlined align-middle comment-like-icon" id="${comment.fields.uuid}-comment-likes-icon">
+                    favorite_border
+                    </span>
+                    <span id="${comment.fields.uuid}-comment-likes-count">
+                    ${comment.fields.likes}
+                    </span>
+                </p>
+                </div>
+                </div>
+                
+            </div>
+            <div class="comment-buttons">
+                <div class="text-muted comment-date ">
+                    <a href="javascript:like_comment('${comment.fields.uuid}');" id="${comment.fields.uuid}-like-button">پسندیدن</a> .
+                    <span class="persian-date">${comment.fields.date_time}</span>
+                    <li class="dropdown more-button-list" style="display:inline;">
+                        <a href="#" class="more-text" id="comment-${comment.fields.uuid}-report" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="p-0 m-o material-icons comment-more-icon align-middle">more_horiz</span>
+                        </a>
+                        <ul class="dropdown-menu shadow" aria-labelledby="navbarDropdown-2">
+                            <li class="dropdown-item">
+                                <a href="javascript:report('comment', '${comment.fields.uuid}');" class="nav-link text-reset comment-report-text">
+                                    <span class="material-icons-outlined comment-more-icon align-middle">
+                                        report
+                                    </span> گزارش تخلف
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </div>
+            </div>
+            `;
+        }
         const one_comment = document.createElement("div");
         one_comment.classList.add(`post-${post_id}-comments`);
+        one_comment.classList.add(`post-comment`);
+        one_comment.id = comment.fields.uuid;
         one_comment.innerHTML = comment_html;
         comment_div.append(one_comment);
     });
     comment_div.classList.add("fetched");
     document.getElementById(`${post_id}-comments-count`).innerHTML = res.length;
+    persian_date();
+    go_to_comment();
 }
 
 function comment_buttons() {
@@ -479,8 +661,8 @@ function comment_buttons() {
             }
         });
     });
-    const cooment_inputs = document.getElementsByClassName("comment-form-input");
-    Array.prototype.forEach.call(cooment_inputs, function(el) {
+    const comment_inputs = document.getElementsByClassName("comment-form-input");
+    Array.prototype.forEach.call(comment_inputs, function(el) {
         el.addEventListener("keypress", function(e) {
             if (e.keyCode === 13 && e.shiftKey) {} else if (e.keyCode === 13) {
                 e.preventDefault();
@@ -749,7 +931,7 @@ function loading(id) {
     document.getElementById(id).innerHTML = loading_div;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function persian_date() {
     const persian_date = document.querySelectorAll(".persian-date");
     Array.prototype.forEach.call(persian_date, (date) => {
         let new_date = new persianDate(date.innerHTML)
@@ -758,6 +940,9 @@ document.addEventListener("DOMContentLoaded", () => {
             .format("D MMMM YYYY - HH:m:s");
         date.innerHTML = new_date;
     });
+}
+document.addEventListener("DOMContentLoaded", () => {
+    persian_date();
 });
 
 //================== load posts ==========================//
@@ -818,11 +1003,12 @@ const fetchPosts = async(url, div_id, resize) => {
     } else {
         document.getElementById(div_id).insertAdjacentHTML("beforeend", res);
     }
-    await buttons();
-    await share_buttons();
-    await comment_buttons();
-    await action_buttons();
-    await autosize_auto();
+    buttons();
+    share_buttons();
+    comment_buttons();
+    action_buttons();
+    autosize_auto();
+    persian_date();
     if (resize) {
         const posts_div = document.getElementsByClassName("post-div");
         Array.prototype.forEach.call(posts_div, (post) => {

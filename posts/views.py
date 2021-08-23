@@ -12,7 +12,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Like, Post, Share, Comment
+from .models import Like, Post, Share, Comment, CommentLike
 from inonet.users.models import User
 from notifications.models import Notification
 from django.utils.translation import gettext_lazy as _
@@ -74,6 +74,11 @@ class UserLikes(View):
         likes = self.request.user.likes
         shares = self.request.user.shares
         return JsonResponse({"status": "success", "likes": likes, "shares": shares})
+
+class UserCommentLikes(View):
+    def get(self, request):
+        likes = self.request.user.comment_likes
+        return JsonResponse({"status": "success", "comment_likes": likes})
 
 class LikeCreateView(LoginRequiredMixin ,CreateView):
     model = Like
@@ -228,8 +233,8 @@ class CommentCreateView(LoginRequiredMixin ,CreateView):
         post = Post.objects.get(uuid=self.kwargs["uuid"])
         form.instance.user = user
         form.instance.post = post
-        form.save()
-        notification = Notification(actor=user, user=post.user, notification_type=_("نظر جدید"), post=post)
+        comment = form.save()
+        notification = Notification(actor=user, user=post.user, notification_type=_("نظر جدید"), post=post, comment=comment)
         notification.save()
         post.comments= post.comments + 1
         post.save()
@@ -262,3 +267,71 @@ class PostDetailView(LoginRequiredMixin, DetailView):
     def get_object(self):
         post = Post.objects.get(uuid=self.kwargs["uuid"])
         return post
+
+class CommentLikeCreateView(LoginRequiredMixin ,CreateView):
+    model = CommentLike
+    template_name = "posts/new.html"
+    fields = []
+    def form_valid(self, form):
+        comment = Comment.objects.get(uuid=self.kwargs["uuid"])
+        user = self.request.user
+        try:
+            like = CommentLike.objects.get(user=user, comment=comment)
+            like.liked = True
+            like.save()
+            comment.likes = comment.likes + 1
+            comment.save()
+            user.comment_likes["comment_likes"].append(str(comment.uuid))
+            user.save()
+            notification = Notification(actor=user, user=comment.user, notification_type=_("پسند نظر جدید"), comment=comment)
+            notification.save()
+            return JsonResponse({"status":"success", "likes": comment.likes})
+        except CommentLike.DoesNotExist:
+            pass
+        try:
+            form.instance.user= user
+            form.instance.comment = comment
+            form.save()
+        except IntegrityError:
+            return JsonResponse({"status":"failed", 'errors': "liked before"})
+        comment.likes = comment.likes + 1
+        comment.save()
+        if "comment_likes" in user.comment_likes:
+            user.comment_likes["comment_likes"].append(str(comment.uuid))
+        else:
+            user.comment_likes = {"comment_likes":[str(comment.uuid)]}
+        user.save()
+        notification = Notification(actor=user, user=comment.user, notification_type=_("پسند نظر جدید"), comment=comment)
+        notification.save()
+        return JsonResponse({"status":"success", "likes": comment.likes})
+    def form_invalid(self, form):
+        return JsonResponse({"status":"failed", 'errors': form._errors})
+
+class CommentDisLikeUpdateView(LoginRequiredMixin ,UpdateView):
+    model = CommentLike
+    def get_object(self):
+        comment = Comment.objects.get(uuid=self.kwargs["uuid"])
+        user = self.request.user
+        try:
+            like = CommentLike.objects.get(user=user, comment=comment)
+        except Like.DoesNotExist:
+            return JsonResponse({"status":"failed", "errors": "didn't like before"})
+        return like
+    template_name = "posts/new.html"
+    fields = []
+    def form_valid(self, form):
+        comment = Comment.objects.get(uuid=self.kwargs["uuid"])
+        user = self.request.user
+        if self.object.user != user:
+            raise PermissionError
+        if form.instance.liked == False:
+            return JsonResponse({"status":"failed", 'errors': "disliked before"})
+        form.instance.liked = False
+        form.save()
+        comment.likes = comment.likes - 1
+        comment.save()
+        user.comment_likes["comment_likes"] = list(filter((str(comment.uuid)).__ne__, user.comment_likes["comment_likes"]))
+        user.save()
+        return JsonResponse({"status":"success", "likes": comment.likes})
+    def form_invalid(self, form):
+        return JsonResponse({"status":"failed", 'errors': form._errors})

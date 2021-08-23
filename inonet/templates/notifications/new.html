@@ -4,6 +4,7 @@
 {% translate "دنبال کننده جدید" as NF %}
 {% translate "بازنشر جدید" as NS %}
 {% translate "بازنشر جدید (با متن)" as NT %}
+{% translate "پسند نظر جدید" as PL %}
 {% if not object_list %}
 <div class="pt-2 pb-2 seen-notification">
 <li class="dropdown-item">
@@ -16,9 +17,10 @@ notifications_none
 {% endif %}
 {% for notification in object_list %}
 <div {% if notification.seen %}class="pt-2 pb-2 seen-notification"{% elif notification.got %}class="pt-2 pb-2 new-notification notification"{%else%}class="pt-2 pb-2 new-notification notification not-got"{% endif %}>
-<li class="dropdown-item">
+
 {% if notification.notification_type == NL %}
 <a href="/posts/{{notification.post.uuid}}/">
+<li class="dropdown-item">
     <span class="material-icons-outlined align-middle text-danger">
     favorite
     </span>
@@ -30,10 +32,12 @@ notifications_none
     
     {{notification.actor.first_name}} {{notification.actor.last_name}} 
     پست شما را پسندیده است.
+</li>
 </a>
 {% endif %}
 {% if notification.notification_type == NC %}
-<a href="/posts/{{notification.post.uuid}}/">
+<a href="/posts/{{notification.post.uuid}}/?comment={{notification.comment.uuid}}">
+<li class="dropdown-item">
     <span class="material-icons-outlined align-middle text-primary">
     chat
     </span>
@@ -44,10 +48,12 @@ notifications_none
     {% endif %}
     {{notification.actor.first_name}} {{notification.actor.last_name}} 
     نظر جدیدی برای پست شما نوشته است.
+</li>
 </a>
 {% endif %}
 {% if notification.notification_type == NF %}
 <a href="/users/{{notification.actor.username}}/">
+<li class="dropdown-item">
     <span class="material-icons-outlined align-middle text-primary">
     person_add
     </span>
@@ -58,10 +64,12 @@ notifications_none
     {% endif %}
     {{notification.actor.first_name}} {{notification.actor.last_name}}
     شما را دنبال می‌کند.
+</li>
 </a>
 {% endif %}
 {% if notification.notification_type == NS %}
 <a href="/posts/{{notification.post.uuid}}/">
+<li class="dropdown-item">
     <span class="material-icons-outlined align-middle text-success">
     share
     </span>
@@ -71,10 +79,12 @@ notifications_none
     <img src="{% static 'images/picture.svg' %}" class="avatar" alt="avatar" width="45px" height="45px">
     {% endif %}
     پست شما را به اشتراک گذاشته است.
+</li>
 </a>
 {% endif %}
 {% if notification.notification_type == NT %}
 <a href="/posts/{{notification.post.uuid}}/">
+<li class="dropdown-item">
     <span class="material-icons-outlined align-middle text-success">
     share
     </span>
@@ -84,9 +94,25 @@ notifications_none
     <img src="{% static 'images/picture.svg' %}" class="avatar" alt="avatar" width="45px" height="45px">
     {% endif %}
     با نگارش پست جدید، پست شما را به اشتراک گذاشته است.
+</li>
+</a>
+{% elif notification.notification_type == PL %}
+<a href="/posts/{{notification.comment.post.uuid}}/?comment={{notification.comment.uuid}}">
+<li class="dropdown-item">
+    <span class="material-icons-outlined align-middle text-primary">
+    favorite
+    </span>
+    {% if  notification.actor.avatar and notification.actor.avatar.url %}
+    <img src={{notification.actor.avatar.url}} height="45px" width="45px" class="avatar">
+    {% else %}
+    <img src="{% static 'images/picture.svg' %}" class="avatar" alt="avatar" width="45px" height="45px">
+    {% endif %}
+    {{notification.actor.first_name}} {{notification.actor.last_name}} 
+    نظر شما را پسندید.
+</li>
 </a>
 {% endif %}
 
-</li>
+
 </div>
 {% endfor %}

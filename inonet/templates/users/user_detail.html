@@ -329,8 +329,9 @@
         const response = await fetch("/works/user_works/{{object.uuid}}/", {
           method: "GET",
         });
-        document.getElementById("user-data").innerHTML = await response.text();
-        await console.log(response);
+        const res = await response.text();
+        document.getElementById("user-data").innerHTML = res;
+        console.log(response);
       }
       load_works();
       document.getElementById("works").addEventListener("click", () => {
@@ -369,9 +370,8 @@
               method: "GET",
             }
           );
-          document.getElementById("user-data").innerHTML =
-            await response.text();
-          await console.log(response);
+          const res = await response.text();
+          document.getElementById("user-data").innerHTML = res;
         }
         load_fingerprints();
       });

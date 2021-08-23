@@ -2,713 +2,744 @@
 
 @import url(font-face.css);
 body {
-  font-family: Samim !important;
-  /* Margin bottom by footer height */
-  padding-top: 4rem;
-  background-color: rgb(240, 242, 245);
-  min-height: 100vh;
+    font-family: Samim !important;
+    /* Margin bottom by footer height */
+    padding-top: 4rem;
+    background-color: rgb(240, 242, 245);
+    min-height: 100vh;
 }
 
 @media (max-width: 567px) {
-  .page-app {
-    padding-top: 1.5em !important;
-  }
-  .card-mobile {
-    padding: 1.2em !important; 
-  }
+    .page-app {
+        padding-top: 1.5em !important;
+    }
+    .card-mobile {
+        padding: 1.2em !important;
+    }
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .alert-debug {
-  color: black;
-  background-color: white;
-  border-color: #d6e9c6;
+    color: black;
+    background-color: white;
+    border-color: #d6e9c6;
 }
 
 .alert-error {
-  color: #b94a48;
-  background-color: #f2dede;
-  border-color: #eed3d7;
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
 }
+
 
 /* nav */
 
 @media (min-width: 567px) {
-  .main-nav {
-    padding-right: 5em;
-    padding-left: 5em;
-  }
+    .main-nav {
+        padding-right: 5em;
+        padding-left: 5em;
+    }
 }
 
 @media (min-width: 567px) {
-  .main-nav {
-    padding-right: 5em;
-    padding-left: 5em;
-  }
+    .main-nav {
+        padding-right: 5em;
+        padding-left: 5em;
+    }
 }
 
 .menu-icon {
-  border: none !important;
-  background-color: white;
-  margin: 0em;
-  padding-left: 0em !important;
-  padding-right: 0em !important;
+    border: none !important;
+    background-color: white;
+    margin: 0em;
+    padding-left: 0em !important;
+    padding-right: 0em !important;
 }
 
 .menu-icon:hover {
-  border: white !important;
+    border: white !important;
 }
 
 .menu-icon:focus {
-  text-decoration: none;
-  outline: 0;
-  box-shadow: none;
+    text-decoration: none;
+    outline: 0;
+    box-shadow: none;
 }
 
 .nav-item-icons {
-  align-items: center;
+    align-items: center;
 }
 
 .navbar-nav-icons {
-  /* display: -webkit-inline-box !important ; */
-  flex-direction: row;
-  padding-right: 0;
-  margin-bottom: 0;
-  list-style: none;
+    /* display: -webkit-inline-box !important ; */
+    flex-direction: row;
+    padding-right: 0;
+    margin-bottom: 0;
+    list-style: none;
 }
 
 .navbar-nav-icons .dropdown-menu {
-  position: absolute !important;
+    position: absolute !important;
 }
 
 .nav-icon {
-  font-size: 36px !important;
+    font-size: 36px !important;
 }
+
 
 /* nav */
 
 .post {
-  border-radius: 25px;
-  background-color: rgb(255, 255, 255);
+    border-radius: 25px;
+    background-color: rgb(255, 255, 255);
 }
 
 .form-group {
-  margin-bottom: 1em;
+    margin-bottom: 1em;
 }
 
 .word-wrap {
-  word-wrap: break-word;
+    word-wrap: break-word;
 }
 
 #picture:hover {
-  filter: drop-shadow(8px 8px 10px gray);
+    filter: drop-shadow(8px 8px 10px gray);
 }
 
 #picture-upload-file {
-  display: none;
+    display: none;
 }
+
 #post-picture-upload-file {
-  display: none;
+    display: none;
 }
 
 .picture-upload-div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #picture-upload-img {
-  margin: auto;
-  display: block;
-  width: 100%;
+    margin: auto;
+    display: block;
+    width: 100%;
 }
 
 #new-post-image {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #new-post-picture-upload-img {
-  margin-left: auto;
-  margin-right: auto;
-  margin: auto;
-  display: block;
-  width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin: auto;
+    display: block;
+    width: 100%;
 }
 
 .close-button {
-  position: absolute;
-  top: 5px;
-  left: 10px;
+    position: absolute;
+    top: 5px;
+    left: 10px;
 }
 
 .close-button-icon {
-  display: none;
-  padding: 0px;
-  margin: 0px;
+    display: none;
+    padding: 0px;
+    margin: 0px;
 }
 
 .close-button-icon:hover {
-  transform: scale(1.2);
+    transform: scale(1.2);
 }
 
 @media (min-width: 567px) {
-  .abs-center-x {
-    padding-top: 0.7em;
-    position: absolute;
-    top: 0px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+    .abs-center-x {
+        padding-top: 0.7em;
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
 
 .search-input {
-  border-radius: 25px;
-  background-color: rgb(240, 242, 245);
-  border: none;
+    border-radius: 25px;
+    background-color: rgb(240, 242, 245);
+    border: none;
 }
 
 .dropdown-icon {
-  margin-top: -0.7em !important;
-  border-color: rgb(240, 240, 240);
+    margin-top: -0.7em !important;
+    border-color: rgb(240, 240, 240);
 }
 
 .font-36 {
-  font-size: 36px !important;
+    font-size: 36px !important;
 }
 
 .font-40 {
-  font-size: 40px !important;
+    font-size: 40px !important;
 }
 
 .font-50 {
-  font-size: 50px !important;
+    font-size: 50px !important;
 }
 
 .new-work-icon {
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(rgb(0, 47, 255)),
-    to(rgb(211, 22, 195))
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    background: -webkit-gradient( linear, left top, left bottom, from(rgb(0, 47, 255)), to(rgb(211, 22, 195)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .fingerprint-icon {
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(rgb(0, 47, 255)),
-    to(rgb(22, 211, 22))
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    background: -webkit-gradient( linear, left top, left bottom, from(rgb(0, 47, 255)), to(rgb(22, 211, 22)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .verified-icon {
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(rgb(54, 184, 245)),
-    to(rgb(16, 236, 16))
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    background: -webkit-gradient( linear, left top, left bottom, from(rgb(54, 184, 245)), to(rgb(16, 236, 16)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .feed-icon {
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(rgb(250, 10, 10)),
-    to(rgb(200, 221, 11))
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    background: -webkit-gradient( linear, left top, left bottom, from(rgb(250, 10, 10)), to(rgb(200, 221, 11)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .home-icon-link {
-  text-decoration: none;
-  color: black;
+    text-decoration: none;
+    color: black;
 }
 
 .work-picture {
-  border-radius: 12px;
+    border-radius: 12px;
 }
 
 .search-card {
-  text-decoration: none;
-  color: black;
+    text-decoration: none;
+    color: black;
 }
 
 .profile-avatar {
-  vertical-align: middle;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
+    vertical-align: middle;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
 }
 
 .avatar {
-  vertical-align: middle;
-  border-radius: 50%;
+    vertical-align: middle;
+    border-radius: 50%;
 }
 
 .user-name {
-  direction: ltr;
-  text-align: right;
+    direction: ltr;
+    text-align: right;
 }
 
 .profile-user-name {
-  direction: ltr;
-  text-align: right;
+    direction: ltr;
+    text-align: right;
 }
 
 @media (max-width: 567px) {
-  .user-title {
-    text-align: center;
-  }
-  .profile-user-name {
-    direction: ltr;
-    text-align: center;
-  }
+    .user-title {
+        text-align: center;
+    }
+    .profile-user-name {
+        direction: ltr;
+        text-align: center;
+    }
 }
 
 .bio-noinfo {
-  color: rgb(80, 80, 80);
-  text-decoration: none;
+    color: rgb(80, 80, 80);
+    text-decoration: none;
 }
 
 .user-first-last-name {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .work-title {
-  text-decoration: none;
-  font-weight: bolder;
-  color: black;
+    text-decoration: none;
+    font-weight: bolder;
+    color: black;
 }
+
 
 /* like */
 
 .like-container {
-  height: auto;
-  margin: 0 auto;
-  text-align: center;
+    height: auto;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .like-container .love {
-  font-size: 0.9rem;
-  color: #ff4f8f;
+    font-size: 0.9rem;
+    color: #ff4f8f;
 }
 
 .like-container .wrapper .like-button {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #ccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  text-decoration: none;
-  overflow: hidden;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    text-decoration: none;
+    overflow: hidden;
 }
 
 .like-container .wrapper .like-button .like-overlay {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #ff4f8f;
-  transform: scale(0);
-  transition: all 0.4s;
-  z-index: 0;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ff4f8f;
+    transform: scale(0);
+    transition: all 0.4s;
+    z-index: 0;
 }
 
 .like-container .wrapper .like-button i.not-liked {
-  display: block;
-  color: #fff;
-  position: relative;
-  z-index: 1;
+    display: block;
+    color: #fff;
+    position: relative;
+    z-index: 1;
 }
 
 .like-container .wrapper .like-button i.is-liked {
-  display: none;
-  color: #fff;
-  position: relative;
-  z-index: 1;
+    display: none;
+    color: #fff;
+    position: relative;
+    z-index: 1;
 }
 
 .like-container .wrapper .like-button.is-active .like-overlay {
-  transform: scale(1);
+    transform: scale(1);
 }
 
 .like-container .wrapper .like-button.is-active i.not-liked {
-  display: none;
+    display: none;
 }
 
 .like-container .wrapper .like-button.is-active i.is-liked {
-  display: block;
+    display: block;
 }
 
 @-webkit-keyframes bouncy {
-  from,
-  to {
-    -webkit-transform: scale(1, 1);
-  }
-  25% {
-    -webkit-transform: scale(0.9, 1.1);
-  }
-  50% {
-    -webkit-transform: scale(1.1, 0.9);
-  }
-  75% {
-    -webkit-transform: scale(0.95, 1.05);
-  }
+    from,
+    to {
+        -webkit-transform: scale(1, 1);
+    }
+    25% {
+        -webkit-transform: scale(0.9, 1.1);
+    }
+    50% {
+        -webkit-transform: scale(1.1, 0.9);
+    }
+    75% {
+        -webkit-transform: scale(0.95, 1.05);
+    }
 }
 
 @keyframes bouncy {
-  from,
-  to {
-    transform: scale(1, 1);
-  }
-  25% {
-    transform: scale(0.9, 1.1);
-  }
-  50% {
-    transform: scale(1.1, 0.9);
-  }
-  75% {
-    transform: scale(0.95, 1.05);
-  }
+    from,
+    to {
+        transform: scale(1, 1);
+    }
+    25% {
+        transform: scale(0.9, 1.1);
+    }
+    50% {
+        transform: scale(1.1, 0.9);
+    }
+    75% {
+        transform: scale(0.95, 1.05);
+    }
 }
 
 .bouncy {
-  -webkit-animation: bouncy 0.6s;
-  animation: bouncy 0.6s;
-  -webkit-animation-duration: 0.6s;
-  animation-duration: 0.6s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
+    -webkit-animation: bouncy 0.6s;
+    animation: bouncy 0.6s;
+    -webkit-animation-duration: 0.6s;
+    animation-duration: 0.6s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
 }
 
+
 /* like */
+
 
 /* comment */
 
 .like-container .wrapper .comment-button {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #ccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  text-decoration: none;
-  overflow: hidden;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    text-decoration: none;
+    overflow: hidden;
 }
 
 .like-container .wrapper .comment-button .like-overlay {
-  display: block;
-  position: absolute;
-  background: rgb(49, 122, 232);
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  transform: scale(0);
-  transition: all 0.4s;
-  z-index: 0;
+    display: block;
+    position: absolute;
+    background: rgb(49, 122, 232);
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: all 0.4s;
+    z-index: 0;
 }
 
 .like-container .wrapper .comment-button i.not-liked {
-  display: block;
-  color: #fff;
-  position: relative;
-  z-index: 1;
+    display: block;
+    color: #fff;
+    position: relative;
+    z-index: 1;
 }
 
 .like-container .wrapper .comment-button i.is-liked {
-  display: none;
-  color: #fff;
-  position: relative;
-  z-index: 1;
+    display: none;
+    color: #fff;
+    position: relative;
+    z-index: 1;
 }
 
 .like-container .wrapper .comment-button.is-active .like-overlay {
-  transform: scale(1);
+    transform: scale(1);
 }
 
 .like-container .wrapper .comment-button.is-active i.not-liked {
-  display: none;
+    display: none;
 }
 
 .like-container .wrapper .comment-button.is-active i.is-liked {
-  display: block;
+    display: block;
 }
 
+
 /* comment */
+
 
 /* share */
 
 .like-container .wrapper .share-button {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #ccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  text-decoration: none;
-  overflow: hidden;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    text-decoration: none;
+    overflow: hidden;
 }
 
 .like-container .wrapper .share-button .like-overlay {
-  display: block;
-  position: absolute;
-  background: #0bdf51;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  transform: scale(0);
-  transition: all 0.4s;
-  z-index: 0;
+    display: block;
+    position: absolute;
+    background: #0bdf51;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: all 0.4s;
+    z-index: 0;
 }
 
 .like-container .wrapper .share-button i.not-liked {
-  display: block;
-  color: #fff;
-  position: relative;
-  z-index: 1;
+    display: block;
+    color: #fff;
+    position: relative;
+    z-index: 1;
 }
 
 .like-container .wrapper .share-button i.is-liked {
-  display: none;
-  color: #fff;
-  position: relative;
-  z-index: 1;
+    display: none;
+    color: #fff;
+    position: relative;
+    z-index: 1;
 }
 
 .like-container .wrapper .share-button.is-active .like-overlay {
-  transform: scale(1);
+    transform: scale(1);
 }
 
 .like-container .wrapper .share-button.is-active i.not-liked {
-  display: none;
+    display: none;
 }
 
 .like-container .wrapper .share-button.is-active i.is-liked {
-  display: block;
+    display: block;
 }
 
+
 /* share */
+
 
 /* buttons */
 
 .like-container .wrapper .action-button {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #ccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  text-decoration: none;
-  overflow: hidden;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    text-decoration: none;
+    overflow: hidden;
 }
 
 .like-container .wrapper .action-button .like-overlay {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  transform: scale(0);
-  transition: all 0.4s;
-  z-index: 0;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: all 0.4s;
+    z-index: 0;
 }
 
 .like-container .wrapper .action-button i.not-liked {
-  display: block;
-  color: #fff;
-  position: relative;
-  z-index: 1;
+    display: block;
+    color: #fff;
+    position: relative;
+    z-index: 1;
 }
 
 .like-container .wrapper .action-button i.is-liked {
-  display: none;
-  color: #fff;
-  position: relative;
-  z-index: 1;
+    display: none;
+    color: #fff;
+    position: relative;
+    z-index: 1;
 }
 
 .like-container .wrapper .action-button.is-active .like-overlay {
-  transform: scale(1);
+    transform: scale(1);
 }
 
 .like-container .wrapper .action-button.is-active i.not-liked {
-  display: none;
+    display: none;
 }
 
 .like-container .wrapper .action-button.is-active i.is-liked {
-  display: block;
+    display: block;
 }
+
 
 /* buttons */
 
 .post-input {
-  width: 100%;
-  max-width: 100%;
-  border: none;
+    width: 100%;
+    max-width: 100%;
+    border: none;
 }
 
 .post-input:focus {
-  outline: none !important;
+    outline: none !important;
 }
 
 .post-div {
-  position: relative;
+    position: relative;
 }
 
 .more-vert-div {
-  position: absolute;
-  left: 5px;
+    position: absolute;
+    left: 5px;
 }
 
 @media (min-width: 567px) {
-  .more-vert-div {
-    left: 10px;
-  }
+    .more-vert-div {
+        left: 10px;
+    }
 }
 
 .more-button-list {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
 .more-icon {
-  color: rgb(100, 100, 100);
+    color: rgb(100, 100, 100);
 }
 
 .image-link {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .ask-modal {
-  border: 1px solid rgb(255, 255, 255) !important;
-  border-radius: 12px !important;
+    border: 1px solid rgb(255, 255, 255) !important;
+    border-radius: 12px !important;
 }
 
 .ask-option {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .post-image {
-  max-height: 100%;
-  max-width: 100%;
+    max-height: 100%;
+    max-width: 100%;
 }
 
 .post-row {
-  display: flex;
+    display: flex;
 }
 
 .col-avatar {
-  width: 50px !important;
+    width: 50px !important;
 }
 
 .col-title {
-  width: 100%;
+    width: 100%;
 }
 
 .comment-input {
-  width: 100%;
+    width: 100%;
 }
 
 .new-comment-div {
-  display: flex;
+    display: flex;
 }
 
 .comment-div {
-  display: block;
+    display: block;
 }
 
 .comment {
-  display: inline-block;
-  border-radius: 25px;
-  background-color: rgb(240, 242, 245);
-  padding: 0.7em;
-  margin-bottom: 0.5em;
+    position: relative;
+    display: inline-block;
+    border-radius: 25px;
+    background-color: rgb(240, 242, 245);
+    padding: 0.7em;
 }
 
 .comment-text {
-  white-space: normal;
-  overflow-wrap: anywhere;
-  margin-top: 0.7em !important;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    margin-top: 0.7em !important;
 }
 
 .comment-avatar {
-  margin-top: 0.2em;
-  text-decoration: none;
+    margin-top: 0.2em;
+    text-decoration: none;
 }
 
 .shared-post-preview {
-  border: rgb(220, 220, 220) solid 1px;
-  border-radius: 12px;
-  background-color: rgb(250, 250, 250);
+    border: rgb(220, 220, 220) solid 1px;
+    border-radius: 12px;
+    background-color: rgb(250, 250, 250);
 }
 
 .notification-icon {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .notification-icon .badge {
-  position: absolute;
-  top: 5px;
-  left: 2px;
-  border-radius: 50%;
-  background: red;
-  color: white;
+    position: absolute;
+    top: 5px;
+    left: 2px;
+    border-radius: 50%;
+    background: red;
+    color: white;
 }
 
 .notification {
-  background: #eef3ff;
+    background: #eef3ff;
 }
+
 .invalid-feedback ul {
-  list-style-type: none !important;
-  padding-right: 5px;
-  padding-left: 5px;
+    list-style-type: none !important;
+    padding-right: 5px;
+    padding-left: 5px;
 }
 
 .qrcode-div img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.post-date {
+    text-align: left;
+    font-size: 10px;
+}
+
+.comment-date {
+    font-size: 10px;
+}
+
+.comment-more-icon {
+    color: rgb(100, 100, 100);
+}
+
+.comment-like-count {
+    position: absolute;
+    left: -15px;
+    bottom: -2px;
+}
+
+.comment-like-div {
+    padding: 2px 5px 2px 5px;
+    font-size: 12px;
+    background-color: white;
+    border: rgb(210, 210, 210) solid 1px;
+    border-radius: 12px;
+}
+
+.comment-like-icon {
+    color: red;
+    font-size: 12px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.comment-buttons {
+    padding-right: 45px;
+    margin-bottom: 0.5em;
+}
+
+.comment-report-text {
+    font-size: 12px;
 }

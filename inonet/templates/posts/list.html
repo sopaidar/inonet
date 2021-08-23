@@ -113,7 +113,7 @@
             </div>
             {% endif %}
         </div>
-
+        <p class="text-muted post-date persian-date">{{post.date_time}}</p>
         <hr class="p-0 mb-0">
 
         <div class="row">
@@ -168,7 +168,7 @@
                             <span class="like-overlay"></span>
                         </a>
                         <p class="text-muted text-small">
-                            <small>به‌اشتراک‌گذاری</small>
+                            <small>اشتراک‌گذاری</small>
                         </p>
                         <ul class="dropdown-menu" aria-labelledby="share-button">
                             <li><a class="dropdown-item" href="javascript:copyaddress('{{post.uuid}}');">کپی لینک</a></li>
@@ -179,7 +179,7 @@
             </div>
         </div>
         <div class="d-none" id="comments-div-{{post.uuid}}">
-            <div class="new-comment-div pt-3">
+            <div class="new-comment-div mb-2">
                 <div class="comment-avatar">
                     {% if request.user.avatar and request.user.avatar.url %}
                     <img class="avatar" src="{{request.user.avatar.url}}" alt="user avatar" width="40px" height="40px"> {% else %}
