@@ -160,13 +160,32 @@ a {
     transform: scale(1.2);
 }
 
-@media (min-width: 567px) {
+@media (min-width: 992px) {
     .abs-center-x {
-        padding-top: 0.7em;
         position: absolute;
         top: 0px;
         left: 50%;
         transform: translateX(-50%);
+    }
+    .bottom-nav {
+        display: none;
+    }
+}
+
+@media (max-width: 991px) {
+    .abs-center-x {
+        display: none;
+    }
+    .bottom-nav {
+        position: fixed;
+        background-color: white;
+        position: fixed;
+        bottom: 0;
+        width: 100vw;
+        z-index: 100;
+        overflow: hidden;
+        border-top: 1px solid rgb(150, 150, 150);
+        padding-top: 5px;
     }
 }
 
@@ -741,5 +760,17 @@ a {
 }
 
 .comment-report-text {
+    font-size: 12px;
+}
+
+.bottom-nav-icon {
+    color: rgb(100, 100, 100);
+    font-size: 30px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.bottom-nav-title {
+    color: rgb(100, 100, 100);
     font-size: 12px;
 }

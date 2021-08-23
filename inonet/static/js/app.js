@@ -9,6 +9,15 @@ if (sessionStorage.getItem("get_new_comment_likes") == false) {
     get_new_comment_likes = false;
     console.log("get_new_comment_likes = false");
 }
+var is_home = false;
+
+function home() {
+    if (is_home) {
+        window.scroll(0, 0)
+    } else {
+        window.location.href = "/";
+    }
+}
 
 //=================url ===================//
 const urlParams = new URLSearchParams(window.location.search);

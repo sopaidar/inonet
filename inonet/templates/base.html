@@ -29,35 +29,23 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow main-nav pt-0 pb-0 fixed-top">
         <div class="container-fluid">
-            <button class="navbar-toggler menu-icon" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="material-icons-outlined">menu</span>
-            </button>
             <a class="navbar-brand" href="/">
                 <img src="{% static 'images/inonet.jpg' %}" alt="" width="40" height="40" class="d-inline-block align-text-top">
             </a>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/works/new/">حمایت قانونی</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">ثبت گواهی زمانی</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">بلاگ</a>
-                    </li>
-                </ul>
-                <div class="abs-center-x">
-                    <form class="d-flex">
-                        <input class="form-control search-input" type="search" placeholder="جست و جو" aria-label="Search">
-                    </form>
-                </div>
-            </div>
-            <div class="nav-icons ms-auto">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <form class="d-flex">
+                    <input class="form-control search-input" type="search" placeholder="جست و جو" aria-label="Search">
+                </form>
+            </ul>
+            <div class="abs-center-x">
                 <ul class="navbar-nav navbar-nav-icons mb-0">
                     {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:home();" id="profile">
+                            <span class="material-icons nav-icon">home</span>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'users:detail' request.user.username  %}" id="profile">
                             <span class="material-icons nav-icon">account_circle</span>
@@ -104,7 +92,7 @@
                             <span class="material-icons nav-icon">notifications</span>
                             <span class="badge" id="badge"></span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-icon shadow" aria-labelledby="navbarDropdown-2">
+                        <ul class="dropdown-menu dropdown-icon shadow" aria-labelledby="navbarDropdown-2">
                             <div id="notification">
                                 <div class="m-5">
                                     <div class="d-flex justify-content-center">
@@ -164,7 +152,12 @@
                     {% endif %}
                 </ul>
             </div>
-        </div>
+
+            {% comment %}
+            <div class="nav-icons ms-auto">
+
+            </div> {% endcomment %}
+
     </nav>
 
 
@@ -174,7 +167,142 @@
         {% block content %} {% endblock content %}
     </div>
 
-    {% block modal %} {% endblock modal %} {% block inline_javascript %} {% endblock inline_javascript %}
+    {% if request.user.is_authenticated %}
+    <div class="bottom-nav nav">
+        <div class="col-2 text-center">
+
+            <a href="javascript:home();" id="profile">
+                <div>
+                    <span class="material-icons align-middle bottom-nav-icon">home</span>
+                </div>
+                <div>
+                    <span class="bottom-nav-title">خانه</span>
+                </div>
+            </a>
+
+        </div>
+
+        <div class="col-2 text-center">
+
+            <a href="{% url 'users:detail' request.user.username  %}" id="profile">
+                <div>
+                    <span class="material-icons align-middle bottom-nav-icon">account_circle</span>
+                </div>
+                <div>
+                    <span class="bottom-nav-title">پروفایل</span>
+                </div>
+            </a>
+
+        </div>
+
+        <div class="col-2 text-center">
+            <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="material-icons align-middle bottom-nav-icon">control_point</span>
+                <div>
+                    <span class="bottom-nav-title">جدید</span>
+                </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-icon shadow" aria-labelledby="navbarDropdown-2">
+                <li class="dropdown-item">
+                    <a href="/works/new/" class="nav-link">
+                        <span class="material-icons-outlined align-middle">
+                                note_add
+                            </span> اثر جدید
+                    </a>
+                </li>
+                <li class="dropdown-item">
+                    <a href="/fingerprints/new_work/" class="nav-link">
+                        <span class="material-icons-outlined align-middle">
+                                fingerprint
+                            </span> ثبت گواهی‌زمانی
+                    </a>
+                </li>
+                <li class="dropdown-item">
+                    <a href="/fingerprints/validate/" class="nav-link">
+                        <span class="material-icons-outlined  align-middle">
+                                verified
+                            </span> اعتبارسنجی
+                    </a>
+                </li>
+                <li class="dropdown-item">
+                    <a href="javascript:void(0);" class="nav-link" id=new-post-nav>
+                        <span class="material-icons-outlined  align-middle">
+                                feed
+                            </span> خبر جدید
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-2 text-center">
+            <a class=" notification-icon" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <div>
+                    <span class="material-icons align-middle bottom-nav-icon">notifications</span>
+                    <span class="badge" id="badge"></span>
+                </div>
+                <div>
+                    <span class="bottom-nav-title">اعلان</span>
+                </div>
+            </a>
+            <ul class="dropdown-menu dropdown-icon shadow" aria-labelledby="navbarDropdown-2">
+                <div id="notification">
+                    <div class="m-5">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-grow text-primary m-2" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-success m-2" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-warning m-2" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-info m-2" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-danger m-2" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </div>
+        <div class="col-2 text-center">
+            <a href="javascript:home();">
+                <div>
+                    <span class="material-icons align-middle bottom-nav-icon">mail_outline</span>
+                </div>
+                <div>
+                    <span class="bottom-nav-title">پیام‌ها</span>
+                </div>
+            </a>
+        </div>
+        <div class="col-2 text-center">
+            <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <div>
+                    <span class="material-icons-outlined align-middle bottom-nav-icon">settings</span>
+                </div>
+                <div>
+                    <span class="bottom-nav-title">تنظیمات</span>
+                </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-icon shadow" aria-labelledby="navbarDropdown-3">
+                <li class="dropdown-item">
+                    <a class="nav-link" href="/">{% trans "پروفایل" %}</a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li class="dropdown-item">
+                    <a class="nav-link" href="{% url 'account_logout' %}">{% trans "خروج" %}</a>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+    {% endif %} {% block modal %} {% endblock modal %} {% block inline_javascript %} {% endblock inline_javascript %}
     <!-- new post -->
     <div class="modal fade" id="new-post-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -350,7 +478,7 @@
                         </div>
                     </form>
                     <a class="btn btn-primary" href="javascript:send_report();" id="report-submit">ارسال</a>
-                </div> 
+                </div>
             </div>
         </div>
     </div>
@@ -370,7 +498,7 @@
             </div>
         </div>
         {% endfor %} {% endif %}
-        <div class="position-fixed bottom-0 start-0 p-3" style="z-index: 11">
+        <div class="position-fixed start-0 p-3" style="z-index: 11; bottom: 25px;">
             <div id="liveToast" class="toast hide" role="alert" aria-live="polite" aria-atomic="true">
                 <div class="toast-header">
                     <strong class="me-auto" id="toast-title"> </strong>
@@ -383,6 +511,7 @@
             </div>
         </div>
     </div>
+
 
 
 
