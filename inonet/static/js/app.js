@@ -1108,3 +1108,34 @@ function send_report() {
     fetch_report(url);
 
 }
+
+//===================== search ====================//
+const search = document.getElementById("search");
+const search_dropdown = document.getElementById("search-dropdown");
+search.addEventListener("focusin", (e) => {
+    search_dropdown.classList.remove("d-none")
+})
+search.addEventListener("focusout", (e) => {
+    search_dropdown.classList.add("d-none")
+})
+async function search_query(q) {
+    const response = await fetch(`/search/?q=${q}`);
+    const res = await response.json()
+    const result = await res.result
+    Array.prototype.forEach.call(result, (r) => {
+        const div = `
+        <div class="search-result">
+            ${r.username}
+        </div>
+        `
+        search_dropdown.insertAdjacentHTML("beforeend", div)
+    })
+
+}
+
+search.addEventListener("keyup", (e) => {
+    if (search.value.length > 2) {
+        search_query(search.value)
+
+    }
+})

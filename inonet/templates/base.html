@@ -32,12 +32,16 @@
             <a class="navbar-brand" href="/">
                 <img src="{% static 'images/inonet.jpg' %}" alt="" width="40" height="40" class="d-inline-block align-text-top">
             </a>
-
+            {% if request.user.is_authenticated %}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <form class="d-flex">
-                    <input class="form-control search-input" type="search" placeholder="جست و جو" aria-label="Search">
+                    <input class="form-control search-input" id="search" type="search" placeholder="جست و جو" aria-label="Search" autocomplete="off">
+                    <div class="p-2 shadow d-none" id="search-dropdown">
+                        در حال جست و جو
+                    </div>
                 </form>
             </ul>
+            {% endif %}
             <div class="abs-center-x">
                 <ul class="navbar-nav navbar-nav-icons mb-0">
                     {% if request.user.is_authenticated %}

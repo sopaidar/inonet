@@ -774,3 +774,16 @@ a {
     color: rgb(100, 100, 100);
     font-size: 12px;
 }
+
+#search {
+    position: relative;
+}
+
+#search-dropdown {
+    border: rgb(225, 225, 225) 1px solid;
+    border-radius: 12px;
+    width: 206px;
+    background-color: white;
+    position: absolute;
+    top: 3em;
+}
