@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load static i18n %}
 {% block content %}
-<div class="container-fluid pt-5 original-background page-app">
-    <div class="col-md-6 mx-auto bg-white post p-5 word-wrap">
+<div class="container-fluid pt-5 original-background page-app mb-5" id="fingerprint-{{object.work.uuid}}">
+    <div class="col-md-6 mx-auto bg-white post pt-5 ps-5 pe-5 pb-2 word-wrap">
         <h1 class="text-center">گواهی زمانی</h1>
         <p>
             نام اثر:
@@ -26,18 +26,36 @@
                     {{object.fingerprint}}
                 </p>
             </a>
-        </p>
-        
-        <div class="qrcode-div" id="{{object.uuid}}-qrcode"></div>
+        </p>        
+        <div class="qrcode-div" id="{{object.uuid}}-qrcode">
 
         </div>
+        <div class="pt-3">
+            <p class="text-center"><a href="javascript:print_fingerprint('fingerprint-{{object.work.uuid}}');">چاپ گواهی</a></p>
+        </div>
+        </div>      
     </div>
 </div>
 <script src="{% static 'js/qrcode.js' %}"></script>
 <script>
     let uuid = "{{object.uuid}}"
     new QRCode(document.getElementById("{{object.uuid}}-qrcode"),
-    `https://inonet.ir/fingerprints/detail/${uuid}/`,
+    `https://narengi.net/fingerprints/detail/${uuid}/`,
 );
+</script>
+<script>
+    function print_fingerprint(fp) {
+        let new_window = window.open('', 'PRINT', 'height=400,width=600');
+        new_window.document.write('<html><head><title>' + document.title  + '</title>');
+        new_window.document.write('</head><body >');
+        new_window.document.write(document.getElementById(fp).innerHTML);
+        new_window.document.write('</body></html>');
+        new_window.document.close(); // necessary for IE >= 10
+        new_window.focus(); // necessary for IE >= 10*/
+        new_window.print();
+        new_window.close();
+
+        return true;
+    }
 </script>
 {% endblock content %}

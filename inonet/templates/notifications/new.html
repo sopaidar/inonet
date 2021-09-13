@@ -7,7 +7,7 @@
 {% translate "پسند نظر جدید" as PL %}
 {% if not object_list %}
 <div class="pt-2 pb-2 seen-notification">
-<li class="dropdown-item">
+<li class="dropdown-item notification-item">
 <span class="material-icons-outlined align-middle text-primary">
 notifications_none
 </span>
@@ -20,7 +20,7 @@ notifications_none
 
 {% if notification.notification_type == NL %}
 <a href="/posts/{{notification.post.uuid}}/">
-<li class="dropdown-item">
+<li class="dropdown-item notification-item">
     <span class="material-icons-outlined align-middle text-danger">
     favorite
     </span>
@@ -37,7 +37,7 @@ notifications_none
 {% endif %}
 {% if notification.notification_type == NC %}
 <a href="/posts/{{notification.post.uuid}}/?comment={{notification.comment.uuid}}">
-<li class="dropdown-item">
+<li class="notification-item">
     <span class="material-icons-outlined align-middle text-primary">
     chat
     </span>
@@ -53,7 +53,7 @@ notifications_none
 {% endif %}
 {% if notification.notification_type == NF %}
 <a href="/users/{{notification.actor.username}}/">
-<li class="dropdown-item">
+<li class="dropdown-item notification-item">
     <span class="material-icons-outlined align-middle text-primary">
     person_add
     </span>
@@ -69,7 +69,7 @@ notifications_none
 {% endif %}
 {% if notification.notification_type == NS %}
 <a href="/posts/{{notification.post.uuid}}/">
-<li class="dropdown-item">
+<li class="dropdown-item notification-item">
     <span class="material-icons-outlined align-middle text-success">
     share
     </span>
@@ -84,7 +84,7 @@ notifications_none
 {% endif %}
 {% if notification.notification_type == NT %}
 <a href="/posts/{{notification.post.uuid}}/">
-<li class="dropdown-item">
+<li class="dropdown-item notification-item">
     <span class="material-icons-outlined align-middle text-success">
     share
     </span>
@@ -98,7 +98,7 @@ notifications_none
 </a>
 {% elif notification.notification_type == PL %}
 <a href="/posts/{{notification.comment.post.uuid}}/?comment={{notification.comment.uuid}}">
-<li class="dropdown-item">
+<li class="dropdown-item notification-item">
     <span class="material-icons-outlined align-middle text-primary">
     favorite
     </span>
@@ -114,5 +114,8 @@ notifications_none
 {% endif %}
 
 
+</div>
+<div class="ps-3 pe-3">
+<hr>
 </div>
 {% endfor %}
