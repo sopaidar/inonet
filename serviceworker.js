@@ -4,7 +4,6 @@ var staticCacheName = "narengi.net" + new Date().getTime();
 var filesToCache = [
   "/static/images/favicons/fav-160.png",
   "/static/images/favicons/splashscreen.png",
-  "/static/images/favicons/fav-160.png",
   "/static/images/favicons/favicon.ico",
   "/static/images/logo.svg",
   "/static/images/favicons/fav32.png",
