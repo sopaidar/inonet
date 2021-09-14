@@ -106,34 +106,34 @@ TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
     )
 ]
 
-# EMAIL
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
-DEFAULT_FROM_EMAIL = env(
-    "DJANGO_DEFAULT_FROM_EMAIL", default="inonet <noreply@narengi.net>"
-)
-# https://docs.djangoproject.com/en/dev/ref/settings/#server-email
-SERVER_EMAIL = env("DJANGO_SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-subject-prefix
-EMAIL_SUBJECT_PREFIX = env(
-    "DJANGO_EMAIL_SUBJECT_PREFIX",
-    default="[inonet]",
-)
+# # EMAIL
+# # ------------------------------------------------------------------------------
+# # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
+# DEFAULT_FROM_EMAIL = env(
+#     "DJANGO_DEFAULT_FROM_EMAIL", default="inonet <noreply@narengi.net>"
+# )
+# # https://docs.djangoproject.com/en/dev/ref/settings/#server-email
+# SERVER_EMAIL = env("DJANGO_SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
+# # https://docs.djangoproject.com/en/dev/ref/settings/#email-subject-prefix
+# EMAIL_SUBJECT_PREFIX = env(
+#     "DJANGO_EMAIL_SUBJECT_PREFIX",
+#     default="[inonet]",
+# )
 
-# ADMIN
-# ------------------------------------------------------------------------------
-# Django Admin URL regex.
-ADMIN_URL = env("DJANGO_ADMIN_URL")
+# # ADMIN
+# # ------------------------------------------------------------------------------
+# # Django Admin URL regex.
+# ADMIN_URL = env("DJANGO_ADMIN_URL")
 
-# Anymail
-# ------------------------------------------------------------------------------
-# https://anymail.readthedocs.io/en/stable/installation/#installing-anymail
-INSTALLED_APPS += ["anymail"]  # noqa F405
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
-# https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
-# https://anymail.readthedocs.io/en/stable/esps
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-ANYMAIL = {}
+# # Anymail
+# # ------------------------------------------------------------------------------
+# # https://anymail.readthedocs.io/en/stable/installation/#installing-anymail
+# INSTALLED_APPS += ["anymail"]  # noqa F405
+# # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
+# # https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
+# # https://anymail.readthedocs.io/en/stable/esps
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# ANYMAIL = {}
 
 
 # LOGGING
@@ -183,3 +183,24 @@ LOGGING = {
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+##### Email
+DEFAULT_FROM_EMAIL = env(
+    "DJANGO_DEFAULT_FROM_EMAIL", default="mail.inonet <info@mail.inonet.ir>"
+)
+# https://docs.djangoproject.com/en/dev/ref/settings/#server-email
+SERVER_EMAIL = env("DJANGO_SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
+# https://docs.djangoproject.com/en/dev/ref/settings/#email-subject-prefix
+EMAIL_SUBJECT_PREFIX = env(
+    "DJANGO_EMAIL_SUBJECT_PREFIX", default="[narengi-mail.inonet.ir]"
+)
+
+EMAIL_HOST = "light.talahost.com"
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "info@mail.inonet.ir"
+EMAIL_HOST_PASSWORD = "~P&?t.,.UiX6"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_TIMEOUT = 10
+# EMAIL_SSL_KEYFILE
+# EMAIL_SSL_CERTFILE
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
