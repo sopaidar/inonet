@@ -27,7 +27,7 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = _("حساب کاربری با موفقیت به روزرسانی شد!")
 
     def form_valid(self, form):
-        form.instance.full_name = f'{form.cleaned_data.get("first_name")} {form.cleaned_data.get("last_name")}'
+        form.instance.name = f'{form.cleaned_data.get("first_name")} {form.cleaned_data.get("last_name")}'
         return super().form_valid(form)
 
     def get_success_url(self):

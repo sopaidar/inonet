@@ -40,7 +40,7 @@ class SignUpForm(SignupForm):
         # Set the user's type from the form reponse
         user.first_name = self.cleaned_data["first_name"]
         user.last_name = self.cleaned_data["last_name"]
-        user.full_name = f'{self.cleaned_data["first_name"]} {self.cleaned_data["last_name"]}'
+        user.name = f'{self.cleaned_data["first_name"]} {self.cleaned_data["last_name"]}'
         # Save the user's type to their database record
         user.save()
 
