@@ -314,19 +314,19 @@ PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
-        'src': 'https://s3.ir-thr-at1.arvanstorage.com/narengi/static/images/favicons/fav-160.png',
+        'src': '/static/images/favicons/fav-160.png',
         'sizes': '160x160'
     }
 ]
 PWA_APP_ICONS_APPLE = [
     {
-        'src': 'https://s3.ir-thr-at1.arvanstorage.com/narengi/static/images/favicons/fav-160.png',
+        'src': '/static/images/favicons/fav-160.png',
         'sizes': '160x160'
     }
 ]
 PWA_APP_SPLASH_SCREEN = [
     {
-        'src': 'https://s3.ir-thr-at1.arvanstorage.com/narengi/static/images/favicons/splashscreen.png',
+        'src': '/static/images/favicons/splashscreen.png',
         'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
     }
 ]
