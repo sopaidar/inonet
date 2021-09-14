@@ -76,6 +76,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "corsheaders",
+    "pwa"
 ]
 
 LOCAL_APPS = [
@@ -300,3 +301,34 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_FORMS = {
     "signup": "inonet.users.forms.SignUpForm"
 }
+######## PWA
+
+PWA_APP_NAME = 'نارنگی'
+PWA_APP_DESCRIPTION = "شبکه اجتماعی ثبت مدرک مالکیت فکری"
+PWA_APP_THEME_COLOR = '#0A0302'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src': 'https://s3.ir-thr-at1.arvanstorage.com/narengi/static/images/favicons/fav-160.png',
+        'sizes': '160x160'
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': 'https://s3.ir-thr-at1.arvanstorage.com/narengi/static/images/favicons/fav-160.png',
+        'sizes': '160x160'
+    }
+]
+PWA_APP_SPLASH_SCREEN = [
+    {
+        'src': 'https://s3.ir-thr-at1.arvanstorage.com/narengi/static/images/favicons/splashscreen.png',
+        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+    }
+]
+PWA_APP_DIR = 'rtl'
+PWA_APP_LANG = 'fa-IR'
