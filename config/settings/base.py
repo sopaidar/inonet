@@ -332,3 +332,4 @@ PWA_APP_SPLASH_SCREEN = [
 ]
 PWA_APP_DIR = 'rtl'
 PWA_APP_LANG = 'fa-IR'
+PWA_SERVICE_WORKER_PATH  = str(ROOT_DIR / "serviceworker.js")
