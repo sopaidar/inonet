@@ -25,6 +25,7 @@ CACHES = {
             # Mimicing memcache behavior.
             # https://github.com/jazzband/django-redis#memcached-exceptions-behavior
             "IGNORE_EXCEPTIONS": True,
+            "KEY_PREFIX": "dj"
         },
     }
 }
@@ -204,3 +205,5 @@ EMAIL_TIMEOUT = 10
 # EMAIL_SSL_KEYFILE
 # EMAIL_SSL_CERTFILE
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+###########
+LOGIN_ATTEMPTS_LIMIT=10
