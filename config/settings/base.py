@@ -305,7 +305,7 @@ ACCOUNT_FORMS = {
 
 PWA_APP_NAME = 'نارنگی'
 PWA_APP_DESCRIPTION = "شبکه اجتماعی ثبت مدرک مالکیت فکری"
-PWA_APP_THEME_COLOR = '#0A0302'
+PWA_APP_THEME_COLOR = '#f08e32'
 PWA_APP_BACKGROUND_COLOR = '#ffffff'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_SCOPE = '/'
