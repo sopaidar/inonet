@@ -65,6 +65,7 @@ AWS_SECRET_ACCESS_KEY = env("DJANGO_AWS_SECRET_ACCESS_KEY")
 AWS_S3_ENDPOINT_URL = env("DJANGO_AWS_ENDPOINT_URL")
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
 AWS_STORAGE_BUCKET_NAME = env("DJANGO_AWS_STORAGE_BUCKET_NAME")
+AWS_STATIC_BUCKET_NAME = env("DJANGO_AWS_STATIC_BUCKET_NAME")
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
 AWS_DEFAULT_ACL = "public-read"
 AWS_QUERYSTRING_AUTH = True
@@ -80,9 +81,12 @@ AWS_S3_REGION_NAME = env("DJANGO_AWS_S3_REGION_NAME", default=None)
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#cloudfront
 AWS_S3_CUSTOM_DOMAIN = env("DJANGO_AWS_S3_CUSTOM_DOMAIN", default=None)
 aws_s3_domain = AWS_S3_CUSTOM_DOMAIN or f"s3.ir-thr-at1.arvanstorage.com/{AWS_STORAGE_BUCKET_NAME}"
+aws_s3_static = AWS_S3_CUSTOM_DOMAIN or f"s3.ir-thr-at1.arvanstorage.com/{AWS_STATIC_BUCKET_NAME}"
+
 # STATIC
 # ------------------------
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "inonet.utils.storages.StaticRootS3Boto3Storage"
+STATIC_URL = f"https://{aws_s3_static}/STATIC/"
 # MEDIA
 # ------------------------------------------------------------------------------
 DEFAULT_FILE_STORAGE = "inonet.utils.storages.MediaRootS3Boto3Storage"
