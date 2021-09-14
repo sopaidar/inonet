@@ -1120,7 +1120,7 @@ async function fetch_report(url) {
     report_modal.hide();
     document.getElementById("toast-title").innerHTML = "گزارش شما ارسال شد!";
     document.getElementById("toast-body").innerHTML =
-      "از شما برای آن که به جامعه کاربری اینونت کمک نمودید متشکریم.";
+      "از شما برای آن که به جامعه کاربری نارنگی کمک نمودید متشکریم.";
     const toast_div = document.getElementById("liveToast");
     const toast = new bootstrap.Toast(toast_div, {
       delay: 3000,
