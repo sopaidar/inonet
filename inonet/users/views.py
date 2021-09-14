@@ -24,7 +24,7 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     model = User
     fields = ["first_name", "last_name", "bio"]
-    success_message = _("Information successfully updated")
+    success_message = _("حساب کاربری با موفقیت به روزرسانی شد!")
 
     def form_valid(self, form):
         form.instance.full_name = f'{form.cleaned_data.get("first_name")} {form.cleaned_data.get("last_name")}'
