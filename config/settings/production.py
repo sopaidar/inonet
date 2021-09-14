@@ -86,7 +86,7 @@ aws_s3_static = AWS_S3_CUSTOM_DOMAIN or f"s3.ir-thr-at1.arvanstorage.com/{AWS_ST
 # STATIC
 # ------------------------
 STATICFILES_STORAGE = "inonet.utils.storages.StaticRootS3Boto3Storage"
-STATIC_URL = f"https://{aws_s3_static}/STATIC/"
+STATIC_URL = f"https://{aws_s3_domain}/static/"
 # MEDIA
 # ------------------------------------------------------------------------------
 DEFAULT_FILE_STORAGE = "inonet.utils.storages.MediaRootS3Boto3Storage"
