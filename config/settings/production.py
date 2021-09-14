@@ -120,10 +120,10 @@ TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
 #     default="[inonet]",
 # )
 
-# # ADMIN
-# # ------------------------------------------------------------------------------
-# # Django Admin URL regex.
-# ADMIN_URL = env("DJANGO_ADMIN_URL")
+# ADMIN
+# ------------------------------------------------------------------------------
+# Django Admin URL regex.
+ADMIN_URL = env("DJANGO_ADMIN_URL")
 
 # # Anymail
 # # ------------------------------------------------------------------------------
