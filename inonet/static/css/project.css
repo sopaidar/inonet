@@ -8,7 +8,21 @@ body {
   background-color: rgb(240, 242, 245);
   min-height: 100vh;
 }
-
+#lp {
+  background-image: url("/static/images/background.jpg");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 110vh;
+  
+}
+.footer {
+  background-color: white;
+}
 @media (max-width: 567px) {
   .page-app {
     padding-top: 1.5em !important;
@@ -16,6 +30,9 @@ body {
   .card-mobile {
     padding: 1.2em !important;
   }
+}
+#id_email::placeholder {
+  text-align: right !important;
 }
 
 a {

@@ -1,0 +1,191 @@
+{% extends "base.html" %} {% load static %} {% block nav %}
+{% endblock nav %} {% block content %}
+<div class="container-fluid p-5 original-background page-app">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="p-3">
+        <h1 class="mb-4"><img src="{% static 'images/logo.svg' %}" alt="narengi logo" width="50px" height="50px"> نارنگی
+        </h1>
+        <!-- <h3 class="mb-4">ایجاد رایگان مدرک کپی‌رایت</h3> -->
+        <p class="lh-base" style="text-align: justify;">
+          بدون این که اصل اثرت رو آپلود کنی یا به کسی بدی به همه دنیا بگو اثر
+          جدیدی آفریدی! نارنگی برات یه شاهد و سند معتبر از وجود اثرت در این زمان
+          می‌سازه و خیلی راحت هم می‌تونی سرمایه‌گذار، ناشر و یا همکار برای اثرت
+          پیدا کنی!
+        </p>
+        <p>قبلا ثبت نام کردی؟ <a href="javascript:void(0);" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">ورود</a></p>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ورود</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form class="login" method="POST" action="/accounts/login/">
+                  {% csrf_token %}
+
+
+                  <div id="div_id_login" class="form-group"> <label for="id_login" class=" requiredField">
+                      نام‌کاربری<span class="asteriskField">*</span> </label>
+                    <div class=""> <input type="text" name="login" placeholder="نام‌کاربری" autocomplete="username"
+                        maxlength="150" class="textinput textInput form-control" required id="id_login"> </div>
+                  </div>
+                  <div id="div_id_password" class="form-group"> <label for="id_password" class=" requiredField">
+                      گذرواژه<span class="asteriskField">*</span> </label>
+                    <div class=""> <input type="password" name="password" placeholder="گذرواژه"
+                        autocomplete="current-password" class="textinput textInput form-control" required
+                        id="id_password"> </div>
+                  </div>
+                  <div class="form-group">
+                    <div id="div_id_remember" class="form-check"> <input type="checkbox" name="remember"
+                        class="checkboxinput form-check-input" id="id_remember"> <label for="id_remember"
+                        class="form-check-label">
+                        مرا به یادآور
+                      </label> </div>
+                  </div>
+
+
+                  <a class="button secondaryAction" href="/accounts/password/reset/">گذرواژه‌ات را فراموش کرده‌ای؟</a>
+                  <div class="d-grid gap-2">
+                    <button class="btn btn-primary mt-2" type="submit">ورود</button>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row text-center pb-0 pt-1 mb-0 d-none">
+        <div class="col-md-3 col-sm-6 col-6">
+          <a href="/works/new/" class="home-icon-link">
+            <span class="material-icons-outlined font-50 new-work-icon">
+              note_add
+            </span>
+            <p>اثر جدید</p>
+          </a>
+        </div>
+        <div class="col-md-3 col-sm-6 col-6">
+          <a href="/fingerprints/new_work/" class="home-icon-link">
+            <span class="material-icons-outlined font-50 fingerprint-icon">
+              fingerprint
+            </span>
+            <p>ثبت گواهی‌زمانی</p>
+          </a>
+        </div>
+        <div class="col-md-3 col-sm-6 col-6">
+          <a href="/fingerprints/validate/" class="home-icon-link">
+            <span class="material-icons-outlined font-50 verified-icon">
+              verified
+            </span>
+            <p>اعتبارسنجی</p>
+          </a>
+        </div>
+        <div class="col-md-3 col-sm-6 col-6">
+          <a href="javascript:void(0);" class="home-icon-link" id="new-post-home">
+            <span class="material-icons-outlined font-50 feed-icon">
+              feed
+            </span>
+            <p>خبر جدید</p>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 bg-white post pt-5 pb-5">
+
+      <div>
+        <h2 class="mb-3">ثبت‌نام</h2>
+        <form class="signup" id="signup_form" method="post" action="/accounts/signup/">
+          {% csrf_token %}
+
+          <div class="row">
+            <div class="fieldWrapper mb-3 col-6">
+              <input type="text" name="first_name" maxlength="65" autofocus="true" placeholder="نام"
+                class="form-control" required id="id_first_name">
+              <div class="invalid-feedback d-block">
+
+              </div>
+            </div>
+            <div class="fieldWrapper mb-3 col-6">
+              <input type="text" name="last_name" maxlength="65" placeholder="نام خانوادگی" class="form-control"
+                required id="id_last_name">
+              <div class="invalid-feedback d-block">
+
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="fieldWrapper mb-3 col-6">
+              <input type="text" name="username" placeholder="نام کاربری" autocomplete="username" minlength="1"
+                maxlength="150" class="form-control" required id="id_username">
+              <div class="invalid-feedback d-block">
+
+              </div>
+            </div>
+            <div class="fieldWrapper mb-3 col-6">
+              <input type="email" name="email" placeholder="ایمیل" autocomplete="email" class="form-control" required
+                id="id_email" dir="rtl">
+              <div class="invalid-feedback d-block">
+
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="fieldWrapper mb-3 col-6">
+              <input type="password" name="password1" placeholder="رمزعبور" autocomplete="new-password"
+                class="form-control" required id="id_password1">
+              <div class="invalid-feedback d-block">
+
+              </div>
+            </div>
+            <div class="fieldWrapper mb-3 col-6">
+              <input type="password" name="password2" placeholder="تکرار رمزعبور" class="form-control" required
+                id="id_password2">
+              <div class="invalid-feedback d-block">
+
+              </div>
+            </div>
+          </div>
+
+          <input type="hidden" name="next" value="" />
+
+
+          <p>
+            <small>
+              با ثبت‌نام در سایت شما تایید می‌کنید که
+              <a href="/policy/">قوانین و مقررات</a> نارنگی را خوانده‌اید و پذیرفته‌اید.
+            </small>
+          </p>
+
+
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary" type="submit" id="submit-button">ثبت نام</button>
+          </div>
+        </form>
+      </div>
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer container-fluid mt-5">
+  <div class="row p-4">
+    <div class="col">
+
+    </div>
+    <div class="col">
+      <img referrerpolicy='origin' id='nbqejzpergvjjxlznbqejzpe' style='cursor:pointer'
+        onclick='window.open("https://logo.samandehi.ir/Verify.aspx?id=273127&p=uiwkjyoexlaorfthuiwkjyoe", "Popup","toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30")'
+        alt='logo-samandehi' src='https://logo.samandehi.ir/logo.aspx?id=273127&p=odrfyndtqftinbpdodrfyndt' />
+      <a referrerpolicy="origin" target="_blank"
+        href="https://trustseal.enamad.ir/?id=234052&amp;Code=Uf92YIU8MhDGW0mSjcIt"><img referrerpolicy="origin"
+          src="https://Trustseal.eNamad.ir/logo.aspx?id=234052&amp;Code=Uf92YIU8MhDGW0mSjcIt" alt=""
+          style="cursor:pointer" id="Uf92YIU8MhDGW0mSjcIt"></a>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

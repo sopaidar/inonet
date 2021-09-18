@@ -80,6 +80,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    "home",
     "inonet.users.apps.UsersConfig",
     # Your stuff: custom apps go here
     "works",
