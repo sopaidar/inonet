@@ -18,10 +18,28 @@ body {
   -o-background-size: cover;
   background-size: cover;
   min-height: 110vh;
-  
 }
 .footer {
   background-color: white;
+}
+.llink {
+  background: linear-gradient(
+    to right,
+    rgb(70, 70, 70) 50%,
+    #0d6efd 50%,
+    #0d6efd
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 100%;
+  background-position: left;
+  font-size: small;
+  transition: background-position 500ms ease;
+  
+}
+.llink:hover {
+  background-position: right;
 }
 @media (max-width: 567px) {
   .page-app {

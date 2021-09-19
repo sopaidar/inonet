@@ -522,7 +522,62 @@
         </div>
     </div>
 
+{% if not request.user.is_authenticated %}
+<div class="footer container-fluid mt-5">
+  <div class="row p-4">
+    <div class="col-md-3 col-6">
+      <p class="text-primary">مالکیت فکری</p>
+      
+      <p><a href="" class="llink">مالکیت فکری چیست؟</a></p>
+      <p><a href="" class="llink">انواع مالکیت فکری</a></p>
+      <p><a href="" class="llink">مالکیت فکری در ایران</a></p>
+ 
+      <p><a href="" class="llink">کپی‌رایت آثار هنری در ایران</a></p>
 
+    </div>
+    <div class="col-md-3 col-6">
+      <p class="text-primary">گواهی زمانی</p>
+      <p><a href="" class="llink">دریافت گواهی زمانی</a></p>
+      <p><a href="" class="llink">ثبت بدوت افشاء اثر</a></p>
+      <p><a href="" class="llink">ثبت بلاکچینی مالکیت فکری</a></p>
+    </div>
+    <div class="col-md-3 col-6">
+      <p class="text-primary">خدمات ما</p>
+      <p><a href="" class="llink">ثبت زمانی بدون افشاء رایگان</a></p>
+      <p><a href="" class="llink">اعتبارسنجی اثر</a></p>
+      <p><a href="" class="llink">مشاوره و آموزش مالکیت فکری</a></p>
+      <p><a href="" class="llink">کمک به کسب درآمد از محتوا</a></p>
+
+    </div>
+    <div class="col-md-3 col-6">
+      <p class="text-primary">نارنگی</p>
+      <p><a href="" class="llink">درباره نارنگی</a></p>
+      <p><a href="" class="llink">تماس با نارنگی</a></p>
+      <p><a href="" class="llink">قوانین و مقررات</a></p>
+      <p><a href="" class="llink">حریم خصوصی</a></p>
+
+    </div>
+  </div>
+  <hr>
+  <div class="col-md-4 mx-auto">
+    <h3 class="mb-3 text-center">گواهی‌ها</h3>
+    <div class="row">
+      <div class="col text-center">
+        <a
+          href='javascript:window.open("https://logo.samandehi.ir/Verify.aspx?id=273127&p=uiwkjyoexlaorfthuiwkjyoe", "Popup","toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30")'><img
+            referrerpolicy='origin' id='nbqejzpergvjjxlznbqejzpe' alt='logo-samandehi'
+            src='{% static "images/samandehi.png" %}' /></a>
+      </div>
+      <div class="col text-center">
+        <a referrerpolicy="origin" target="_blank"
+          href="https://trustseal.enamad.ir/?id=234052&amp;Code=Uf92YIU8MhDGW0mSjcIt"><img referrerpolicy="origin"
+            src="https://Trustseal.eNamad.ir/logo.aspx?id=234052&amp;Code=Uf92YIU8MhDGW0mSjcIt" alt=""
+            style="cursor:pointer" id="Uf92YIU8MhDGW0mSjcIt"></a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
 
 
     <div class="d-none">
