@@ -5,14 +5,16 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}نارنگی{% endblock title %}</title>
+    <title>{% block title %}{% endblock title %} نارنگی</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block seo %}
     <meta name="description" content="شبکه اجتماعی ثبت مدرک مالکیت فکری">
     <meta name="subject" content="شبکه اجتماعی ایجاد و ثبت مدرک مالکیت فکری و کپی‌رایت"/>
-    <meta name="keywords" content="مالکیت فکری, کپی‌رایت, مالکیت معنوی, حق تکثیر, شبکه اجتماعی "/>   
+    <meta name="keywords" content="نارنگی, مالکیت فکری, کپی‌رایت, مالکیت معنوی, حق تکثیر, شبکه اجتماعی "/>
+    <meta name="url" content="https://www.narengi.net" />
+    {% endblock seo %}
     <meta name="language" content="FA" />	
     <meta name="robots" content="index, follow" />
-    <meta name="url" content="https://www.narengi.net" />
     <meta name="author" content="Soheil Paidar">
    {% progressive_web_app_meta %}
     <meta name="enamad" content="656033"/>
@@ -528,11 +530,11 @@
     <div class="col-md-3 col-6">
       <p class="text-primary">مالکیت فکری</p>
       
-      <p><a href="" class="llink">مالکیت فکری چیست؟</a></p>
-      <p><a href="" class="llink">انواع مالکیت فکری</a></p>
-      <p><a href="" class="llink">مالکیت فکری در ایران</a></p>
+      <p><a href="{% url 'what_is_ip' %}" class="llink">مالکیت فکری چیست؟</a></p>
+      <p><a href="{% url 'types_of_ip' %}" class="llink">انواع مالکیت فکری</a></p>
+      <p><a href="{% url 'ip_Iran' %}" class="llink">مالکیت فکری در ایران</a></p>
  
-      <p><a href="" class="llink">کپی‌رایت آثار هنری در ایران</a></p>
+      <p><a href="{% url 'ip_Iran' %}" class="llink">کپی‌رایت آثار هنری در ایران</a></p>
 
     </div>
     <div class="col-md-3 col-6">
@@ -551,10 +553,10 @@
     </div>
     <div class="col-md-3 col-6">
       <p class="text-primary">نارنگی</p>
-      <p><a href="" class="llink">درباره نارنگی</a></p>
-      <p><a href="" class="llink">تماس با نارنگی</a></p>
-      <p><a href="" class="llink">قوانین و مقررات</a></p>
-      <p><a href="" class="llink">حریم خصوصی</a></p>
+      <p><a href="{% url 'about' %}" class="llink">درباره نارنگی</a></p>
+      <p><a href="{% url 'contact' %}" class="llink">تماس با نارنگی</a></p>
+      <p><a href="{% url 'policy' %}" class="llink">قوانین و مقررات</a></p>
+      <p><a href="{% url 'privacy' %}" class="llink">حریم خصوصی</a></p>
 
     </div>
   </div>

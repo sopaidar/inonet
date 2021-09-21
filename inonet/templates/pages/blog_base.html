@@ -1,0 +1,12 @@
+  {% extends "base.html" %}{% block seo %}
+    <meta name="description" content="مالکیت فکری چیست؟ مالکیت معنوی چیست؟ در این صفحه به تعریف و بررسی مفهوم مالکیت فکری می‌پردازیم.">
+    <meta name="subject" content="تعریف مالکیت فکری"/>
+    <meta name="keywords" content="مالکیت فکری, کپی‌رایت, مالکیت معنوی, حق تکثیر, نارنگی "/>
+    <meta name="url" content="https://www.narengi.net" />
+    {% endblock seo %}
+    {% block content %}
+    <div class="col-md-8 post mx-auto mt-4 p-4">
+        <h1>{% block post_title %}{% endblock post_title %}</h1>
+        {% block post %}{% endblock post %}
+    </div>
+    {% endblock content %}
