@@ -193,13 +193,13 @@ DEFAULT_FROM_EMAIL = env(
 SERVER_EMAIL = env("DJANGO_SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-subject-prefix
 EMAIL_SUBJECT_PREFIX = env(
-    "DJANGO_EMAIL_SUBJECT_PREFIX", default="[narengi-mail.inonet.ir]"
+    "DJANGO_EMAIL_SUBJECT_PREFIX", default="[mail.narengi.net]"
 )
 
-EMAIL_HOST = "light.talahost.com"
+EMAIL_HOST = "mail.mail.narengi.net"
 EMAIL_PORT = 465
-EMAIL_HOST_USER = "info@mail.inonet.ir"
-EMAIL_HOST_PASSWORD = "~P&?t.,.UiX6"
+EMAIL_HOST_USER = "no-reply@mail.narengi.net"
+EMAIL_HOST_PASSWORD = "46Jt1SSthy"
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_TIMEOUT = 10
