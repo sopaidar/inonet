@@ -2,7 +2,6 @@
 {% load account %}
 {% load i18n %}
 
-{% block content %}{% autoescape off %}{% user_display user as user_display %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}کاربری با نام  {{ user_display }} برای ثبت نام در سایت {{ site_domain }} از این آدرس ایمیل استفاده کرده‌است.
-
+{% block content %}{% autoescape off %}{% user_display user as user_display %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}کاربری برای ثبت نام در سایت نارنگی از این آدرس ایمیل استفاده کرده‌است.
 اگر شما این ایمیل را در سایت وارد نموده‌اید برای تایید آدرس ایمیل خود بر روی لینک زیر کلیک کنید:
 {{ activate_url }}{% endblocktrans %}{% endautoescape %}{% endblock %}

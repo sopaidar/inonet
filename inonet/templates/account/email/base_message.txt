@@ -1,10 +1,7 @@
 {% load i18n %}{% autoescape off %}
-<div dir="rtl">
 {% blocktrans with site_name=current_site.name %}سلام{% endblocktrans %}
-
 {% block content %}{% endblock %}
 
-{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}از شما ممنونیم که کاربر  {{ site_name }} هستید!
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}از شما ممنونیم که کاربر {{ site_name }} هستید!
 {{ site_domain }}{% endblocktrans %}
-</div>
 {% endautoescape %}
