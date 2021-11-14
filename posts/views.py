@@ -15,6 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Like, Post, Share, Comment, CommentLike
 from inonet.users.models import User
 from notifications.models import Notification
+from works.models import Work
 from django.utils.translation import gettext_lazy as _
 
 class PostCreateView(LoginRequiredMixin ,CreateView):
@@ -335,3 +336,13 @@ class CommentDisLikeUpdateView(LoginRequiredMixin ,UpdateView):
         return JsonResponse({"status":"success", "likes": comment.likes})
     def form_invalid(self, form):
         return JsonResponse({"status":"failed", 'errors': form._errors})
+
+class WorkTimeline(LoginRequiredMixin ,ListView):
+    model = Post
+    paginate_by = 20
+    template_name = "posts/list.html"
+    
+    def get_queryset(self, **kwargs):
+        work=Work.objects.get(uuid=self.kwargs['uuid'])
+        qs = Post.objects.filter(draft=False, work=work).order_by("-pk")
+        return qs

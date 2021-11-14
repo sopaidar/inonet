@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+<style>
+.post-div {
+    width:100% !important;
+}
+</style>
+
 <div class="container-fluid pt-5 original-background page-app">
     <div class="container">
         <div class="row">
@@ -26,8 +32,28 @@
                     </p>
                 </div>
             </div>
-            <div class="col-md-5 bg-white post p-5 mx-auto mb-3">
-                {{object.title}}
+            <div class="col-md-6  mx-auto mb-3">
+               <div id="posts">
+                    <div class="">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-grow text-primary m-2" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-success m-2" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-warning m-2" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-info m-2" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-danger m-2" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-3 bg-white post p-5 mx-auto mb-3">
                 <h4 class="text-center">گواهی‌های زمانی:</h4>
@@ -151,5 +177,34 @@
     var exampleEl = document.getElementById('picture')
     var tooltip = new bootstrap.Tooltip(exampleEl, {delay: { "show": 10, "hide": 100 }, placement: "bottom"})
 </script>
+
+ <script>
+
+            {% comment %} document.addEventListener("DOMContentLoaded", ()=> {
+                load_posts("/posts/", "posts", false);
+
+            }) {% endcomment %}
+
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchPosts("/posts/work_posts/{{object.uuid}}/", "posts", false);
+    });
+
+    window.addEventListener("scroll", async () => {
+      // Do not run if currently fetching
+      if (isFetching) return;
+
+      // Scrolled to bottom
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        await fetchPosts("/posts/work_posts/{{object.uuid}}/", "posts", false);
+        console.log(currentPage)
+      }
+    });
+
+
+
+            document.getElementById("new-post-home").addEventListener("click", () => {
+                document.getElementById("new-post-nav").click()
+            })
+  </script>
 
 {% endblock inline_javascript %}

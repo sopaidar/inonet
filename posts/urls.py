@@ -14,7 +14,8 @@ from .views import (
     PostComments,
     PostDetailView,
     CommentLikeCreateView,
-    CommentDisLikeUpdateView
+    CommentDisLikeUpdateView,
+    WorkTimeline
 )
 
 
@@ -33,4 +34,5 @@ urlpatterns = [
     path("<uuid:uuid>/", PostDetailView.as_view(), name="post-detail"),
     path("like_comment/<uuid:uuid>/", CommentLikeCreateView.as_view(), name="comment_like"),
     path("dislike_comment/<uuid:uuid>/", CommentDisLikeUpdateView.as_view(), name="comment_dislike"),
+    path("work_posts/<uuid:uuid>/", view=WorkTimeline.as_view(), name="work_timeline"),
 ]
