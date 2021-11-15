@@ -31,7 +31,8 @@
 
         </div>
         <div class="pt-3">
-            <p class="text-center" id="print"><a href="javascript:print_fingerprint('fingerprint-{{object.work.uuid}}');">چاپ
+            <p class="text-center" id="print"><a
+                    href="javascript:print_fingerprint('fingerprint-{{object.work.uuid}}');">چاپ
                     گواهی</a></p>
         </div>
     </div>
@@ -50,12 +51,19 @@
         new_window.document.write('<html dir="rtl"><head><title>' + document.title + '</title>');
         new_window.document.write('<link rel="stylesheet" href="/static/css/bootstrap.rtl.min.css">');
         new_window.document.write('<link href="/static/css/project.css" rel="stylesheet">');
-        new_window.document.write('<style>#print{display:none;}</style>');
         new_window.document.write('</head><body>');
         new_window.document.write(document.getElementById(fp).innerHTML);
         new_window.document.write('');
         new_window.document.write('<script type="text/javascript">document.addEventListener("DOMContentLoaded", () => { print(); close(); });');
+        new_window.document.close(); // necessary for IE >= 10
+        new_window.focus(); // necessary for IE >= 10*/
+        function delay(time) {
+            return new Promise(resolve => setTimeout(resolve, time));
+        }
+
+        delay(500).then(() => {new_window.print(); new_window.close()});
+        
         return true;
-}
+    }
 </script>
 {% endblock content %}
