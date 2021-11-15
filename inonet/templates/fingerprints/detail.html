@@ -51,6 +51,7 @@
         new_window.document.write('<html dir="rtl"><head><title>' + document.title + '</title>');
         new_window.document.write('<link rel="stylesheet" href="/static/css/bootstrap.rtl.min.css">');
         new_window.document.write('<link href="/static/css/project.css" rel="stylesheet">');
+        new_window.document.write('<style>#print{display:none;}</style>');
         new_window.document.write('</head><body>');
         new_window.document.write(document.getElementById(fp).innerHTML);
         new_window.document.write('');
