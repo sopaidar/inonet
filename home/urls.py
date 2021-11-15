@@ -25,4 +25,7 @@ urlpatterns = [
     path(
         "privacy/", TemplateView.as_view(template_name="pages/privacy.html"), name="privacy"
     ),
+     path(
+        "timestamp-certificate/", TemplateView.as_view(template_name="pages/timestamp_certificate.html"), name="timestamp_certificate"
+    ),
 ]
