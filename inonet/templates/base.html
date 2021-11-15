@@ -34,7 +34,12 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.min.css' %}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <link href="{% static 'css/project.css' %}" rel="stylesheet"> {% block added_css %} {% endblock added_css %} {% endblock %} {% block javascript %}
+    <link href="{% static 'css/project.css' %}" rel="stylesheet"> {% block added_css %}
+    {% if user.is_authenticated %}
+    
+    {% endif %}
+    
+     {% endblock added_css %} {% endblock %} {% block javascript %}
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     {% block added_javascript %} {% endblock added_javascript %} {% endblock javascript %}
 
@@ -497,7 +502,7 @@
 
     <div class="container">
         {% if messages %} {% for message in messages %}
-        <div class="position-fixed bottom-0 start-0 p-3" style="z-index: 11">
+        <div class="position-fixed bottom-3 start-0 p-3" style="z-index: 11">
             <div id="message-toast" class="toast start-toast hide" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <strong class="me-auto">نارنگی</strong>
