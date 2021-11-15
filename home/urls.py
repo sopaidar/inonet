@@ -34,6 +34,9 @@ urlpatterns = [
     path(
         "blockchain-timestamp/", TemplateView.as_view(template_name="pages/blockchain_timestamp.html"), name="blockchain_timestamp"
     ),
+    path(
+        "our-services/", TemplateView.as_view(template_name="pages/our_services.html"), name="our_services"
+    ),
 
     
 ]
