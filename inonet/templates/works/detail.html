@@ -24,7 +24,7 @@
                 </div>
                 <div class="pt-2">
                     <p> صاحب اثر: <a href="/users/{{object.user.username}}">{{object.user.first_name}} {{object.user.last_name}}</a></p>
-                    <p> نوع اثر: <a href="/works?type={{object.work_type}}">{{object.work_type}}</a></p>
+                    <p> نوع اثر: {{object.work_type}}</p>
                     <p>
                         {% if object.description %}
                         درباره اثر: {{object.description}}
