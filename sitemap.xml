@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://narengi.net/</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://narengi.net/accounts/password/reset/</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://narengi.net/fingerprints/validate/</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://narengi.net/policy/</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://narengi.net/blog/what-is-intellectual-property-%D9%85%D8%A7%D9%84%DA%A9%DB%8C%D8%AA-%D9%81%DA%A9%D8%B1%DB%8C-%DA%86%DB%8C%D8%B3%D8%AA</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://narengi.net/blog/types-of-intellectual-property-%D8%A7%D9%86%D9%88%D8%A7%D8%B9-%D9%85%D8%A7%D9%84%DA%A9%DB%8C%D8%AA-%D9%81%DA%A9%D8%B1%DB%8C</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://narengi.net/blog/intellectual-property-Iran-%D9%85%D8%A7%D9%84%DA%A9%DB%8C%D8%AA-%D9%81%DA%A9%D8%B1%DB%8C-%D8%AF%D8%B1-%D8%A7%DB%8C%D8%B1%D8%A7%D9%86</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://narengi.net/timestamp-certificate/</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://narengi.net/register/</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://narengi.net/blockchain-timestamp/</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://narengi.net/our-services/</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://narengi.net/about/</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://narengi.net/contact/</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://narengi.net/privacy/</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.40</priority>
+</url>
+<url>
+  <loc>https://narengi.net/accounts/signup/</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.40</priority>
+</url>
+<url>
+  <loc>https://narengi.net/accounts/login/</loc>
+  <lastmod>2021-11-15T12:36:47+00:00</lastmod>
+  <priority>0.40</priority>
+</url>
+
+</urlset>
