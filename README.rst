@@ -1,69 +1,37 @@
 inonet
 ======
 
-Art
+An old project of mine. inonet was a social network where creators, writers,
+painters, musicians, developers, anyone making something, could register a
+"fingerprint" of their work: a poem, a story, a screenplay, a painting, a
+piece of music, even source code. The fingerprint proved you had the work at
+a given point in time, with an option to anchor it on blockchain for a
+stronger, harder-to-dispute record. Users could also follow each other, post
+updates, and build a small profile as a creator.
 
-.. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter
-     :target: https://github.com/pydanny/cookiecutter-django/
-     :alt: Built with Cookiecutter Django
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-     :target: https://github.com/ambv/black
-     :alt: Black code style
+This was years before my PhD, but looking back, it's clearly where the idea
+that later drove my dissertation and SabtShod actually started: giving
+people a way to prove authorship and provenance of their own work without
+needing a central authority to trust.
 
-Settings
---------
+What's here
+-----------
 
-Moved to settings_.
+A Django backend, split into separate apps for users, posts, works,
+fingerprints, following, notifications, search, and reporting, with a
+separate JavaScript frontend. It was a real, working product at the time,
+not a demo, though it has been dormant for a while.
 
-.. _settings: http://cookiecutter-django.readthedocs.io/en/latest/settings.html
+Status
+------
 
-Basic Commands
---------------
+This is an old project, shared here as a work sample rather than an actively
+maintained product. The local databases and a couple of hardcoded
+credentials that had no business being in version control have been removed.
 
-Setting Up Your Users
-^^^^^^^^^^^^^^^^^^^^^
+License
+-------
 
-* To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
-
-* To create an **superuser account**, use this command::
-
-    $ python manage.py createsuperuser
-
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
-
-Type checks
-^^^^^^^^^^^
-
-Running type checks with mypy:
-
-::
-
-  $ mypy inonet
-
-Test coverage
-^^^^^^^^^^^^^
-
-To run the tests, check your test coverage, and generate an HTML coverage report::
-
-    $ coverage run -m pytest
-    $ coverage html
-    $ open htmlcov/index.html
-
-Running tests with py.test
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  $ pytest
-
-Live reloading and Sass CSS compilation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Moved to `Live reloading and SASS compilation`_.
-
-.. _`Live reloading and SASS compilation`: http://cookiecutter-django.readthedocs.io/en/latest/live-reloading-and-sass-compilation.html
-
-Deployment
-----------
-
-The following details how to deploy this application.
+All rights reserved. I'm sharing the code so people can see how it was
+built, not as an open invitation to reuse it. If you want to use any part of
+it, ask me first.

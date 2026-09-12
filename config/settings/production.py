@@ -196,10 +196,10 @@ EMAIL_SUBJECT_PREFIX = env(
     "DJANGO_EMAIL_SUBJECT_PREFIX", default=""
 )
 
-EMAIL_HOST = "mail.mail.narengi.net"
+EMAIL_HOST = env("DJANGO_EMAIL_HOST", default="mail.mail.narengi.net")
 EMAIL_PORT = 465
-EMAIL_HOST_USER = "no-reply@mail.narengi.net"
-EMAIL_HOST_PASSWORD = "46Jt1SSthy"
+EMAIL_HOST_USER = env("DJANGO_EMAIL_HOST_USER", default="no-reply@mail.narengi.net")
+EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_TIMEOUT = 10
